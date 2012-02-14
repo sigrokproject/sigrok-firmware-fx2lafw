@@ -23,7 +23,7 @@ In order to transfer the firmware onto the FX2 chip, you can use cycfx2prog:
 Building
 --------
 
-  $ git clone ...
+  $ git clone git://sigrok.git.sourceforge.net/gitroot/sigrok/fx2lafw
   $ cd fx2lafw
   $ git clone git://github.com/mulicheng/fx2lib.git
   $ make
