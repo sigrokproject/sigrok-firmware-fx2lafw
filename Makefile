@@ -22,5 +22,7 @@ SOURCES = fx2lafw.c
 A51_SOURCES = dscr.a51
 BASENAME = fx2lafw
 
-include fx2lib/lib/fx2.mk
+FX2LIBDIR ?= fx2lib
+
+include $(FX2LIBDIR)/lib/fx2.mk
 
