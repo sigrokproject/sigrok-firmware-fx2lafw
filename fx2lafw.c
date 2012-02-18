@@ -404,7 +404,7 @@ void hispeed_isr(void) interrupt HISPEED_ISR
 	CLEAR_HISPEED();
 }
 
-void main(void)
+void fx2lafw_init(void)
 {
 	/* Set DYN_OUT and ENH_PKT bits, as recommended by the TRM. */
 	REVCTL = bmNOAUTOARM | bmSKIPCOMMIT;
@@ -435,11 +435,20 @@ void main(void)
 
 	/* Perform the initial GPIF read. */
 	gpif_fifo_read(GPIF_EP2);
+}
 
-	while (1) {
-		if (got_sud) {
-			handle_setupdata();
-			got_sud = FALSE;
-		}
+void fx2lafw_run(void)
+{
+	if (got_sud) {
+		handle_setupdata();
+		got_sud = FALSE;
 	}
+}
+
+void main(void)
+{
+	fx2lafw_init();
+
+	while(1)
+		fx2lafw_run();
 }
