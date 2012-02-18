@@ -28,6 +28,6 @@ else
 	SDCCFLAGS += -DNDEBUG
 endif
 
-SDCCFLAGS += -I../
+SDCCFLAGS += -I../include/
 
 include $(FX2LIBDIR)/lib/fx2.mk
