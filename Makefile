@@ -18,11 +18,18 @@
 ## Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
 ##
 
-SOURCES = fx2lafw.c
+SOURCES = fx2lafw.c debug.c
 A51_SOURCES = dscr.a51
 BASENAME = fx2lafw
 
 FX2LIBDIR ?= fx2lib
+
+DEBUG ?= 0
+ifeq ($(DEBUG), 1)
+	SDCCFLAGS += -DDEBUG
+else
+	SDCCFLAGS += -DNDEBUG
+endif
 
 include $(FX2LIBDIR)/lib/fx2.mk
 
