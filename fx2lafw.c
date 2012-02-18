@@ -41,10 +41,10 @@
 #include <fx2regs.h>
 #include <fx2macros.h>
 #include <delay.h>
-#include <autovector.h>
 #include <setupdat.h>
 #include <eputils.h>
 #include <gpif.h>
+#include <fx2lafw.h>
 
 /* Protocol commands */
 #define CMD_SET_SAMPLERATE	0xb0

@@ -18,6 +18,8 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
  */
 
+#include <autovector.h>
+
 /**
  * Performs setup common to all fx2lafw devices.
  */
