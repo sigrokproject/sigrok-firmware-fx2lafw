@@ -53,26 +53,66 @@ volatile bit got_sud;
 
 /* GPIF terminology: DP = decision point, NDP = non-decision-point */
 
-/* GPIF waveforms */
+/*
+ * GPIF waveforms.
+ *
+ * See section "10.3.4 State Instructions" in the TRM for details.
+ */
 static const BYTE wavedata[128] = {
 	/* Waveform 0: */
 
-	/* TODO: This is just a dummy entry, fill with useful data. */
+	/*
+	 * This is the basic algorithm implemented in our GPIF state machine:
+	 *
+	 * State 0: NDP: Sample the FIFO data bus.
+	 * State 1: DP: If EP2 is full, go to state 7 (the IDLE state), i.e.,
+	 *          end the current waveform. Otherwise, go to state 0 again,
+	 *          i.e., sample data until EP2 is full.
+	 * State 2: Unused.
+	 * State 3: Unused.
+	 * State 4: Unused.
+	 * State 5: Unused.
+	 * State 6: Unused.
+	 */
 
 	/* S0-S6: LENGTH/BRANCH */
-	0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01,
+	/*
+	 * For NDPs (LENGTH): Number of IFCLK cycles to stay in this state.
+	 * For DPs (BRANCH): [7] ReExec, [5:3]: BRANCHON1, [2:0]: BRANCHON0.
+	 *
+	 * 0x01: Stay one IFCLK cycle in this state.
+	 * 0x38: No Re-execution, BRANCHON1 = state 7, BRANCHON0 = state 0.
+	 */
+	0x01, 0x38, 0x01, 0x01, 0x01, 0x01, 0x01,
 	/* TRM says "reserved", but GPIF designer always puts a 0x07 here. */
 	0x07,
+
 	/* S0-S6: OPCODE */
-	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+	/*
+	 * 0x02: NDP, sample the FIFO data bus.
+	 * 0x01: DP, don't sample the FIFO data bus.
+	 */
+	0x02, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00,
 	/* Reserved */
 	0x00,
+
 	/* S0-S6: OUTPUT */
+	/* Unused, we don't output anything, we only sample the pins. */
 	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 	/* Reserved */
 	0x00,
+
 	/* S0-S6: LOGIC FUNCTION (not used for NDPs) */
-	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+	/*
+	 * 0x36: LFUNC = "A AND B", A = FIFO flag, B = FIFO flag.
+	 * The FIFO flag (FF == full flag, in our case) is configured via
+	 * EP2GPIFFLGSEL.
+	 *
+	 * So: If the EP2 FIFO is full and the EP2 FIFO is full, go to
+	 * the state specified by BRANCHON1 (state 7), otherwise BRANCHON0
+	 * (state 0). See the LENGTH/BRANCH value above for details.
+	 */
+	0x00, 0x36, 0x00, 0x00, 0x00, 0x00, 0x00,
 	/* TRM says "reserved", but GPIF designer always puts a 0x3f here. */
 	0x3f,
 
@@ -232,8 +272,8 @@ static void setup_endpoints(void)
 	RESETFIFO(0x01)
 	RESETFIFO(0x02)
 
-	/* Set the GPIF flag for EP2 to 'empty'. */
-	EP2GPIFFLGSEL = (0 << 1) | (1 << 1);
+	/* Set the GPIF flag for EP2 to 'full'. */
+	EP2GPIFFLGSEL = (1 << 1) | (0 << 1);
 	SYNCDELAY();
 }
 
