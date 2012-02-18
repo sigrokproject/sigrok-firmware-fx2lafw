@@ -444,11 +444,3 @@ void fx2lafw_run(void)
 		got_sud = FALSE;
 	}
 }
-
-void main(void)
-{
-	fx2lafw_init();
-
-	while(1)
-		fx2lafw_run();
-}
