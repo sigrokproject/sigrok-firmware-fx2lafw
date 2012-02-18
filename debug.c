@@ -51,4 +51,10 @@ void debugf(const char *format, ...) {
 	EP6BCL = LSB(count);
 }
 
+void _assert(char *expr, const char *filename, unsigned int linenumber) {
+	debugf("Assert(%s) failed at line %u in file %s.\n",
+		expr, linenumber, filename);
+	while(1);
+}
+
 #endif
