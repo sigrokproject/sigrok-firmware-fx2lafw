@@ -83,7 +83,9 @@ static const BYTE wavedata[128] = {
 	 * 0x01: Stay one IFCLK cycle in this state.
 	 * 0x38: No Re-execution, BRANCHON1 = state 7, BRANCHON0 = state 0.
 	 */
-	0x01, 0x38, 0x01, 0x01, 0x01, 0x01, 0x01,
+	// 0x01, 0x38, 0x01, 0x01, 0x01, 0x01, 0x01,
+	// FIXME: For now just loop over the "sample data" state forever.
+	0x01, 0x00, 0x01, 0x01, 0x01, 0x01, 0x01,
 	/* TRM says "reserved", but GPIF designer always puts a 0x07 here. */
 	0x07,
 
@@ -272,6 +274,16 @@ static void setup_endpoints(void)
 	RESETFIFO(0x01)
 	RESETFIFO(0x02)
 
+	/* EP2: Enable AUTOIN mode. Set FIFO width to 8bits. */
+	EP2FIFOCFG = bmAUTOIN | ~bmWORDWIDE;
+	SYNCDELAY();
+
+	/* EP2: Auto-commit 512 (0x200) byte packets (due to AUTOIN = 1). */
+	EP2AUTOINLENH = 0x02;
+	SYNCDELAY();
+	EP2AUTOINLENL = 0x00;
+	SYNCDELAY();
+
 	/* Set the GPIF flag for EP2 to 'full'. */
 	EP2GPIFFLGSEL = (1 << 1) | (0 << 1);
 	SYNCDELAY();
@@ -384,13 +396,8 @@ void main(void)
 	/* Put the FX2 into GPIF master mode and setup the GPIF. */
 	gpif_init_la();
 
-	/* TODO */
-	/* Initiate a GPIF read. */
-	(void)EP2GPIFTRIG;
-#if 0
-	/* TODO: This seems to hang? */
+	/* Perform the initial GPIF read. */
 	gpif_fifo_read(GPIF_EP2);
-#endif
 
 	while (1) {
 		if (got_sud) {
