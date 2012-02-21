@@ -180,10 +180,11 @@ fullspd_dscr_realend:
 
 _dev_strings:
 
+; See http://www.usb.org/developers/docs/USB_LANGIDs.pdf for the full list.
 _string0:
 	.db	string0end - _string0
 	.db	DSCR_STRING_TYPE
-	.db	0x09, 0x04		; Language code 0x0409 (English)
+	.db	0x09, 0x04		; Language code 0x0409 (English, US)
 string0end:
 
 _string1:
