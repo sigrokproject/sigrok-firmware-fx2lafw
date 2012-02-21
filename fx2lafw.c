@@ -243,15 +243,6 @@ static void gpif_init_la(void)
 
 static void setup_endpoints(void)
 {
-	/* Setup EP1 (OUT). */
-	EP1OUTCFG = (1 << 7) |		  /* EP is valid/activated */
-		    (0 << 6) |		  /* Reserved */
-		    (1 << 5) | (0 << 4) | /* EP Type: bulk */
-		    (0 << 3) |		  /* Reserved */
-		    (0 << 2) |		  /* Reserved */
-		    (0 << 1) | (0 << 0);  /* Reserved */
-	SYNCDELAY();
-
 	/* Setup EP2 (IN). */
 	EP2CFG = (1 << 7) |		  /* EP is valid/activated */
 		 (1 << 6) |		  /* EP direction: IN */
@@ -261,7 +252,11 @@ static void setup_endpoints(void)
 		 (0 << 1) | (0 << 0);	  /* EP buffering: quad buffering */
 	SYNCDELAY();
 
-	/* Disable all other EPs (EP4, EP6, and EP8). */
+	/* Disable all other EPs (EP1, EP4, EP6, and EP8). */
+	EP1INCFG &= ~bmVALID;
+	SYNCDELAY();
+	EP1OUTCFG &= ~bmVALID;
+	SYNCDELAY();
 	EP4CFG &= ~bmVALID;
 	SYNCDELAY();
 	EP6CFG &= ~bmVALID;
@@ -269,9 +264,8 @@ static void setup_endpoints(void)
 	EP8CFG &= ~bmVALID;
 	SYNCDELAY();
 
-	/* Reset the FIFOs of EP1 and EP2. */
+	/* EP2: Reset the FIFOs. */
 	/* Note: RESETFIFO() gets the EP number WITHOUT bit 7 set/cleared. */
-	RESETFIFO(0x01)
 	RESETFIFO(0x02)
 
 	/* EP2: Enable AUTOIN mode. Set FIFO width to 8bits. */
@@ -284,7 +278,7 @@ static void setup_endpoints(void)
 	EP2AUTOINLENL = 0x00;
 	SYNCDELAY();
 
-	/* Set the GPIF flag for EP2 to 'full'. */
+	/* EP2: Set the GPIF flag to 'full'. */
 	EP2GPIFFLGSEL = (1 << 1) | (0 << 1);
 	SYNCDELAY();
 }
@@ -292,6 +286,12 @@ static void setup_endpoints(void)
 BOOL handle_vendorcommand(BYTE cmd)
 {
 	(void)cmd;
+
+	/*
+	 * TODO: Implement the protocol using control requests of type
+	 * 'vendor-specific' (bmRequestType[6:5] = 2).
+	 */
+
 	return FALSE;
 }
 
@@ -317,13 +317,10 @@ BOOL handle_set_interface(BYTE ifc, BYTE alt_ifc)
 
 	/* (2) Reset data toggles of the EPs in the interface. */
 	/* Note: RESETTOGGLE() gets the EP number WITH bit 7 set/cleared. */
-	RESETTOGGLE(0x01);
 	RESETTOGGLE(0x82);
 
 	/* (3) Restore EPs to their default conditions. */
 	/* Note: RESETFIFO() gets the EP number WITHOUT bit 7 set/cleared. */
-	RESETFIFO(0x01);
-	/* TODO */
 	RESETFIFO(0x02);
 	/* TODO */
 

@@ -97,20 +97,11 @@ highspd_dscr_end:
 	.db	DSCR_INTERFACE_TYPE
 	.db	0			; Interface index
 	.db	0			; Alternate setting index
-	.db	2			; Number of endpoints
+	.db	1			; Number of endpoints
 	.db	0xff			; Class (vendor specific)
 	.db	0xff			; Subclass (vendor specific)
 	.db	0xff			; Protocol (vendor specific)
 	.db	0			; String index (none)
-
-	; Endpoint 1 (OUT)
-	.db	DSCR_ENDPOINT_LEN
-	.db	DSCR_ENDPOINT_TYPE
-	.db	0x01			; EP number (1), direction (OUT)
-	.db	ENDPOINT_TYPE_BULK	; Endpoint type (bulk)
-	.db	0x00			; Max. packet size, LSB (512 bytes)
-	.db	0x02			; Max. packet size, MSB (512 bytes)
-	.db	0x00			; Polling interval
 
 	; Endpoint 2 (IN)
 	.db	DSCR_ENDPOINT_LEN
@@ -146,20 +137,11 @@ fullspd_dscr_end:
 	.db	DSCR_INTERFACE_TYPE
 	.db	0			; Interface index
 	.db	0			; Alternate setting index
-	.db	2			; Number of endpoints
+	.db	1			; Number of endpoints
 	.db	0xff			; Class (vendor specific)
 	.db	0xff			; Subclass (vendor specific)
 	.db	0xff			; Protocol (vendor specific)
 	.db	0			; String index (none)
-
-	; Endpoint 1 (OUT)
-	.db	DSCR_ENDPOINT_LEN
-	.db	DSCR_ENDPOINT_TYPE
-	.db	0x01			; EP number (1), direction (OUT)
-	.db	ENDPOINT_TYPE_BULK	; Endpoint type (bulk)
-	.db	0x40			; Max. packet size, LSB (64 bytes)
-	.db	0x00			; Max. packet size, MSB (64 bytes)
-	.db	0x00			; Polling interval
 
 	; Endpoint 2 (IN)
 	.db	DSCR_ENDPOINT_LEN
