@@ -370,7 +370,7 @@ void hispeed_isr(void) interrupt HISPEED_ISR
 void main(void)
 {
 	/* Set DYN_OUT and ENH_PKT bits, as recommended by the TRM. */
-	REVCTL = (1 << 1) | (1 << 0);
+	REVCTL = bmNOAUTOARM | bmSKIPCOMMIT;
 
 	got_sud = FALSE;
 
