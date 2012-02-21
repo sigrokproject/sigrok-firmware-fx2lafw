@@ -46,6 +46,13 @@
 #include <eputils.h>
 #include <gpif.h>
 
+/* Protocol commands */
+#define CMD_SET_SAMPLERATE	0xb0
+#define CMD_START		0xb1
+#define CMD_STOP		0xb2
+#define CMD_GET_FW_VERSION	0xb3
+/* ... */
+
 #define SYNCDELAY() SYNCDELAY4
 
 /* ... */
@@ -285,12 +292,27 @@ static void setup_endpoints(void)
 
 BOOL handle_vendorcommand(BYTE cmd)
 {
-	(void)cmd;
+	/* Protocol implementation */
 
-	/*
-	 * TODO: Implement the protocol using control requests of type
-	 * 'vendor-specific' (bmRequestType[6:5] = 2).
-	 */
+	switch (cmd) {
+	case CMD_SET_SAMPLERATE:
+		/* TODO */
+		break;
+	case CMD_START:
+		/* TODO */
+		break;
+	case CMD_STOP:
+		GPIFABORT = 0xff;
+		/* TODO */
+		return TRUE;
+		break;
+	case CMD_GET_FW_VERSION:
+		/* TODO */
+		break;
+	default:
+		/* Unimplemented command. */
+		break;
+	}
 
 	return FALSE;
 }
