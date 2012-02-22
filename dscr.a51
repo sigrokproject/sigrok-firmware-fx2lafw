@@ -115,10 +115,10 @@ highspd_dscr_end:
 	; Endpoint 6 (IN)
 	.db	DSCR_ENDPOINT_LEN
 	.db	DSCR_ENDPOINT_TYPE
-	.db	0x86			;  EP number (6), direction (IN)
+	.db	0x86			; EP number (6), direction (IN)
 	.db	ENDPOINT_TYPE_BULK	; Endpoint type (bulk)
-	.db	0x00			; Max. packet size, LSB (64 bytes)
-	.db	0x02			; Max. packet size, MSB (64 bytes)
+	.db	0x00			; Max. packet size, LSB (512 bytes)
+	.db	0x02			; Max. packet size, MSB (512 bytes)
 	.db	0x00			; Polling interval
 
 highspd_dscr_realend:
@@ -164,7 +164,7 @@ fullspd_dscr_end:
 	; Endpoint 6 (IN)
 	.db	DSCR_ENDPOINT_LEN
 	.db	DSCR_ENDPOINT_TYPE
-	.db 0x86			; EP number (6), direction (IN)
+	.db	0x86			; EP number (6), direction (IN)
 	.db	ENDPOINT_TYPE_BULK	; Endpoint type (bulk)
 	.db	0x40			; Max. packet size, LSB (64 bytes)
 	.db	0x00			; Max. packet size, MSB (64 bytes)

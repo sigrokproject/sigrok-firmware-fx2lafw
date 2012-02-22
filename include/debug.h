@@ -20,43 +20,30 @@
 
 #ifdef DEBUG
 
-#define ERRF(fmt, ...) \
-	do { debugf("E " fmt, __VA_ARGS__); \
-		while(1); } while(0)
-#define ERR(msg) \
-	ERRF("%s", msg)
+#define ERRF(fmt, ...)		do { debugf("E " fmt, __VA_ARGS__); \
+				while(1); } while(0)
+#define ERR(msg)		ERRF("%s", msg)
 
-#define WARNF(fmt, ...) \
-	debugf("W " fmt, __VA_ARGS__)
-#define WARN(msg) \
-	WARNF("%s", msg)
+#define WARNF(fmt, ...)		debugf("W " fmt, __VA_ARGS__)
+#define WARN(msg)		WARNF("%s", msg)
 
-#define INFOF(fmt, ...) \
-	debugf("I " fmt, __VA_ARGS__)
-#define INFO(msg) \
-	INFOF("%s", msg)
+#define INFOF(fmt, ...)		debugf("I " fmt, __VA_ARGS__)
+#define INFO(msg)		INFOF("%s", msg)
 
 /**
- * A printf the prints messages through the UART
- * EP6.
+ * A printf that prints messages through EP6.
  */
 void debugf(const char *format, ...);
 
 #else
 
-#define ERRF(fmt, ...) \
-	((void) 0)
-#define ERR(msg) \
-	((void) 0)
+#define ERRF(fmt, ...)		((void)0)
+#define ERR(msg)		((void)0)
 
-#define WARNF(fmt, ...) \
-	((void) 0)
-#define WARN(msg) \
-	((void) 0)
+#define WARNF(fmt, ...)		((void)0)
+#define WARN(msg)		((void)0)
 
-#define INFOF(fmt, ...) \
-	((void) 0)
-#define INFO(msg) \
-	((void) 0)
+#define INFOF(fmt, ...)		((void)0)
+#define INFO(msg)		((void)0)
 
 #endif

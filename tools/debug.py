@@ -17,15 +17,15 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
 
-import struct 
+import struct
 
 from fx2load import *
 
-# Connect to the device
+# Connect to the device.
 openfx2(0x6666, 0x0019)
 
-# Read debug messages
+# Read debug messages.
 while 1:
-    buf='\x00'*200  
-    f.ep_bulk( buf, 0x86, 1000)
-    print buf
+    buf = '\x00' * 200
+    f.ep_bulk(buf, 0x86, 1000)
+    print(buf)

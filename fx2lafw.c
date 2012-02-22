@@ -272,7 +272,7 @@ static void setup_endpoints(void)
 #endif
 	SYNCDELAY();
 
-	/* Disable all other EPs (EP4 and EP8). */
+	/* Disable all other EPs (EP1, EP4, and EP8). */
 	EP1INCFG &= ~bmVALID;
 	SYNCDELAY();
 	EP1OUTCFG &= ~bmVALID;
@@ -355,14 +355,17 @@ BOOL handle_set_interface(BYTE ifc, BYTE alt_ifc)
 	/* (2) Reset data toggles of the EPs in the interface. */
 	/* Note: RESETTOGGLE() gets the EP number WITH bit 7 set/cleared. */
 	RESETTOGGLE(0x82);
-	RESETTOGGLE(0x76);
+#ifdef DEBUG
+	RESETTOGGLE(0x86);
+#endif
 
 	/* (3) Restore EPs to their default conditions. */
 	/* Note: RESETFIFO() gets the EP number WITHOUT bit 7 set/cleared. */
 	RESETFIFO(0x02);
 	/* TODO */
-
+#ifdef DEBUG
 	RESETFIFO(0x06);
+#endif
 
 	/* (4) Clear the HSNAK bit. Not needed, fx2lib does this. */
 

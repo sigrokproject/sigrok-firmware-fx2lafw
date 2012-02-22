@@ -22,39 +22,40 @@
 
 #include <stdarg.h>
 #include <stdio.h>
-
 #include <delay.h>
 #include <fx2regs.h>
 #include <fx2macros.h>
-
 #include "debug.h"
 
 #define MESSAGE_LENGTH_MAX 64
 
-void debugf(const char *format, ...) {
+void debugf(const char *format, ...)
+{
 	va_list arg;
 	int count;
 
-	// Format the string
-	va_start (arg, format);
+	/* Format the string. */
+	va_start(arg, format);
 	count = vsprintf(EP6FIFOBUF, format, arg);
-	va_end (arg);
+	va_end(arg);
 
-	// Zero out the rest of the buffer
-	while(count < MESSAGE_LENGTH_MAX)
+	/* Zero out the rest of the buffer. */
+	while (count < MESSAGE_LENGTH_MAX)
 		EP6FIFOBUF[count++] = '\0';
 
-	// Send the buffer
+	/* Send the buffer. */
 	count = 32;
 	EP6BCH = MSB(count);
 	SYNCDELAY4;
 	EP6BCL = LSB(count);
+	SYNCDELAY4;
 }
 
-void _assert(char *expr, const char *filename, unsigned int linenumber) {
+void _assert(char *expr, const char *filename, unsigned int linenumber)
+{
 	debugf("Assert(%s) failed at line %u in file %s.\n",
-		expr, linenumber, filename);
-	while(1);
+	       expr, linenumber, filename);
+	while (1);
 }
 
 #endif
