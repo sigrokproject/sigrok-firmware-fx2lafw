@@ -18,17 +18,8 @@
 ## Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
 ##
 
-all: saleae-logic cwav-usbeeax
+SOURCES = main.c ../fx2lafw.c ../debug.c
+A51_SOURCES = dscr.a51
+BASENAME = fx2lafw-saleae-logic
 
-saleae-logic:
-	$(MAKE) -C saleae-logic
-
-cwav-usbeeax:
-	$(MAKE) -C cwav-usbeeax
-
-clean:
-	rm -rf saleae-logic/build
-	rm -rf cwav-usbeeax/build
-
-.PHONY: saleae-logic cwav-usbeeax
-
+include ../Makefile.include
