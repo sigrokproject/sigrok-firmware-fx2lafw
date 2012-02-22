@@ -31,10 +31,13 @@ Building
 Usage
 -----
 
- $ cycfx2prog -id=vvvv:pppp prg:build/fx2lafw.ihx reset run delay:100
+ $ cycfx2prog -id=vvvv:pppp prg:<device>.ihx reset run delay:100
 
 You have to provide the USB VID/PID of the FX2 device (before firmware
 upload) using the -id parameter.
+
+Replace <device>.ihx with the respective .ihx file from the
+hw/*/build/ directory, e.g. hw/saleae-logic/build/fx2lafw-saleae-logic.ihx.
 
 Website
 -------
