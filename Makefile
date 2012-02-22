@@ -21,14 +21,14 @@
 all: saleae-logic cwav-usbeeax
 
 saleae-logic:
-	$(MAKE) -C saleae-logic
+	$(MAKE) -C hw/saleae-logic
 
 cwav-usbeeax:
-	$(MAKE) -C cwav-usbeeax
+	$(MAKE) -C hw/cwav-usbeeax
 
 clean:
-	rm -rf saleae-logic/build
-	rm -rf cwav-usbeeax/build
+	rm -rf hw/saleae-logic/build
+	rm -rf hw/cwav-usbeeax/build
 
 .PHONY: saleae-logic cwav-usbeeax
 

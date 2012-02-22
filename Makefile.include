@@ -19,7 +19,7 @@
 ## Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
 ##
 
-FX2LIBDIR ?= ../fx2lib
+FX2LIBDIR ?= ../../fx2lib
 
 DEBUG ?= 0
 ifeq ($(DEBUG), 1)
@@ -28,7 +28,7 @@ else
 	SDCCFLAGS += -DNDEBUG
 endif
 
-SDCCFLAGS += -I../include/
+SDCCFLAGS += -I../../include/
 
 include $(FX2LIBDIR)/lib/fx2.mk
 
