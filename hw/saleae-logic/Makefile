@@ -18,7 +18,11 @@
 ## Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
 ##
 
-SOURCES = main.c ../../fx2lafw.c ../../debug.c
+SOURCES = \
+	main.c \
+	../../fx2lafw.c \
+	../../gpif-capture.c \
+	../../debug.c
 A51_SOURCES = dscr.a51
 BASENAME = fx2lafw-saleae-logic
 

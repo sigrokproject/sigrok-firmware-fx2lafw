@@ -18,17 +18,6 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
  */
 
-#include <autovector.h>
+void gpif_init_la(void);
 
-#define SYNCDELAY() SYNCDELAY4
-
-/**
- * Performs setup common to all fx2lafw devices.
- */
-void fx2lafw_init(void);
-
-/**
- * Performs a single iteration of the main loop code which is common
- * to all fx2lafw devices.
- */
-void fx2lafw_run(void);
+void gpif_acquisition_start(void);
