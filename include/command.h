@@ -19,6 +19,5 @@
  */
 
 /* Protocol commands */
-#define CMD_START		0xb0
-#define CMD_STOP		0xb1
-#define CMD_GET_FW_VERSION	0xb2
+#define CMD_GET_FW_VERSION	0xb0
+#define CMD_START		0xb1

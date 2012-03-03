@@ -114,17 +114,12 @@ BOOL handle_vendorcommand(BYTE cmd)
 	/* Protocol implementation */
 
 	switch (cmd) {
-	case CMD_START:
-		gpif_acquisition_start();
-		return TRUE;
-	case CMD_STOP:
-		GPIFABORT = 0xff;
-		/* TODO */
-		return TRUE;
-		break;
 	case CMD_GET_FW_VERSION:
 		/* TODO */
 		break;
+	case CMD_START:
+		gpif_acquisition_start();
+		return TRUE;
 	default:
 		/* Unimplemented command. */
 		break;
