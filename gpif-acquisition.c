@@ -27,93 +27,17 @@
 #include <fx2lafw.h>
 #include <gpif-acquisition.h>
 
-/* GPIF terminology: DP = decision point, NDP = non-decision-point */
+static void gpif_reset_waveforms(void)
+{
+	int i;
 
-/*
- * GPIF waveforms.
- *
- * See section "10.3.4 State Instructions" in the TRM for details.
- */
-static const BYTE wavedata[128] = {
-	/* Waveform 0: */
-
-	/*
-	 * This is the basic algorithm implemented in our GPIF state machine:
-	 *
-	 * State 0: NDP: Sample the FIFO data bus.
-	 * State 1: DP: If EP2 is full, go to state 7 (the IDLE state), i.e.,
-	 *          end the current waveform. Otherwise, go to state 0 again,
-	 *          i.e., sample data until EP2 is full.
-	 * State 2: Unused.
-	 * State 3: Unused.
-	 * State 4: Unused.
-	 * State 5: Unused.
-	 * State 6: Unused.
-	 */
-
-	/* S0-S6: LENGTH/BRANCH */
-	/*
-	 * For NDPs (LENGTH): Number of IFCLK cycles to stay in this state.
-	 * For DPs (BRANCH): [7] ReExec, [5:3]: BRANCHON1, [2:0]: BRANCHON0.
-	 *
-	 * 0x01: Stay one IFCLK cycle in this state.
-	 * 0x38: No Re-execution, BRANCHON1 = state 7, BRANCHON0 = state 0.
-	 */
-	// 0x01, 0x38, 0x01, 0x01, 0x01, 0x01, 0x01,
-	// FIXME: For now just loop over the "sample data" state forever.
-	0x01, 0x00, 0x01, 0x01, 0x01, 0x01, 0x01,
-	/* TRM says "reserved", but GPIF designer always puts a 0x07 here. */
-	0x07,
-
-	/* S0-S6: OPCODE */
-	/*
-	 * 0x02: NDP, sample the FIFO data bus.
-	 * 0x01: DP, don't sample the FIFO data bus.
-	 */
-	0x02, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00,
-	/* Reserved */
-	0x00,
-
-	/* S0-S6: OUTPUT */
-	/* Unused, we don't output anything, we only sample the pins. */
-	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-	/* Reserved */
-	0x00,
-
-	/* S0-S6: LOGIC FUNCTION (not used for NDPs) */
-	/*
-	 * 0x36: LFUNC = "A AND B", A = FIFO flag, B = FIFO flag.
-	 * The FIFO flag (FF == full flag, in our case) is configured via
-	 * EP2GPIFFLGSEL.
-	 *
-	 * So: If the EP2 FIFO is full and the EP2 FIFO is full, go to
-	 * the state specified by BRANCHON1 (state 7), otherwise BRANCHON0
-	 * (state 0). See the LENGTH/BRANCH value above for details.
-	 */
-	0x00, 0x36, 0x00, 0x00, 0x00, 0x00, 0x00,
-	/* TRM says "reserved", but GPIF designer always puts a 0x3f here. */
-	0x3f,
-
-	/* TODO: Must unused waveforms be "valid"? */
-
-	/* Waveform 1 (unused): */
-	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-
-	/* Waveform 2 (unused): */
-	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-
-	/* Waveform 3 (unused): */
-	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-};
+	/* Reset WAVEDATA. */
+	AUTOPTRSETUP = 0x03;
+	AUTOPTRH1 = 0xe4;
+	AUTOPTRL1 = 0x00;
+	for (i = 0; i < 128; i++)
+		EXTAUTODAT1 = 0;
+}
 
 static void gpif_setup_registers(void)
 {
@@ -134,7 +58,7 @@ static void gpif_setup_registers(void)
 	GPIFIDLECTL = 0;
 
 	/*
-	 * Map index 0 in wavedata[] to FIFORD. The rest is assigned too,
+	 * Map index 0 in WAVEDATA to FIFORD. The rest is assigned too,
 	 * but not used by us.
 	 *
 	 * GPIFWFSELECT: [7:6] = SINGLEWR index, [5:4] = SINGLERD index,
@@ -144,23 +68,6 @@ static void gpif_setup_registers(void)
 
 	/* Contains RDY* pin values. Read-only according to TRM. */
 	GPIFREADYSTAT = 0;
-}
-
-static void gpif_write_waveforms(void)
-{
-	int i;
-
-	/*
-	 * Write the four waveforms into the respective WAVEDATA register
-	 * locations (0xe400 - 0xe47f) using the FX2's autopointer feature.
-	 */
-	AUTOPTRSETUP = 0x07;             /* Increment autopointers 1 & 2. */
-	AUTOPTRH1 = MSB((WORD)wavedata); /* Source is the 'wavedata' array. */
-	AUTOPTRL1 = LSB((WORD)wavedata);
-	AUTOPTRH2 = 0xe4;                /* Dest is WAVEDATA (0xe400). */
-	AUTOPTRL2 = 0x00;
-	for (i = 0; i < 128; i++)
-		EXTAUTODAT2 = EXTAUTODAT1;
 }
 
 static void gpif_init_addr_pins(void)
@@ -207,8 +114,8 @@ void gpif_init_la(void)
 	/* Setup the GPIF registers. */
 	gpif_setup_registers();
 
-	/* Write the four GPIF waveforms into the WAVEDATA register. */
-	gpif_write_waveforms();
+	/* Reset WAVEDATA. */
+	gpif_reset_waveforms();
 
 	/* Initialize GPIF address pins, output initial values. */
 	gpif_init_addr_pins();
@@ -219,6 +126,48 @@ void gpif_init_la(void)
 
 void gpif_acquisition_start(void)
 {
+	xdata volatile BYTE *pSTATE;
+
+	/* GPIF terminology: DP = decision point, NDP = non-decision-point */
+
+	/* Populate WAVEDATA
+	 *
+	 * This is the basic algorithm implemented in our GPIF state machine:
+	 *
+	 * State 0: NDP: Sample the FIFO data bus.
+	 * State 1: DP: If EP2 is full, go to state 7 (the IDLE state), i.e.,
+	 *          end the current waveform. Otherwise, go to state 0 again,
+	 *          i.e., sample data until EP2 is full.
+	 * State 2: Unused.
+	 * State 3: Unused.
+	 * State 4: Unused.
+	 * State 5: Unused.
+	 * State 6: Unused.
+	 */
+
+	/* Populate S0 */
+	pSTATE = &GPIF_WAVE_DATA;
+	pSTATE[0] = 0x01;
+	pSTATE[8] = 0x02;
+	pSTATE[16] = 0x00;
+	pSTATE[24] = 0x00;
+
+	/* Populate S1 */
+	pSTATE = &GPIF_WAVE_DATA + 1;
+	pSTATE[0] = 0x00;
+	pSTATE[8] = 0x01;
+	pSTATE[16] = 0x00;
+	pSTATE[24] = 0x36;
+
+	/* Populate Reserved Words */
+	pSTATE = &GPIF_WAVE_DATA + 7;
+	pSTATE[0] = 0x07;
+	pSTATE[8] = 0x00;
+	pSTATE[16] = 0x00;
+	pSTATE[24] = 0x3f;
+
+	SYNCDELAY();
+
 	/* Perform the initial GPIF read. */
 	gpif_fifo_read(GPIF_EP2);
 }
