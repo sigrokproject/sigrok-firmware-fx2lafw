@@ -45,13 +45,9 @@
 #include <eputils.h>
 #include <gpif.h>
 
+#include <command.h>
 #include <fx2lafw.h>
 #include <gpif-acquisition.h>
-
-/* Protocol commands */
-#define CMD_START		0xb0
-#define CMD_STOP		0xb1
-#define CMD_GET_FW_VERSION	0xb2
 
 /* ... */
 volatile bit got_sud;
