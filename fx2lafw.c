@@ -234,7 +234,7 @@ void fx2lafw_init(void)
 	gpif_init_la();
 }
 
-void fx2lafw_run(void)
+void fx2lafw_poll(void)
 {
 	if (got_sud) {
 		handle_setupdata();
