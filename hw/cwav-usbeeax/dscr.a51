@@ -52,8 +52,8 @@ _dev_dscr:
 	.db	0xff			; Subclass (vendor specific)
 	.db	0xff			; Protocol (vendor specific)
 	.db	64			; Max. EP0 packet size
-	.dw	0x6666			; Manufacturer ID (0x6666)
-	.dw	0x1900			; Product ID (0x0019)
+	.dw	0xa908			; Manufacturer ID (0x08a9)
+	.dw	0x1400			; Product ID (0x0014)
 	.dw	0x0100			; Product version (0.01)
 	.db	1			; Manufacturer string index
 	.db	2			; Product string index
