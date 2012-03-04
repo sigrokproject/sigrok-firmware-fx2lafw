@@ -51,6 +51,7 @@
 
 /* ... */
 volatile bit got_sud;
+BYTE vendor_command;
 
 static void setup_endpoints(void)
 {
@@ -112,13 +113,12 @@ static void setup_endpoints(void)
 BOOL handle_vendorcommand(BYTE cmd)
 {
 	/* Protocol implementation */
-
 	switch (cmd) {
-	case CMD_GET_FW_VERSION:
-		/* TODO */
-		break;
 	case CMD_START:
-		gpif_acquisition_start();
+		/* There is data to receive - arm EP0 */
+		EP0BCL = 0;
+	case CMD_GET_FW_VERSION:
+		vendor_command = cmd;
 		return TRUE;
 	default:
 		/* Unimplemented command. */
@@ -209,6 +209,7 @@ void fx2lafw_init(void)
 	REVCTL = bmNOAUTOARM | bmSKIPCOMMIT;
 
 	got_sud = FALSE;
+	vendor_command = 0;
 
 	/* Renumerate. */
 	RENUMERATE_UNCOND();
@@ -238,5 +239,34 @@ void fx2lafw_run(void)
 	if (got_sud) {
 		handle_setupdata();
 		got_sud = FALSE;
+	}
+
+	if (vendor_command) {
+		switch (vendor_command) {
+		case CMD_GET_FW_VERSION:
+			/* TODO */
+
+			/* Acknowledge the vendor command. */
+			vendor_command = 0;
+			break;
+
+		case CMD_START:
+			if((EP0CS & bmEPBUSY) != 0)
+				break;
+
+			if(EP0BCL == 2) {
+				gpif_acquisition_start(
+					(const struct cmd_start_acquisition*)EP0BUF);
+			}
+
+			/* Acknowledge the vendor command. */
+			vendor_command = 0;
+			break;
+
+		default:
+			/* Unimplemented command. */
+			vendor_command = 0;
+			break;
+		}
 	}
 }

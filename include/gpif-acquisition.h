@@ -18,6 +18,8 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
  */
 
+#include <command.h>
+
 void gpif_init_la(void);
 
-void gpif_acquisition_start(void);
+void gpif_acquisition_start(const struct cmd_start_acquisition *cmd);

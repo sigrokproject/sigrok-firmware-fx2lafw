@@ -124,9 +124,12 @@ void gpif_init_la(void)
 	gpif_init_flowstates();
 }
 
-void gpif_acquisition_start(void)
+void gpif_acquisition_start(const struct cmd_start_acquisition *cmd)
 {
 	xdata volatile BYTE *pSTATE;
+
+	IFCONFIG = (IFCONFIG & ~bm3048MHZ) |
+		((cmd->flags & CMD_START_FLAGS_CLK_48MHZ) ? bm3048MHZ : 0);
 
 	/* GPIF terminology: DP = decision point, NDP = non-decision-point */
 
@@ -147,7 +150,7 @@ void gpif_acquisition_start(void)
 
 	/* Populate S0 */
 	pSTATE = &GPIF_WAVE_DATA;
-	pSTATE[0] = 0x01;
+	pSTATE[0] = cmd->sample_delay;
 	pSTATE[8] = 0x02;
 	pSTATE[16] = 0x00;
 	pSTATE[24] = 0x00;
