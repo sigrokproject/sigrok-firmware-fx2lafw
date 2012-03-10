@@ -128,8 +128,21 @@ void gpif_acquisition_start(const struct cmd_start_acquisition *cmd)
 {
 	xdata volatile BYTE *pSTATE;
 
-	IFCONFIG = (IFCONFIG & ~bm3048MHZ) |
-		((cmd->flags & CMD_START_FLAGS_CLK_48MHZ) ? bm3048MHZ : 0);
+	/* Set IFCONFIG to the correct clock source */
+	if(cmd->flags & CMD_START_FLAGS_CLK_48MHZ) {
+		IFCONFIG = bmIFCLKSRC |
+			bm3048MHZ |
+			bmIFCLKOE |
+			bmASYNC |
+			bmGSTATE |
+			bmIFGPIF;
+	} else {
+		IFCONFIG = bmIFCLKSRC |
+			bmIFCLKOE |
+			bmASYNC |
+			bmGSTATE |
+			bmIFGPIF;
+	}
 
 	/* GPIF terminology: DP = decision point, NDP = non-decision-point */
 
