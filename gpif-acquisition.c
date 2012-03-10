@@ -128,6 +128,9 @@ void gpif_acquisition_start(const struct cmd_start_acquisition *cmd)
 {
 	xdata volatile BYTE *pSTATE;
 
+	/* Ensure GPIF is idle before reconfiguration */
+	while(!(GPIFTRIG & 0x80));
+
 	/* Set IFCONFIG to the correct clock source */
 	if(cmd->flags & CMD_START_FLAGS_CLK_48MHZ) {
 		IFCONFIG = bmIFCLKSRC |
