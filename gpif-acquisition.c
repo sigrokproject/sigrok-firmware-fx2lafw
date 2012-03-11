@@ -68,6 +68,9 @@ static void gpif_setup_registers(void)
 
 	/* Contains RDY* pin values. Read-only according to TRM. */
 	GPIFREADYSTAT = 0;
+
+	/* Make GPIF stop on transcation count not flag */
+	EP2GPIFPFSTOP = (0 << 0);
 }
 
 static void gpif_init_addr_pins(void)
@@ -186,6 +189,9 @@ void gpif_acquisition_start(const struct cmd_start_acquisition *cmd)
 	pSTATE[24] = 0x3f;
 
 	SYNCDELAY();
+
+	/* Execute the whole GPIF waveform once */
+	gpif_set_tc16(1);
 
 	/* Perform the initial GPIF read. */
 	gpif_fifo_read(GPIF_EP2);
