@@ -23,3 +23,5 @@
 void gpif_init_la(void);
 
 void gpif_acquisition_start(const struct cmd_start_acquisition *cmd);
+
+void gpif_poll(void);

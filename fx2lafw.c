@@ -270,4 +270,6 @@ void fx2lafw_poll(void)
 			break;
 		}
 	}
+
+	gpif_poll();
 }

@@ -19,6 +19,7 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
  */
 
+#include <eputils.h>
 #include <fx2regs.h>
 #include <fx2macros.h>
 #include <delay.h>
@@ -26,6 +27,8 @@
 
 #include <fx2lafw.h>
 #include <gpif-acquisition.h>
+
+bit gpif_acquiring;
 
 static void gpif_reset_waveforms(void)
 {
@@ -125,6 +128,9 @@ void gpif_init_la(void)
 
 	/* Initialize flowstate registers (not used by us). */
 	gpif_init_flowstates();
+
+	/* Reset the status */
+	gpif_acquiring = FALSE;
 }
 
 void gpif_acquisition_start(const struct cmd_start_acquisition *cmd)
@@ -220,4 +226,36 @@ void gpif_acquisition_start(const struct cmd_start_acquisition *cmd)
 
 	/* Perform the initial GPIF read. */
 	gpif_fifo_read(GPIF_EP2);
+
+	/* Update the status */
+	gpif_acquiring = TRUE;
+}
+
+void gpif_poll(void)
+{
+	/* Detect if acquisition has completed */
+	if(gpif_acquiring && (GPIFTRIG & 0x80))
+	{
+		/* Activate NAK-ALL to avoid race conditions */
+		FIFORESET = 0x80;
+		SYNCDELAY();
+
+		/* Switch to manual mode */
+		EP2FIFOCFG = 0;
+		SYNCDELAY();
+
+		/* Reset EP2 */
+		FIFORESET = 0x02;
+		SYNCDELAY();
+
+		/* Return to auto mode */
+		EP2FIFOCFG = bmAUTOIN;
+		SYNCDELAY();
+
+		/* Release NAK-ALL */
+		FIFORESET = 0x00;
+		SYNCDELAY();
+
+		gpif_acquiring = FALSE;
+	}
 }
