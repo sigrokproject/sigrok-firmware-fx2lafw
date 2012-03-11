@@ -181,8 +181,6 @@ void gpif_acquisition_start(const struct cmd_start_acquisition *cmd)
 	pSTATE[16] = 0x00;
 	pSTATE[24] = 0x36;
 
-	SYNCDELAY();
-
 	/* Execute the whole GPIF waveform once */
 	gpif_set_tc16(1);
 
