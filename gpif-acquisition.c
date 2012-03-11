@@ -181,13 +181,6 @@ void gpif_acquisition_start(const struct cmd_start_acquisition *cmd)
 	pSTATE[16] = 0x00;
 	pSTATE[24] = 0x36;
 
-	/* Populate Reserved Words */
-	pSTATE = &GPIF_WAVE_DATA + 7;
-	pSTATE[0] = 0x07;
-	pSTATE[8] = 0x00;
-	pSTATE[16] = 0x00;
-	pSTATE[24] = 0x3f;
-
 	SYNCDELAY();
 
 	/* Execute the whole GPIF waveform once */
