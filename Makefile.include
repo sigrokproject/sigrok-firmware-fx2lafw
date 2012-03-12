@@ -19,7 +19,10 @@
 ## Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
 ##
 
+OBJCOPY ?= objcopy
+
 FX2LIBDIR ?= ../../fx2lib
+BUILDDIR ?= build
 
 DEBUG ?= 0
 ifeq ($(DEBUG), 1)
@@ -30,5 +33,7 @@ endif
 
 SDCCFLAGS += -I../../include/
 
-include $(FX2LIBDIR)/lib/fx2.mk
+$(BUILDDIR)/$(BASENAME).fw: $(BUILDDIR)/$(BASENAME).ihx
+	$(OBJCOPY) -Iihex $< -Obinary $@
 
+include $(FX2LIBDIR)/lib/fx2.mk
