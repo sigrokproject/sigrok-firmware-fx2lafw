@@ -1,7 +1,8 @@
 ##
 ## This file is part of the fx2lafw project.
 ##
-## Copyright (C) 2012 Uwe Hermann <uwe@hermann-uwe.de>
+## Copyright (C) 2011-2012 Uwe Hermann <uwe@hermann-uwe.de>
+## Copyright (C) 2012 Joel Holdsworth <joel@airwebreathe.org.uk>
 ##
 ## This program is free software; you can redistribute it and/or modify
 ## it under the terms of the GNU General Public License as published by
@@ -18,20 +19,12 @@
 ## Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
 ##
 
-all: saleae-logic cwav-usbeeax cwav-usbeesx
+SOURCES = \
+	main.c \
+	../../fx2lafw.c \
+	../../gpif-acquisition.c \
+	../../debug.c
+A51_SOURCES = dscr.a51
+BASENAME = fx2lafw-cwav-usbeesx
 
-saleae-logic:
-	$(MAKE) -C hw/saleae-logic
-
-cwav-usbeeax:
-	$(MAKE) -C hw/cwav-usbeeax
-
-cwav-usbeeax:
-	$(MAKE) -C hw/cwav-usbeesx
-
-clean:
-	rm -rf hw/saleae-logic/build
-	rm -rf hw/cwav-usbeeax/build
-
-.PHONY: saleae-logic cwav-usbeeax cwav-usbeesx
-
+include ../../Makefile.include
