@@ -21,7 +21,7 @@
 SOURCES = \
 	main.c \
 	../../fx2lafw.c \
-	../../gpif-capture.c \
+	../../gpif-acquisition.c \
 	../../debug.c
 A51_SOURCES = dscr.a51
 BASENAME = fx2lafw-saleae-logic
