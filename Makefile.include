@@ -24,13 +24,6 @@ OBJCOPY ?= objcopy
 FX2LIBDIR ?= ../../fx2lib
 BUILDDIR ?= build
 
-DEBUG ?= 0
-ifeq ($(DEBUG), 1)
-	SDCCFLAGS += -DDEBUG
-else
-	SDCCFLAGS += -DNDEBUG
-endif
-
 SDCCFLAGS += -I../../include/
 
 $(BUILDDIR)/$(BASENAME).fw: $(BUILDDIR)/$(BASENAME).ihx

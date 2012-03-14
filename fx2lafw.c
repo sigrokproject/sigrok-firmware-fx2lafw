@@ -64,25 +64,14 @@ static void setup_endpoints(void)
 		 (0 << 1) | (0 << 0);	  /* EP buffering: quad buffering */
 	SYNCDELAY();
 
-	/* Setup EP6 (IN) in the debug build. */
-#ifdef DEBUG
-	EP6CFG = (1 << 7) |		  /* EP is valid/activated */
-		 (1 << 6) |		  /* EP direction: IN */
-		 (1 << 5) | (0 << 4) |	  /* EP Type: bulk */
-		 (0 << 3) |		  /* EP buffer size: 512 */
-		 (0 << 2) |		  /* Reserved */
-		 (1 << 1) | (0 << 0);	  /* EP buffering: double buffering */
-#else
-	EP6CFG &= ~bmVALID;
-#endif
-	SYNCDELAY();
-
-	/* Disable all other EPs (EP1, EP4, and EP8). */
+	/* Disable all other EPs (EP1, EP4, EP6, and EP8). */
 	EP1INCFG &= ~bmVALID;
 	SYNCDELAY();
 	EP1OUTCFG &= ~bmVALID;
 	SYNCDELAY();
 	EP4CFG &= ~bmVALID;
+	SYNCDELAY();
+	EP6CFG &= ~bmVALID;
 	SYNCDELAY();
 	EP8CFG &= ~bmVALID;
 	SYNCDELAY();
@@ -90,11 +79,6 @@ static void setup_endpoints(void)
 	/* EP2: Reset the FIFOs. */
 	/* Note: RESETFIFO() gets the EP number WITHOUT bit 7 set/cleared. */
 	RESETFIFO(0x02)
-
-#ifdef DEBUG
-	/* Reset the FIFOs of EP6 when in debug mode. */
-	RESETFIFO(0x06)
-#endif
 
 	/* EP2: Enable AUTOIN mode. Set FIFO width to 8bits. */
 	EP2FIFOCFG = bmAUTOIN;

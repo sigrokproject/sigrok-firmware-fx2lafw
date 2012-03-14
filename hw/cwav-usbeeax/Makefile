@@ -21,8 +21,7 @@
 SOURCES = \
 	main.c \
 	../../fx2lafw.c \
-	../../gpif-acquisition.c \
-	../../debug.c
+	../../gpif-acquisition.c
 A51_SOURCES = dscr.a51
 BASENAME = fx2lafw-cwav-usbeeax
 
