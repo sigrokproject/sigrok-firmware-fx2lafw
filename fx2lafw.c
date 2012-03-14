@@ -59,7 +59,7 @@ static void setup_endpoints(void)
 	EP2CFG = (1 << 7) |		  /* EP is valid/activated */
 		 (1 << 6) |		  /* EP direction: IN */
 		 (1 << 5) | (0 << 4) |	  /* EP Type: bulk */
-		 (0 << 3) |		  /* EP buffer size: 512 */
+		 (1 << 3) |		  /* EP buffer size: 1024 */
 		 (0 << 2) |		  /* Reserved. */
 		 (0 << 1) | (0 << 0);	  /* EP buffering: quad buffering */
 	SYNCDELAY();
