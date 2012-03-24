@@ -21,14 +21,3 @@
 #include <autovector.h>
 
 #define SYNCDELAY() SYNCDELAY4
-
-/**
- * Performs setup common to all fx2lafw devices.
- */
-void fx2lafw_init(void);
-
-/**
- * Performs a single iteration of the main loop code which is common
- * to all fx2lafw devices.
- */
-void fx2lafw_poll(void);
