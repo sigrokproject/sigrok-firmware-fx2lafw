@@ -32,6 +32,7 @@ cwav-usbeeax:
 clean:
 	rm -rf hw/saleae-logic/build
 	rm -rf hw/cwav-usbeeax/build
+	rm -rf hw/cwav-usbeesx/build
 
 .PHONY: saleae-logic cwav-usbeeax cwav-usbeesx
 
