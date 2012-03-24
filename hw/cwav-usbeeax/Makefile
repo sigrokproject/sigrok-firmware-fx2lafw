@@ -19,7 +19,6 @@
 ##
 
 SOURCES = \
-	main.c \
 	../../fx2lafw.c \
 	../../gpif-acquisition.c
 A51_SOURCES = dscr.a51
