@@ -26,7 +26,7 @@ saleae-logic:
 cwav-usbeeax:
 	$(MAKE) -C hw/cwav-usbeeax
 
-cwav-usbeeax:
+cwav-usbeesx:
 	$(MAKE) -C hw/cwav-usbeesx
 
 clean:
