@@ -24,7 +24,6 @@
 #include <fx2macros.h>
 #include <delay.h>
 #include <gpif.h>
-
 #include <fx2lafw.h>
 #include <gpif-acquisition.h>
 
@@ -137,28 +136,22 @@ void gpif_acquisition_start(const struct cmd_start_acquisition *cmd)
 {
 	xdata volatile BYTE *pSTATE;
 
-	/* Ensure GPIF is idle before reconfiguration */
-	while(!(GPIFTRIG & 0x80));
+	/* Ensure GPIF is idle before reconfiguration. */
+	while (!(GPIFTRIG & 0x80));
 
-	/* Set IFCONFIG to the correct clock source */
-	if(cmd->flags & CMD_START_FLAGS_CLK_48MHZ) {
-		IFCONFIG = bmIFCLKSRC |
-			bm3048MHZ |
-			bmIFCLKOE |
-			bmASYNC |
-			bmGSTATE |
-			bmIFGPIF;
+	/* Set IFCONFIG to the correct clock source. */
+	if (cmd->flags & CMD_START_FLAGS_CLK_48MHZ) {
+		IFCONFIG = bmIFCLKSRC | bm3048MHZ | bmIFCLKOE | bmASYNC |
+			   bmGSTATE | bmIFGPIF;
 	} else {
-		IFCONFIG = bmIFCLKSRC |
-			bmIFCLKOE |
-			bmASYNC |
-			bmGSTATE |
-			bmIFGPIF;
+		IFCONFIG = bmIFCLKSRC | bmIFCLKOE | bmASYNC |
+			   bmGSTATE | bmIFGPIF;
 	}
 
 	/* GPIF terminology: DP = decision point, NDP = non-decision-point */
 
-	/* Populate WAVEDATA
+	/*
+	 * Populate WAVEDATA.
 	 *
 	 * This is the basic algorithm implemented in our GPIF state machine:
 	 *
@@ -173,86 +166,93 @@ void gpif_acquisition_start(const struct cmd_start_acquisition *cmd)
 	 * State 6: Unused.
 	 */
 
-	/* Populate S0 */
+	/* Populate S0. */
 	pSTATE = &GPIF_WAVE_DATA;
 
-	/* DELAY
+	/*
+	 * DELAY
 	 * Delay cmd->sample_delay clocks.
 	 */
 	pSTATE[0] = cmd->sample_delay;
 
-	/* OPCODE
+	/*
+	 * OPCODE
 	 * SGL=0, GIN=0, INCAD=0, NEXT=0, DATA=1, DP=0
 	 * Collect data in this state.
 	 */
 	pSTATE[8] = 0x02;
 
-	/* OUTPUT
+	/*
+	 * OUTPUT
 	 * OE[0:3]=0, CTL[0:3]=0
 	 */
 	pSTATE[16] = 0x00;
 
-	/* LOGIC FUNCTION
-	 * Not used
+	/*
+	 * LOGIC FUNCTION
+	 * Not used.
 	 */
 	pSTATE[24] = 0x00;
 
-	/* Populate S1 - the decision point */
+	/* Populate S1 - the decision point. */
 	pSTATE = &GPIF_WAVE_DATA + 1;
 
-	/* BRANCH
-	 * Branch to IDLE if condition is true, back to S0 otherwise
+	/*
+	 * BRANCH
+	 * Branch to IDLE if condition is true, back to S0 otherwise.
 	 */
 	pSTATE[0] = (7 << 3) | (0 << 0);
 
-	/* OPCODE
+	/*
+	 * OPCODE
 	 * SGL=0, GIN=0, INCAD=0, NEXT=0, DATA=0, DP=1
 	 */
 	pSTATE[8] = (1 << 0);
 
-	/* OUTPUT
+	/*
+	 * OUTPUT
 	 * OE[0:3]=0, CTL[0:3]=0
 	 */
 	pSTATE[16] = 0x00;
 
-	/* LOGIC FUNCTION
+	/*
+	 * LOGIC FUNCTION
 	 * Evaluate if the FIFO full flag is set.
 	 * LFUNC=0 (AND), TERMA=6 (FIFO Flag), TERMB=6 (FIFO Flag)
 	 */
 	pSTATE[24] = (6 << 3) | (6 << 0);
 
-	/* Execute the whole GPIF waveform once */
+	/* Execute the whole GPIF waveform once. */
 	gpif_set_tc16(1);
 
 	/* Perform the initial GPIF read. */
 	gpif_fifo_read(GPIF_EP2);
 
-	/* Update the status */
+	/* Update the status. */
 	gpif_acquiring = TRUE;
 }
 
 void gpif_poll(void)
 {
-	/* Detect if acquisition has completed */
-	if(gpif_acquiring && (GPIFTRIG & 0x80))
-	{
-		/* Activate NAK-ALL to avoid race conditions */
+	/* Detect if acquisition has completed. */
+	if (gpif_acquiring && (GPIFTRIG & 0x80)) {
+		/* Activate NAK-ALL to avoid race conditions. */
 		FIFORESET = 0x80;
 		SYNCDELAY();
 
-		/* Switch to manual mode */
+		/* Switch to manual mode. */
 		EP2FIFOCFG = 0;
 		SYNCDELAY();
 
-		/* Reset EP2 */
+		/* Reset EP2. */
 		FIFORESET = 0x02;
 		SYNCDELAY();
 
-		/* Return to auto mode */
+		/* Return to auto mode. */
 		EP2FIFOCFG = bmAUTOIN;
 		SYNCDELAY();
 
-		/* Release NAK-ALL */
+		/* Release NAK-ALL. */
 		FIFORESET = 0x00;
 		SYNCDELAY();
 
