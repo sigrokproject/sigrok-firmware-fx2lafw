@@ -21,3 +21,6 @@
 #include <autovector.h>
 
 #define SYNCDELAY() SYNCDELAY4
+
+#define FX2LAFW_VERSION_MAJOR	1
+#define FX2LAFW_VERSION_MINOR	0

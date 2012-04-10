@@ -95,19 +95,30 @@ static void setup_endpoints(void)
 	SYNCDELAY();
 }
 
+static void send_fw_version(void)
+{
+	/* Populate the buffer */
+	struct version_info *const vi = (struct version_info*)EP0BUF;
+	vi->major = FX2LAFW_VERSION_MAJOR;
+	vi->minor = FX2LAFW_VERSION_MINOR;
+
+	/* Send the message */
+	EP0BCH = 0;
+	EP0BCL = sizeof(struct version_info);
+}
+
 BOOL handle_vendorcommand(BYTE cmd)
 {
 	/* Protocol implementation */
 	switch (cmd) {
 	case CMD_START:
-		/* There is data to receive - arm EP0 */
-		EP0BCL = 0;
-	case CMD_GET_FW_VERSION:
 		vendor_command = cmd;
+		EP0BCL = 0;
 		return TRUE;
-	default:
-		/* Unimplemented command. */
-		break;
+
+	case CMD_GET_FW_VERSION:
+		send_fw_version();
+		return TRUE;
 	}
 
 	return FALSE;
@@ -228,13 +239,6 @@ void fx2lafw_poll(void)
 
 	if (vendor_command) {
 		switch (vendor_command) {
-		case CMD_GET_FW_VERSION:
-			/* TODO */
-
-			/* Acknowledge the vendor command. */
-			vendor_command = 0;
-			break;
-
 		case CMD_START:
 			if((EP0CS & bmEPBUSY) != 0)
 				break;
