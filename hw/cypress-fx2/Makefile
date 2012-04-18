@@ -22,6 +22,6 @@ SOURCES = \
 	../../fx2lafw.c \
 	../../gpif-acquisition.c
 A51_SOURCES = dscr.a51
-BASENAME = cypress-fx2
+BASENAME = fx2lafw-cypress-fx2
 
 include ../../Makefile.include
