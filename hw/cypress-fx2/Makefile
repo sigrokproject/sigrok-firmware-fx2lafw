@@ -1,7 +1,7 @@
 ##
 ## This file is part of the fx2lafw project.
 ##
-## Copyright (C) 2012 Uwe Hermann <uwe@hermann-uwe.de>
+## Copyright (C) 2012 Joel Holdsworth <joel@airwebreathe.org.uk>
 ##
 ## This program is free software; you can redistribute it and/or modify
 ## it under the terms of the GNU General Public License as published by
@@ -18,25 +18,10 @@
 ## Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
 ##
 
-all: saleae-logic cwav-usbeeax cwav-usbeesx cypress-fx2
+SOURCES = \
+	../../fx2lafw.c \
+	../../gpif-acquisition.c
+A51_SOURCES = dscr.a51
+BASENAME = cypress-fx2
 
-saleae-logic:
-	$(MAKE) -C hw/saleae-logic
-
-cwav-usbeeax:
-	$(MAKE) -C hw/cwav-usbeeax
-
-cwav-usbeesx:
-	$(MAKE) -C hw/cwav-usbeesx
-
-cypress-fx2:
-	$(MAKE) -C hw/cypress-fx2
-
-clean:
-	rm -rf hw/saleae-logic/build
-	rm -rf hw/cwav-usbeeax/build
-	rm -rf hw/cwav-usbeesx/build
-	rm -rf hw/cypress-fx2/build
-
-.PHONY: saleae-logic cwav-usbeeax cwav-usbeesx cypress-fx2
-
+include ../../Makefile.include
