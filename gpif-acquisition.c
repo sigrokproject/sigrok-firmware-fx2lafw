@@ -132,7 +132,7 @@ void gpif_init_la(void)
 	gpif_acquiring = FALSE;
 }
 
-static void gpif_make_delay_data_state(volatile BYTE *pSTATE, uint8_t delay)
+static void gpif_make_delay_state(volatile BYTE *pSTATE, uint8_t delay)
 {
 	/*
 	 * DELAY
@@ -142,10 +142,10 @@ static void gpif_make_delay_data_state(volatile BYTE *pSTATE, uint8_t delay)
 
 	/*
 	 * OPCODE
-	 * SGL=0, GIN=0, INCAD=0, NEXT=0, DATA=1, DP=0
+	 * SGL=0, GIN=0, INCAD=0, NEXT=0, DATA=0, DP=0
 	 * Collect data in this state.
 	 */
-	pSTATE[8] = 0x02;
+	pSTATE[8] = 0x00;
 
 	/*
 	 * OUTPUT
@@ -160,7 +160,7 @@ static void gpif_make_delay_data_state(volatile BYTE *pSTATE, uint8_t delay)
 	pSTATE[24] = 0x00;
 }
 
-static void gpid_make_dp_state(volatile BYTE *pSTATE)
+static void gpid_make_data_dp_state(volatile BYTE *pSTATE)
 {
 	/*
 	 * BRANCH
@@ -170,9 +170,9 @@ static void gpid_make_dp_state(volatile BYTE *pSTATE)
 
 	/*
 	 * OPCODE
-	 * SGL=0, GIN=0, INCAD=0, NEXT=0, DATA=0, DP=1
+	 * SGL=0, GIN=0, INCAD=0, NEXT=0, DATA=1, DP=1
 	 */
-	pSTATE[8] = (1 << 0);
+	pSTATE[8] = (1 << 1) | (1 << 0);
 
 	/*
 	 * OUTPUT
@@ -211,10 +211,10 @@ void gpif_acquisition_start(const struct cmd_start_acquisition *cmd)
 	 *
 	 * This is the basic algorithm implemented in our GPIF state machine:
 	 *
-	 * State 0: NDP: Sample the FIFO data bus.
+	 * State 0: NDP: Delay for a period of time.
 	 * State 1: DP: If EP2 is full, go to state 7 (the IDLE state), i.e.,
-	 *          end the current waveform. Otherwise, go to state 0 again,
-	 *          i.e., sample data until EP2 is full.
+	 *          end the current waveform. Otherwise, sample data and go to
+	 *          state 0 again, i.e., sample data until EP2 is full.
 	 * State 2: Unused.
 	 * State 3: Unused.
 	 * State 4: Unused.
@@ -223,10 +223,10 @@ void gpif_acquisition_start(const struct cmd_start_acquisition *cmd)
 	 */
 
 	/* Populate S0 */
-	gpif_make_delay_data_state(&GPIF_WAVE_DATA, cmd->sample_delay);
+	gpif_make_delay_state(&GPIF_WAVE_DATA, cmd->sample_delay);
 
 	/* Populate S1 - the decision point. */
-	gpid_make_dp_state(&GPIF_WAVE_DATA + 1);
+	gpid_make_data_dp_state(&GPIF_WAVE_DATA + 1);
 
 	/* Execute the whole GPIF waveform once. */
 	gpif_set_tc16(1);
