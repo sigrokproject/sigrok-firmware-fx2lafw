@@ -132,6 +132,62 @@ void gpif_init_la(void)
 	gpif_acquiring = FALSE;
 }
 
+static void gpif_make_delay_data_state(volatile BYTE *pSTATE, uint8_t delay)
+{
+	/*
+	 * DELAY
+	 * Delay cmd->sample_delay clocks.
+	 */
+	pSTATE[0] = delay;
+
+	/*
+	 * OPCODE
+	 * SGL=0, GIN=0, INCAD=0, NEXT=0, DATA=1, DP=0
+	 * Collect data in this state.
+	 */
+	pSTATE[8] = 0x02;
+
+	/*
+	 * OUTPUT
+	 * OE[0:3]=0, CTL[0:3]=0
+	 */
+	pSTATE[16] = 0x00;
+
+	/*
+	 * LOGIC FUNCTION
+	 * Not used.
+	 */
+	pSTATE[24] = 0x00;
+}
+
+static void gpid_make_dp_state(volatile BYTE *pSTATE)
+{
+	/*
+	 * BRANCH
+	 * Branch to IDLE if condition is true, back to S0 otherwise.
+	 */
+	pSTATE[0] = (7 << 3) | (0 << 0);
+
+	/*
+	 * OPCODE
+	 * SGL=0, GIN=0, INCAD=0, NEXT=0, DATA=0, DP=1
+	 */
+	pSTATE[8] = (1 << 0);
+
+	/*
+	 * OUTPUT
+	 * OE[0:3]=0, CTL[0:3]=0
+	 */
+	pSTATE[16] = 0x00;
+
+	/*
+	 * LOGIC FUNCTION
+	 * Evaluate if the FIFO full flag is set.
+	 * LFUNC=0 (AND), TERMA=6 (FIFO Flag), TERMB=6 (FIFO Flag)
+	 */
+	pSTATE[24] = (6 << 3) | (6 << 0);
+}
+
 void gpif_acquisition_start(const struct cmd_start_acquisition *cmd)
 {
 	xdata volatile BYTE *pSTATE;
@@ -166,61 +222,11 @@ void gpif_acquisition_start(const struct cmd_start_acquisition *cmd)
 	 * State 6: Unused.
 	 */
 
-	/* Populate S0. */
-	pSTATE = &GPIF_WAVE_DATA;
-
-	/*
-	 * DELAY
-	 * Delay cmd->sample_delay clocks.
-	 */
-	pSTATE[0] = cmd->sample_delay;
-
-	/*
-	 * OPCODE
-	 * SGL=0, GIN=0, INCAD=0, NEXT=0, DATA=1, DP=0
-	 * Collect data in this state.
-	 */
-	pSTATE[8] = 0x02;
-
-	/*
-	 * OUTPUT
-	 * OE[0:3]=0, CTL[0:3]=0
-	 */
-	pSTATE[16] = 0x00;
-
-	/*
-	 * LOGIC FUNCTION
-	 * Not used.
-	 */
-	pSTATE[24] = 0x00;
+	/* Populate S0 */
+	gpif_make_delay_data_state(&GPIF_WAVE_DATA, cmd->sample_delay);
 
 	/* Populate S1 - the decision point. */
-	pSTATE = &GPIF_WAVE_DATA + 1;
-
-	/*
-	 * BRANCH
-	 * Branch to IDLE if condition is true, back to S0 otherwise.
-	 */
-	pSTATE[0] = (7 << 3) | (0 << 0);
-
-	/*
-	 * OPCODE
-	 * SGL=0, GIN=0, INCAD=0, NEXT=0, DATA=0, DP=1
-	 */
-	pSTATE[8] = (1 << 0);
-
-	/*
-	 * OUTPUT
-	 * OE[0:3]=0, CTL[0:3]=0
-	 */
-	pSTATE[16] = 0x00;
-
-	/*
-	 * LOGIC FUNCTION
-	 * Evaluate if the FIFO full flag is set.
-	 * LFUNC=0 (AND), TERMA=6 (FIFO Flag), TERMB=6 (FIFO Flag)
-	 */
-	pSTATE[24] = (6 << 3) | (6 << 0);
+	gpid_make_dp_state(&GPIF_WAVE_DATA + 1);
 
 	/* Execute the whole GPIF waveform once. */
 	gpif_set_tc16(1);
