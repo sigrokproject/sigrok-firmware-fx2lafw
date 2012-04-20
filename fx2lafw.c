@@ -261,7 +261,7 @@ void fx2lafw_poll(void)
 			if ((EP0CS & bmEPBUSY) != 0)
 				break;
 
-			if (EP0BCL == 2) {
+			if (EP0BCL == sizeof(struct cmd_start_acquisition)) {
 				gpif_acquisition_start(
 				 (const struct cmd_start_acquisition *)EP0BUF);
 			}
