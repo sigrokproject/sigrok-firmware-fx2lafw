@@ -107,6 +107,19 @@ static void send_fw_version(void)
 	EP0BCL = sizeof(struct version_info);
 }
 
+static void send_revid_version(void)
+{
+	uint8_t *p;
+
+	/* Populate the buffer. */
+	p = (uint8_t *)EP0BUF;
+	*p = REVID;
+
+	/* Send the message. */
+	EP0BCH = 0;
+	EP0BCL = 1;
+}
+
 BOOL handle_vendorcommand(BYTE cmd)
 {
 	/* Protocol implementation */
@@ -118,6 +131,10 @@ BOOL handle_vendorcommand(BYTE cmd)
 		break;
 	case CMD_GET_FW_VERSION:
 		send_fw_version();
+		return TRUE;
+		break;
+	case CMD_GET_REVID_VERSION:
+		send_revid_version();
 		return TRUE;
 		break;
 	}
