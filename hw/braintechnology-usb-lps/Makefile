@@ -18,29 +18,10 @@
 ## Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
 ##
 
-all: saleae-logic cwav-usbeeax cwav-usbeesx cypress-fx2 braintechnology-usb-lps
+SOURCES = \
+	../../fx2lafw.c \
+	../../gpif-acquisition.c
+A51_SOURCES = dscr.a51
+BASENAME = fx2lafw-braintechnology-usb-lps
 
-saleae-logic:
-	$(MAKE) -C hw/saleae-logic
-
-cwav-usbeeax:
-	$(MAKE) -C hw/cwav-usbeeax
-
-cwav-usbeesx:
-	$(MAKE) -C hw/cwav-usbeesx
-
-cypress-fx2:
-	$(MAKE) -C hw/cypress-fx2
-
-braintechnology-usb-lps:
-	$(MAKE) -C hw/braintechnology-usb-lps
-
-clean:
-	rm -rf hw/saleae-logic/build
-	rm -rf hw/cwav-usbeeax/build
-	rm -rf hw/cwav-usbeesx/build
-	rm -rf hw/cypress-fx2/build
-	rm -rf hw/braintechnology-usb-lps/build
-
-.PHONY: saleae-logic cwav-usbeeax cwav-usbeesx cypress-fx2 braintechnology-usb-lps
-
+include ../../Makefile.include
