@@ -188,9 +188,10 @@ static void gpid_make_data_dp_state(volatile BYTE *pSTATE)
 	pSTATE[24] = (6 << 3) | (6 << 0);
 }
 
-void gpif_acquisition_start(const struct cmd_start_acquisition *cmd)
+bool gpif_acquisition_start(const struct cmd_start_acquisition *cmd)
 {
-	xdata volatile BYTE *pSTATE;
+	int i;
+	volatile BYTE *pSTATE = &GPIF_WAVE_DATA;
 
 	/* Ensure GPIF is idle before reconfiguration. */
 	while (!(GPIFTRIG & 0x80));
@@ -204,29 +205,19 @@ void gpif_acquisition_start(const struct cmd_start_acquisition *cmd)
 			   bmGSTATE | bmIFGPIF;
 	}
 
-	/* GPIF terminology: DP = decision point, NDP = non-decision-point */
+	/* Populate delay states */
+	if((cmd->sample_delay_h == 0 && cmd->sample_delay_l == 0) ||
+		cmd->sample_delay_h >= 6)
+		return false;
 
-	/*
-	 * Populate WAVEDATA.
-	 *
-	 * This is the basic algorithm implemented in our GPIF state machine:
-	 *
-	 * State 0: NDP: Delay for a period of time.
-	 * State 1: DP: If EP2 is full, go to state 7 (the IDLE state), i.e.,
-	 *          end the current waveform. Otherwise, sample data and go to
-	 *          state 0 again, i.e., sample data until EP2 is full.
-	 * State 2: Unused.
-	 * State 3: Unused.
-	 * State 4: Unused.
-	 * State 5: Unused.
-	 * State 6: Unused.
-	 */
+	for(i = 0; i < cmd->sample_delay_h; i++)
+		gpif_make_delay_state(pSTATE++, 0);
 
-	/* Populate S0 */
-	gpif_make_delay_state(&GPIF_WAVE_DATA, cmd->sample_delay);
+	if(cmd->sample_delay_l != 0)
+		gpif_make_delay_state(pSTATE++, cmd->sample_delay_l);
 
 	/* Populate S1 - the decision point. */
-	gpid_make_data_dp_state(&GPIF_WAVE_DATA + 1);
+	gpid_make_data_dp_state(pSTATE++);
 
 	/* Execute the whole GPIF waveform once. */
 	gpif_set_tc16(1);
@@ -236,6 +227,8 @@ void gpif_acquisition_start(const struct cmd_start_acquisition *cmd)
 
 	/* Update the status. */
 	gpif_acquiring = TRUE;
+
+	return true;
 }
 
 void gpif_poll(void)

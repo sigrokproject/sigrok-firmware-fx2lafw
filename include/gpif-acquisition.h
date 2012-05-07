@@ -18,10 +18,12 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
  */
 
+#include <stdbool.h>
+
 #include <command.h>
 
 void gpif_init_la(void);
 
-void gpif_acquisition_start(const struct cmd_start_acquisition *cmd);
+bool gpif_acquisition_start(const struct cmd_start_acquisition *cmd);
 
 void gpif_poll(void);
