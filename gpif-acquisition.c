@@ -196,8 +196,8 @@ bool gpif_acquisition_start(const struct cmd_start_acquisition *cmd)
 	/* Ensure GPIF is idle before reconfiguration. */
 	while (!(GPIFTRIG & 0x80));
 
-	/* Configure the EP2 FIFO */
-	if(cmd->flags & CMD_START_FLAGS_SAMPLE_16BIT) {
+	/* Configure the EP2 FIFO. */
+	if (cmd->flags & CMD_START_FLAGS_SAMPLE_16BIT) {
 		EP2FIFOCFG = bmAUTOIN | bmWORDWIDE;
 	} else {
 		EP2FIFOCFG = bmAUTOIN;
@@ -213,15 +213,15 @@ bool gpif_acquisition_start(const struct cmd_start_acquisition *cmd)
 			   bmGSTATE | bmIFGPIF;
 	}
 
-	/* Populate delay states */
-	if((cmd->sample_delay_h == 0 && cmd->sample_delay_l == 0) ||
-		cmd->sample_delay_h >= 6)
+	/* Populate delay states. */
+	if ((cmd->sample_delay_h == 0 && cmd->sample_delay_l == 0) ||
+	    cmd->sample_delay_h >= 6)
 		return false;
 
-	for(i = 0; i < cmd->sample_delay_h; i++)
+	for (i = 0; i < cmd->sample_delay_h; i++)
 		gpif_make_delay_state(pSTATE++, 0);
 
-	if(cmd->sample_delay_l != 0)
+	if (cmd->sample_delay_l != 0)
 		gpif_make_delay_state(pSTATE++, cmd->sample_delay_l);
 
 	/* Populate S1 - the decision point. */
