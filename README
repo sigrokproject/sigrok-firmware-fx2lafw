@@ -7,6 +7,7 @@ the Cypress EZ-USB FX2(LP) chip.
 
 It is licensed under the terms of the GNU GPL (version 2 or later).
 
+
 Requirements
 ------------
 
@@ -16,9 +17,6 @@ On Debian you can install it via:
 
   $ apt-get install sdcc
 
-In order to transfer the firmware onto the FX2 chip, you can use cycfx2prog:
-
-  $ apt-get install cycfx2prog
 
 Building
 --------
@@ -28,16 +26,25 @@ Building
   $ git clone git://github.com/mulicheng/fx2lib.git
   $ make
 
+
 Usage
 -----
 
- $ cycfx2prog -id=vvvv:pppp prg:<device>.ihx reset run delay:100
+Copy the generated *.fw file for your device (e.g. fx2lafw-saleae-logic.fw)
+into the $prefix/share/sigrok-firmware directory (create it, if needed).
 
-You have to provide the USB VID/PID of the FX2 device (before firmware
-upload) using the -id parameter.
+Replace $prefix with the install prefix of sigrok, e.g. /usr or /usr/local.
 
-Replace <device>.ihx with the respective .ihx file from the
-hw/*/build/ directory, e.g. hw/saleae-logic/build/fx2lafw-saleae-logic.ihx.
+Example (assuming /usr/local as $prefix):
+
+  $ sudo mkdir /usr/local/share/sigrok-firmware
+
+  $ sudo cp hw/saleae-logic/build/fx2lafw-saleae-logic.fw \
+            /usr/local/share/sigrok-firmware
+
+The sigrok frontends (command-line or GUI) will automatically search for
+firmware files there and automatically use/upload them.
+  
 
 Website
 -------
