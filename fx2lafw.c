@@ -28,10 +28,9 @@
  *
  *  - We use the FX2 in GPIF mode to sample the data (asynchronously).
  *  - We use the internal 48MHz clock for GPIF.
- *  - The 8 channels/pins we sample (the GPIF data bus) are PB0-PB7.
- *    Support for 16 channels is not yet included, but might be added later.
- *  - Endpoint 2 is used for data transfers from FX2 to host.
- *  - The endpoint is quad-buffered.
+ *  - The 8 channels/pins we sample (the GPIF data bus) are PB0-PB7,
+ *    or PB0-PB7 + PD0-PD7 for 16-channel sampling. 
+ *  - Endpoint 2 (quad-buffered) is used for data transfers from FX2 to host.
  *
  * Documentation:
  *
@@ -44,7 +43,6 @@
 #include <setupdat.h>
 #include <eputils.h>
 #include <gpif.h>
-
 #include <command.h>
 #include <fx2lafw.h>
 #include <gpif-acquisition.h>
@@ -157,7 +155,7 @@ BOOL handle_set_interface(BYTE ifc, BYTE alt_ifc)
 	/* We only support interface 0, alternate interface 0. */
 	if (ifc != 0 || alt_ifc != 0)
 		return FALSE;
-	
+
 	/* Perform procedure from TRM, section 2.3.7: */
 
 	/* (1) TODO. */

@@ -18,9 +18,7 @@
 ## Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
 ##
 
-SOURCES = \
-	../../fx2lafw.c \
-	../../gpif-acquisition.c
+SOURCES = ../../fx2lafw.c ../../gpif-acquisition.c
 A51_SOURCES = dscr.a51
 BASENAME = fx2lafw-cwav-usbeeax
 

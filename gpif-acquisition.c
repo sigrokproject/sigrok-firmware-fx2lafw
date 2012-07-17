@@ -71,7 +71,7 @@ static void gpif_setup_registers(void)
 	/* Contains RDY* pin values. Read-only according to TRM. */
 	GPIFREADYSTAT = 0;
 
-	/* Make GPIF stop on transcation count not flag */
+	/* Make GPIF stop on transaction count not flag. */
 	EP2GPIFPFSTOP = (0 << 0);
 }
 
@@ -128,7 +128,7 @@ void gpif_init_la(void)
 	/* Initialize flowstate registers (not used by us). */
 	gpif_init_flowstates();
 
-	/* Reset the status */
+	/* Reset the status. */
 	gpif_acquiring = FALSE;
 }
 

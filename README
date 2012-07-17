@@ -5,17 +5,20 @@ fx2lafw
 fx2lafw is a free/libre/open-source firmware for logic analyzers based on
 the Cypress EZ-USB FX2(LP) chip.
 
-It is licensed under the terms of the GNU GPL (version 2 or later).
+It is licensed under the terms of the GNU GPL (version 2 or later), and uses
+additional helper code licensed under the GNU LGPL (version 2.1 or later).
 
 
 Requirements
 ------------
 
-In order to build fx2lafw you need the 'sdcc' compiler.
+ - In order to build fx2lafw you need the 'sdcc' compiler.
+   On Debian you can install it via:
 
-On Debian you can install it via:
+     $ apt-get install sdcc
 
-  $ apt-get install sdcc
+ - You need libsigrok >= 0.1.1 in order to make use of fx2lafw. Earlier
+   versions didn't have support for FX2 devices using this firmware.
 
 
 Building
