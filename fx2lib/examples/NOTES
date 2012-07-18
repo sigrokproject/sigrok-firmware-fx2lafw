@@ -1,0 +1,67 @@
+The examples here show various firmware examples and also various ways to
+start new firmware projects as well as various ways to start communicating with your device.
+In addition, you can look at the fx2.mk include and the example project Makefiles
+to see how you might set up your own project.
+
+For simple examples, you can ignore the link warnings. (Those pertain to the usb jump table
+and device descriptor areas and are not used for all examples)
+
+You can move up the food chain of programming languages pretty quickly if you like:
+
+      C:    Program Your Firmware
+    C++:    Write a libusb driver
+ Python:    Write Bindings for your driver so you can test things interactively!
+
+fx2:
+ An example firmware loader and basic firmware terminal using the above strategy.
+ Requires libusb-1.0, Python 2.5
+
+ Installation:
+  cd fx2
+  python setup.py install
+
+
+ Use the fx2load w/ reset_bix function to load firmware onto a device.
+ Example:
+  python
+  > from fx2load import *
+  > openfx2()
+  > reset_bix('<path to bix file>')
+  > f.do_usb_command (.....
+  > f.ep_bulk(......
+ 
+ There is also an fx2load script for doing the same thing with the command line.
+
+eeprom:
+ Simple firmware for reading and writing information from the eeprom.  The client.py
+ file contains a function to read an existing prom image.
+
+
+lights:
+ A really simple program that cycles the lights on the CY3864 development board.
+
+bulkloop:
+ Demonstrations:
+  * looping data on endpoints.
+  * Custom device descriptor.
+  * Vendor commands.
+  * Usb jump table.
+  * serial IO
+
+i2c:
+ A port of the Cypress i2c example.
+
+reset:
+ Shows writing to the eeprom on the dev board.  The included iic data is the default data
+ on the dev board and you can use this program to reset your board back to the default 
+ state if you happen to write a non-working iic file to the device.  You shouldn't 
+ probably use this on a real board unless you really know what you're doing :)
+
+
+serial:
+ A simple terminal echo firmware.  Echos whatever you type back to the serial terminal.
+
+timers:
+ Demonstrates setting up timers t0, t1, and t2 to be 16 bit counters and also demonstrates
+ installing interrupts to process the timer overlow.
+

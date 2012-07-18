@@ -23,7 +23,6 @@ Building
 
   $ git clone git://sigrok.git.sourceforge.net/gitroot/sigrok/fx2lafw
   $ cd fx2lafw
-  $ git clone git://github.com/mulicheng/fx2lib.git
   $ make
 
 

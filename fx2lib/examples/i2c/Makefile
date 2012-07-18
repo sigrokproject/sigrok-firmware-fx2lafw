@@ -1,0 +1,8 @@
+FX2LIBDIR=../..
+BASENAME = i2c
+SOURCES=i2c.c
+DSCR_AREA=
+INT2JT=
+include $(FX2LIBDIR)/lib/fx2.mk	
+
+
