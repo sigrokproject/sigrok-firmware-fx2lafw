@@ -27,7 +27,7 @@
 #include <fx2lafw.h>
 #include <gpif-acquisition.h>
 
-bit gpif_acquiring;
+__bit gpif_acquiring;
 
 static void gpif_reset_waveforms(void)
 {

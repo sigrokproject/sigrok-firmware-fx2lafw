@@ -50,7 +50,7 @@
 #include <gpif-acquisition.h>
 
 /* ... */
-volatile bit got_sud;
+volatile __bit got_sud;
 BYTE vendor_command;
 
 static void setup_endpoints(void)
@@ -194,24 +194,24 @@ BOOL handle_set_configuration(BYTE cfg)
 	return (cfg == 1) ? TRUE : FALSE;
 }
 
-void sudav_isr(void) interrupt SUDAV_ISR
+void sudav_isr(void) __interrupt SUDAV_ISR
 {
 	got_sud = TRUE;
 	CLEAR_SUDAV();
 }
 
-void sof_isr(void) interrupt SOF_ISR using 1
+void sof_isr(void) __interrupt SOF_ISR __using 1
 {
 	CLEAR_SOF();
 }
 
-void usbreset_isr(void) interrupt USBRESET_ISR
+void usbreset_isr(void) __interrupt USBRESET_ISR
 {
 	handle_hispeed(FALSE);
 	CLEAR_USBRESET();
 }
 
-void hispeed_isr(void) interrupt HISPEED_ISR
+void hispeed_isr(void) __interrupt HISPEED_ISR
 {
 	handle_hispeed(TRUE);
 	CLEAR_HISPEED();
