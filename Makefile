@@ -18,7 +18,11 @@
 ## Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
 ##
 
-all: saleae-logic cwav-usbeeax cwav-usbeesx cypress-fx2 braintechnology-usb-lps
+DESTDIR ?= /usr/local/share/sigrok-firmware
+
+all: build-all
+
+build-all: saleae-logic cwav-usbeeax cwav-usbeesx cypress-fx2 braintechnology-usb-lps
 
 saleae-logic:
 	$(MAKE) -C hw/saleae-logic
@@ -35,12 +39,20 @@ cypress-fx2:
 braintechnology-usb-lps:
 	$(MAKE) -C hw/braintechnology-usb-lps
 
+install: build-all
+	@mkdir -p $(DESTDIR)
+	@cp hw/saleae-logic/build/*.fw $(DESTDIR)
+	@cp hw/cwav-usbeeax/build/*.fw $(DESTDIR)
+	@cp hw/cwav-usbeesx/build/*.fw $(DESTDIR)
+	@cp hw/cypress-fx2/build/*.fw $(DESTDIR)
+	@cp hw/braintechnology-usb-lps/build/*.fw $(DESTDIR)
+
 clean:
-	rm -rf hw/saleae-logic/build
-	rm -rf hw/cwav-usbeeax/build
-	rm -rf hw/cwav-usbeesx/build
-	rm -rf hw/cypress-fx2/build
-	rm -rf hw/braintechnology-usb-lps/build
+	@rm -rf hw/saleae-logic/build
+	@rm -rf hw/cwav-usbeeax/build
+	@rm -rf hw/cwav-usbeesx/build
+	@rm -rf hw/cypress-fx2/build
+	@rm -rf hw/braintechnology-usb-lps/build
 
 .PHONY: saleae-logic cwav-usbeeax cwav-usbeesx cypress-fx2 braintechnology-usb-lps
 
