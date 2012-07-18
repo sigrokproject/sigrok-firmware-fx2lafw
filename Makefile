@@ -39,6 +39,9 @@ cypress-fx2:
 braintechnology-usb-lps:
 	$(MAKE) -C hw/braintechnology-usb-lps
 
+ChangeLog:
+	@git log > ChangeLog || touch ChangeLog
+
 install: build-all
 	@mkdir -p $(DESTDIR)
 	@cp hw/saleae-logic/build/*.fw $(DESTDIR)
