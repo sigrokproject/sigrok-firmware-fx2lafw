@@ -20,16 +20,30 @@ INCLUDES = -I../include
 SDCC = sdcc -mmcs51 $(SDCCFLAGS)
 LIBS = fx2.lib
 
+# The sdcc 8051 assembler binary has/had different names.
+ifneq ($(shell which sdas8051),)
+# Newer sdcc, Debian / Ubuntu
+SDAS8051 = sdas8051
+endif
+ifneq ($(shell which sdcc-sdas8051),)
+# Newer sdcc, Fedora
+SDAS8051 = sdcc-sdas8051
+endif
+ifneq ($(shell which asx8051),)
+# Older sdcc
+SDAS8051 = asx8051
+endif
+
 all: $(LIBS)
 
 $(LIBS): $(FX2_OBJS)
 	sdcclib fx2.lib $?
 
 usbav.rel: usbav.a51
-	sdas8051 -logs usbav.a51
+	$(SDAS8051) -logs usbav.a51
 
 int4av.rel: int4av.a51
-	sdas8051 -logs int4av.a51
+	$(SDAS8051) -logs int4av.a51
 
 %.rel: %.c
 	$(SDCC) $(INCLUDES) -c $< -o $@

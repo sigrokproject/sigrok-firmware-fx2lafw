@@ -35,6 +35,20 @@
 #
 #
 
+# The sdcc 8051 assembler binary has/had different names.
+ifneq ($(shell which sdas8051),)
+# Newer sdcc, Debian / Ubuntu
+SDAS8051 = sdas8051
+endif
+ifneq ($(shell which sdcc-sdas8051),)
+# Newer sdcc, Fedora
+SDAS8051 = sdcc-sdas8051
+endif
+ifneq ($(shell which asx8051),)
+# Older sdcc
+SDAS8051 = asx8051
+endif
+
 VID?=0x04b4
 PID?=0x8613
 
@@ -78,7 +92,7 @@ $(BUILDDIR)/$(BASENAME).ihx: $(BUILDDIR) $(SOURCES) $(A51_SOURCES) $(FX2LIBDIR)/
 # to differentiate the dependency.  (Is it %.rel: %.c or %.a51)
 	for a in $(A51_SOURCES); do \
 	 cp $$a $(BUILDDIR)/; \
-	 cd $(BUILDDIR) && sdas8051 -logs `basename $$a` && cd ..; done
+	 cd $(BUILDDIR) && $(SDAS8051) -logs `basename $$a` && cd ..; done
 	for s in $(SOURCES); do \
 	 THISREL=$$(basename `echo "$$s" | sed -e 's/\.c$$/\.rel/'`); \
 	 $(CC) -c -I $(FX2LIBDIR)/include $$s -o $(BUILDDIR)/$$THISREL ; done
