@@ -18,7 +18,14 @@
 ## Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
 ##
 
+# sigrok-firmware-fx2lafw package/tarball version number.
+VERSION = "0.1.0"
+
 DESTDIR ?= /usr/local/share/sigrok-firmware
+
+REPO = git://sigrok.git.sourceforge.net/gitroot/sigrok/fx2lafw
+
+TARBALLDIR = sigrok-firmware-fx2lafw-$(VERSION)
 
 all: build-all
 
@@ -41,6 +48,12 @@ braintechnology-usb-lps:
 
 ChangeLog:
 	@git log > ChangeLog || touch ChangeLog
+
+dist:
+	git clone $(REPO) $(TARBALLDIR)
+	cd $(TARBALLDIR) && $(MAKE) ChangeLog && cd ..
+	@tar -c -z -f $(TARBALLDIR).tar.gz $(TARBALLDIR)
+	@rm -rf $(TARBALLDIR)
 
 install: build-all
 	@mkdir -p $(DESTDIR)
