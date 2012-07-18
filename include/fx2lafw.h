@@ -18,9 +18,14 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
  */
 
+#ifndef FX2LAFW_FX2LAFW_H
+#define FX2LAFW_FX2LAFW_H
+
 #include <autovector.h>
 
 #define SYNCDELAY() SYNCDELAY4
 
 #define FX2LAFW_VERSION_MAJOR	1
 #define FX2LAFW_VERSION_MINOR	0
+
+#endif
