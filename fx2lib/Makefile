@@ -6,11 +6,11 @@ TAG=HEAD
 .PHONY: all docs
 
 all:
-	make -C lib
+	$(MAKE) -C lib
 
 docs:
 	doxygen docs/docs.conf
-	make -C docs/intro
+	$(MAKE) -C docs/intro
 
 dist: all docs
 	mkdir -p build	
