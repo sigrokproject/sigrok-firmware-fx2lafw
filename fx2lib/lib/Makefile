@@ -21,15 +21,15 @@ SDCC = sdcc -mmcs51 $(SDCCFLAGS)
 LIBS = fx2.lib
 
 # The sdcc 8051 assembler binary has/had different names.
-ifneq ($(shell which sdas8051),)
+ifneq ($(shell which sdas8051 2>/dev/null),)
 # Newer sdcc, Debian / Ubuntu
 SDAS8051 = sdas8051
 endif
-ifneq ($(shell which sdcc-sdas8051),)
+ifneq ($(shell which sdcc-sdas8051 2>/dev/null),)
 # Newer sdcc, Fedora
 SDAS8051 = sdcc-sdas8051
 endif
-ifneq ($(shell which asx8051),)
+ifneq ($(shell which asx8051 2>/dev/null),)
 # Older sdcc
 SDAS8051 = asx8051
 endif
