@@ -49,6 +49,10 @@ int4av.rel: int4av.a51
 	$(SDCC) $(INCLUDES) -c $< -o $@
 
 clean:
-	rm -f *.{asm,ihx,lnk,lst,map,mem,rel,rst,sym,adb,cdb,lib}
-	rm -f interrupts/*.{asm,ihx,lnk,lst,map,mem,rel,rst,sym,adb,dcb,lib}
+	rm -f *.asm *.ihx *.lnk *.lst *.map *.mem *.rel *.rst *.sym
+	rm -f *.adb *.cdb *.lib
+	rm -f interrupts/*.asm interrupts/*.ihx interrupts/*.lnk
+	rm -f interrupts/*.lst interrupts/*.map interrupts/*.mem
+	rm -f interrupts/*.rel interrupts/*.rst interrupts/*.sym
+	rm -f interrupts/*.adb interrupts/*.dcb interrupts/*.lib
 

@@ -21,4 +21,5 @@ dist: all docs
 		fx2lib/docs/intro/intro.pdf
 	cat build/fx2-$(VER).tar | gzip > build/fx2-$(VER).tgz
 	
-
+clean:
+	$(MAKE) -C lib clean

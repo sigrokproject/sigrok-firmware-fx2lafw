@@ -69,6 +69,7 @@ clean:
 	@rm -rf hw/cwav-usbeesx/build
 	@rm -rf hw/cypress-fx2/build
 	@rm -rf hw/braintechnology-usb-lps/build
+	$(MAKE) -C fx2lib clean
 
 .PHONY: saleae-logic cwav-usbeeax cwav-usbeesx cypress-fx2 braintechnology-usb-lps
 
