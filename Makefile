@@ -32,26 +32,27 @@ all: build-all
 build-all: saleae-logic cwav-usbeeax cwav-usbeesx cypress-fx2 braintechnology-usb-lps
 
 saleae-logic:
-	$(MAKE) -C hw/saleae-logic
+	@$(MAKE) -C hw/saleae-logic
 
 cwav-usbeeax:
-	$(MAKE) -C hw/cwav-usbeeax
+	@$(MAKE) -C hw/cwav-usbeeax
 
 cwav-usbeesx:
-	$(MAKE) -C hw/cwav-usbeesx
+	@$(MAKE) -C hw/cwav-usbeesx
 
 cypress-fx2:
-	$(MAKE) -C hw/cypress-fx2
+	@$(MAKE) -C hw/cypress-fx2
 
 braintechnology-usb-lps:
-	$(MAKE) -C hw/braintechnology-usb-lps
+	@$(MAKE) -C hw/braintechnology-usb-lps
 
 ChangeLog:
 	@git log > ChangeLog || touch ChangeLog
 
 dist:
-	git clone $(REPO) $(TARBALLDIR)
-	cd $(TARBALLDIR) && $(MAKE) ChangeLog && cd ..
+	@git clone $(REPO) $(TARBALLDIR)
+	@cd $(TARBALLDIR) && $(MAKE) ChangeLog && cd ..
+	@rm -rf $(TARBALLDIR)/.git
 	@tar -c -z -f $(TARBALLDIR).tar.gz $(TARBALLDIR)
 	@rm -rf $(TARBALLDIR)
 
@@ -69,7 +70,7 @@ clean:
 	@rm -rf hw/cwav-usbeesx/build
 	@rm -rf hw/cypress-fx2/build
 	@rm -rf hw/braintechnology-usb-lps/build
-	$(MAKE) -C fx2lib clean
+	@$(MAKE) -C fx2lib clean
 
 .PHONY: saleae-logic cwav-usbeeax cwav-usbeesx cypress-fx2 braintechnology-usb-lps
 
