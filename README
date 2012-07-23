@@ -30,23 +30,16 @@ Building
   $ make
 
 
-Usage
------
+Installation
+------------
 
-Copy the generated *.fw file for your device (e.g. fx2lafw-saleae-logic.fw)
-into the $prefix/share/sigrok-firmware directory (create it, if needed).
+  $ sudo make install
 
-Replace $prefix with the install prefix of sigrok, e.g. /usr or /usr/local.
+The generated *.fw files are installed into /usr/local/share/sigrok-firmware.
 
-Example (assuming /usr/local as $prefix):
+You can override the install location like this:
 
-  $ sudo mkdir /usr/local/share/sigrok-firmware
-
-  $ sudo cp hw/saleae-logic/build/fx2lafw-saleae-logic.fw \
-            /usr/local/share/sigrok-firmware
-
-The sigrok frontends (command-line or GUI) will automatically search for
-firmware files there and automatically use/upload them.
+  $ sudo make install DESTDIR=/usr/share/sigrok-firmware
 
 
 fx2lib
