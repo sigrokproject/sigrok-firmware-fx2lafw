@@ -1,9 +1,0 @@
-*.asm
-*.lst
-*.rel
-*.rst
-*.sym
-*.map
-*.mem
-*.bix
-*.iic

@@ -6,7 +6,8 @@ fx2lafw is a free/libre/open-source firmware for logic analyzers based on
 the Cypress EZ-USB FX2(LP) chip.
 
 It is licensed under the terms of the GNU GPL (version 2 or later), and uses
-additional helper code licensed under the GNU LGPL (version 2.1 or later).
+additional helper code (fx2lib), licensed under the GNU LGPL (version 2.1
+or later).
 
 
 Requirements
@@ -46,7 +47,22 @@ Example (assuming /usr/local as $prefix):
 
 The sigrok frontends (command-line or GUI) will automatically search for
 firmware files there and automatically use/upload them.
-  
+
+
+fx2lib
+------
+
+The fx2lafw code uses a (slightly modified) "fx2lib" helper library.
+
+It was imported into fx2lafw from
+
+  git://github.com/ubixum/fx2lib.git
+
+as of Feb 12, 2012 (git hash "416c104cbd").
+
+The following files/directories were removed, as they're not needed
+for our purposes: CHANGELOG, COPYING*, docs/, examples/, fw/, and utils/.
+
 
 Website
 -------
