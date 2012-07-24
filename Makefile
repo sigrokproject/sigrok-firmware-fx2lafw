@@ -26,6 +26,7 @@ DESTDIR ?= /usr/local/share/sigrok-firmware
 REPO = git://sigrok.git.sourceforge.net/gitroot/sigrok/fx2lafw
 
 TARBALLDIR = sigrok-firmware-fx2lafw-$(VERSION)
+TARBALLBINDIR = sigrok-firmware-fx2lafw-bin-$(VERSION)
 
 all: build-all
 
@@ -55,6 +56,14 @@ dist:
 	@rm -rf $(TARBALLDIR)/.git
 	@tar -c -z -f $(TARBALLDIR).tar.gz $(TARBALLDIR)
 	@rm -rf $(TARBALLDIR)
+
+distbin: build-all ChangeLog
+	@mkdir $(TARBALLBINDIR)
+	@cp hw/*/build/*.fw $(TARBALLBINDIR)
+	@cp README NEWS ChangeLog $(TARBALLBINDIR)
+	@tar -c -z -f $(TARBALLBINDIR).tar.gz $(TARBALLBINDIR)
+	@rm -rf $(TARBALLBINDIR)
+	@rm -f ChangeLog
 
 install: build-all
 	@mkdir -p $(DESTDIR)
