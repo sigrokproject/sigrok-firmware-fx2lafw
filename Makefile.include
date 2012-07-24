@@ -22,7 +22,7 @@
 OBJCOPY ?= objcopy
 FX2LIBDIR ?= ../../fx2lib
 BUILDDIR ?= build
-SDCCFLAGS += -I../../include/
+SDCCFLAGS += -I../../include
 
 $(BUILDDIR)/$(BASENAME).fw: $(BUILDDIR)/$(BASENAME).ihx
 	$(OBJCOPY) -Iihex $< -Obinary $@
