@@ -30,13 +30,16 @@ TARBALLBINDIR = sigrok-firmware-fx2lafw-bin-$(VERSION)
 
 all: build-all
 
-build-all: saleae-logic cwav-usbeeax cwav-usbeesx cypress-fx2 braintechnology-usb-lps
+build-all: saleae-logic cwav-usbeeax cwav-usbeedx cwav-usbeesx cypress-fx2 braintechnology-usb-lps
 
 saleae-logic:
 	@$(MAKE) -C hw/saleae-logic
 
 cwav-usbeeax:
 	@$(MAKE) -C hw/cwav-usbeeax
+
+cwav-usbeedx:
+	@$(MAKE) -C hw/cwav-usbeedx
 
 cwav-usbeesx:
 	@$(MAKE) -C hw/cwav-usbeesx
@@ -69,6 +72,7 @@ install: build-all
 	@mkdir -p $(DESTDIR)
 	@cp hw/saleae-logic/build/*.fw $(DESTDIR)
 	@cp hw/cwav-usbeeax/build/*.fw $(DESTDIR)
+	@cp hw/cwav-usbeedx/build/*.fw $(DESTDIR)
 	@cp hw/cwav-usbeesx/build/*.fw $(DESTDIR)
 	@cp hw/cypress-fx2/build/*.fw $(DESTDIR)
 	@cp hw/braintechnology-usb-lps/build/*.fw $(DESTDIR)
@@ -76,10 +80,10 @@ install: build-all
 clean:
 	@rm -rf hw/saleae-logic/build
 	@rm -rf hw/cwav-usbeeax/build
+	@rm -rf hw/cwav-usbeedx/build
 	@rm -rf hw/cwav-usbeesx/build
 	@rm -rf hw/cypress-fx2/build
 	@rm -rf hw/braintechnology-usb-lps/build
 	@$(MAKE) -C fx2lib clean
 
-.PHONY: saleae-logic cwav-usbeeax cwav-usbeesx cypress-fx2 braintechnology-usb-lps
-
+.PHONY: saleae-logic cwav-usbeeax cwav-usbeedx cwav-usbeesx cypress-fx2 braintechnology-usb-lps
