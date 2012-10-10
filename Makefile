@@ -23,7 +23,7 @@ VERSION = "0.1.0"
 
 DESTDIR ?= /usr/local/share/sigrok-firmware
 
-REPO = git://sigrok.git.sourceforge.net/gitroot/sigrok/fx2lafw
+REPO = git://sigrok.org/sigrok-firmware-fx2lafw
 
 TARBALLDIR = sigrok-firmware-fx2lafw-$(VERSION)
 TARBALLBINDIR = sigrok-firmware-fx2lafw-bin-$(VERSION)
