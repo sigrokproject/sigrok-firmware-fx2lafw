@@ -1,13 +1,24 @@
-------------------------------------------------------------------------------
-fx2lafw
-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
+README
+-------------------------------------------------------------------------------
 
-fx2lafw is a free/libre/open-source firmware for logic analyzers based on
+The sigrok project aims at creating a portable, cross-platform,
+Free/Libre/Open-Source signal analysis software suite that supports various
+device types (such as logic analyzers, oscilloscopes, multimeters, and more).
+
+fx2lafw is a Free/Libre/Open-source firmware for logic analyzers based on
 the Cypress EZ-USB FX2(LP) chip.
 
 It is licensed under the terms of the GNU GPL (version 2 or later), and uses
 additional helper code (fx2lib), licensed under the GNU LGPL (version 2.1
 or later).
+
+
+Status
+------
+
+sigrok-firmware-fx2lafw is in a usable state and has had official
+tarball releases.
 
 
 Requirements
@@ -22,24 +33,31 @@ Requirements
    versions didn't have support for FX2 devices using this firmware.
 
 
-Building
---------
+Building and installing
+-----------------------
 
-  $ git clone git://sigrok.git.sourceforge.net/gitroot/sigrok/fx2lafw
-  $ cd fx2lafw
-  $ make
+In order to get the sigrok-firmware-fx2lafw source code and build it, run:
 
+ $ git clone git://sigrok.org/sigrok-firmware-fx2lafw
+ $ cd sigrok-firmware-fx2lafw
+ $ make
 
-Installation
-------------
+For installing sigrok-firmware-fx2lafw:
 
-  $ sudo make install
+ $ make install
 
 The generated *.fw files are installed into /usr/local/share/sigrok-firmware.
 
 You can override the install location like this:
 
-  $ sudo make install DESTDIR=/usr/share/sigrok-firmware
+ $ make install DESTDIR=/usr/share/sigrok-firmware
+
+Please see the following wiki pages for more detailed instructions:
+
+ http://sigrok.org/wiki/Linux
+ http://sigrok.org/wiki/Mac_OS_X
+ http://sigrok.org/wiki/Windows
+ http://sigrok.org/wiki/FreeBSD
 
 
 fx2lib
@@ -57,10 +75,23 @@ The following files/directories were removed, as they're not needed
 for our purposes: CHANGELOG, COPYING*, docs/, examples/, fw/, and utils/.
 
 
+Mailing lists
+-------------
+
+There are two mailing lists for sigrok/sigrok-firmware-fx2lafw:
+
+ https://lists.sourceforge.net/lists/listinfo/sigrok-devel
+ https://lists.sourceforge.net/lists/listinfo/sigrok-commits
+
+
+IRC
+---
+
+You can find the sigrok developers in the #sigrok IRC channel on Freenode.
+
+
 Website
 -------
 
-See the fx2lafw website for further information:
-
-  http://sigrok.org/wiki/Fx2lafw
+ http://sigrok.org/wiki/Fx2lafw
 
