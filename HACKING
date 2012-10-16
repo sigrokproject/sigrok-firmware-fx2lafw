@@ -1,0 +1,51 @@
+-------------------------------------------------------------------------------
+HACKING
+-------------------------------------------------------------------------------
+
+Coding style
+------------
+
+This project is programmed using the Linux kernel coding style, see
+http://lxr.linux.no/linux/Documentation/CodingStyle for details.
+
+Please use the same style for any code contributions, thanks!
+
+In some exceptional cases deviations from the above coding guidelines are
+OK (in order to meet fx2lib related guidelines, for example).
+
+
+Contributions
+-------------
+
+ - Patches should be sent to the development mailinglist at
+   sigrok-devel@lists.sourceforge.net (please subscribe to the list first).
+
+   https://lists.sourceforge.net/lists/listinfo/sigrok-devel
+
+ - Alternatively, you can also clone the git repository and let us know
+   from where to pull/review your changes. You can use gitorious.org,
+   github.com, or any other public git hosting site.
+
+
+Random notes
+------------
+
+ - Consistently use the same naming convention for #include guards in headers:
+   <PROJECTNAME>_<PATH_TO_FILE>_<FILE>
+   This ensures that all #include guards are always unique and consistent.
+   Example: FX2LAFW_INCLUDE_COMMAND_H
+
+ - In Doxygen comments, put an empty line between the block of @param lines
+   and the final @return line. The @param lines themselves (if there is more
+   than one) are not separated by empty lines.
+
+
+Release engineering
+-------------------
+
+See
+
+ http://sigrok.org/wiki/Developers/Release_process
+
+for a list of items that need to be done when releasing a new tarball.
+
