@@ -18,8 +18,8 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
  */
 
-#ifndef FX2LAFW_COMMAND_H
-#define FX2LAFW_COMMAND_H
+#ifndef FX2LAFW_INCLUDE_COMMAND_H
+#define FX2LAFW_INCLUDE_COMMAND_H
 
 #include <stdint.h>
 

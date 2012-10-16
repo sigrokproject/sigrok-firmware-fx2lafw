@@ -18,8 +18,8 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
  */
 
-#ifndef FX2LAFW_GPIF_ACQUISITION_H
-#define FX2LAFW_GPIF_ACQUISITION_H
+#ifndef FX2LAFW_INCLUDE_GPIF_ACQUISITION_H
+#define FX2LAFW_INCLUDE_GPIF_ACQUISITION_H
 
 #include <stdbool.h>
 #include <command.h>
