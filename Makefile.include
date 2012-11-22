@@ -20,11 +20,16 @@
 ##
 
 OBJCOPY ?= objcopy
+MAKEBIN ?= makebin
 FX2LIBDIR ?= ../../fx2lib
 BUILDDIR ?= build
 SDCCFLAGS += -I../../include
 
 $(BUILDDIR)/$(BASENAME).fw: $(BUILDDIR)/$(BASENAME).ihx
+ifneq ($(shell which objcopy 2>/dev/null),)
 	$(OBJCOPY) -Iihex $< -Obinary $@
+else
+	$(MAKEBIN) -p < $< > $@
+endif
 
 include $(FX2LIBDIR)/lib/fx2.mk
