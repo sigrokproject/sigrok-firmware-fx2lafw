@@ -24,10 +24,12 @@ tarball releases.
 Requirements
 ------------
 
- - In order to build fx2lafw you need the 'sdcc' compiler.
+ - In order to build fx2lafw you need the 'sdcc' compiler (>= 2.8.0).
    On Debian you can install it via:
 
      $ apt-get install sdcc
+
+   This project has been tested to work with sdcc 2.8, 2.9, and 3.x.
 
  - You need libsigrok >= 0.1.1 in order to make use of fx2lafw. Earlier
    versions didn't have support for FX2 devices using this firmware.
@@ -40,6 +42,8 @@ In order to get the sigrok-firmware-fx2lafw source code and build it, run:
 
  $ git clone git://sigrok.org/sigrok-firmware-fx2lafw
  $ cd sigrok-firmware-fx2lafw
+ $ ./autogen.sh
+ $ ./configure
  $ make
 
 For installing sigrok-firmware-fx2lafw:
@@ -50,7 +54,7 @@ The generated *.fw files are installed into /usr/local/share/sigrok-firmware.
 
 You can override the install location like this:
 
- $ make install DESTDIR=/usr/share/sigrok-firmware
+ $ ./configure --prefix=/usr
 
 Please see the following wiki pages for more detailed instructions:
 

@@ -22,4 +22,4 @@
 VID = 0xa908	; Manufacturer ID (0x08a9)
 PID = 0x0900	; Product ID (0x0009)
 
-.include "../../../include/dscr.inc"
+.include "dscr.inc"

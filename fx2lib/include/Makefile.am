@@ -1,7 +1,7 @@
 ##
 ## This file is part of the fx2lafw project.
 ##
-## Copyright (C) 2011-2012 Uwe Hermann <uwe@hermann-uwe.de>
+## Copyright (C) 2013 Uwe Hermann <uwe@hermann-uwe.de>
 ##
 ## This program is free software; you can redistribute it and/or modify
 ## it under the terms of the GNU General Public License as published by
@@ -18,8 +18,6 @@
 ## Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
 ##
 
-SOURCES = ../../fx2lafw.c ../../gpif-acquisition.c
-A51_SOURCES = dscr.a51
-BASENAME = fx2lafw-cwav-usbeeax
+EXTRA_DIST = autovector.h delay.h eputils.h fx2ints.h fx2macros.h fx2regs.h \
+	     fx2types.h gpif.h i2c.h lights.h serial.h setupdat.h
 
-include ../../Makefile.include

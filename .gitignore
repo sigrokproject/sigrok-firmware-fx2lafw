@@ -1,19 +1,35 @@
+# autotools cruft
+aclocal.m4
+autom4te.cache/
+config.h
+config.h.in
+config.log
+config.status
+configure
+stamp-h1
+autostuff/
+ChangeLog
+INSTALL
+
+# recursive autoconf leftovers
+Makefile
+Makefile.in
+
+# backup files
 *~
 
-*.adb
+# various sdcc related files
 *.asm
-*.bix
-*.cdb
 *.ihx
-*.iic
-*.kpf
 *.lnk
 *.lst
 *.map
 *.mem
 *.rel
 *.rst
-*.swp
 *.sym
-
-/hw/*/build/
+*.lib
+*.fw
+*.cdb
+*.lk
+*.omf

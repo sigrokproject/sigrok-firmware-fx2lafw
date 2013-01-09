@@ -1,8 +1,7 @@
 ##
 ## This file is part of the fx2lafw project.
 ##
-## Copyright (C) 2011-2012 Uwe Hermann <uwe@hermann-uwe.de>
-## Copyright (C) 2012 Joel Holdsworth <joel@airwebreathe.org.uk>
+## Copyright (C) 2013 Uwe Hermann <uwe@hermann-uwe.de>
 ##
 ## This program is free software; you can redistribute it and/or modify
 ## it under the terms of the GNU General Public License as published by
@@ -19,17 +18,9 @@
 ## Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
 ##
 
-OBJCOPY ?= objcopy
-MAKEBIN ?= makebin
-FX2LIBDIR ?= ../../fx2lib
-BUILDDIR ?= build
-SDCCFLAGS += -I../../include
+BASENAME = fx2lafw-cwav-usbeedx
 
-$(BUILDDIR)/$(BASENAME).fw: $(BUILDDIR)/$(BASENAME).ihx
-ifneq ($(shell which objcopy 2>/dev/null),)
-	$(OBJCOPY) -Iihex $< -Obinary $@
-else
-	$(MAKEBIN) -p < $< > $@
-endif
+all-local: $(BASENAME).fw
 
-include $(FX2LIBDIR)/lib/fx2.mk
+include $(srcdir)/../Makefile.inc
+

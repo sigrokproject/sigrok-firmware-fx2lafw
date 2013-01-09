@@ -1,8 +1,7 @@
 ##
 ## This file is part of the fx2lafw project.
 ##
-## Copyright (C) 2011-2012 Uwe Hermann <uwe@hermann-uwe.de>
-## Copyright (C) 2012 Joel Holdsworth <joel@airwebreathe.org.uk>
+## Copyright (C) 2013 Uwe Hermann <uwe@hermann-uwe.de>
 ##
 ## This program is free software; you can redistribute it and/or modify
 ## it under the terms of the GNU General Public License as published by
@@ -19,8 +18,10 @@
 ## Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
 ##
 
-SOURCES = ../../fx2lafw.c ../../gpif-acquisition.c
-A51_SOURCES = dscr.a51
-BASENAME = fx2lafw-cwav-usbeesx
+SUBDIRS = braintechnology-usb-lps \
+	  cwav-usbeeax \
+	  cwav-usbeedx \
+	  cwav-usbeesx \
+	  cypress-fx2 \
+	  saleae-logic
 
-include ../../Makefile.include

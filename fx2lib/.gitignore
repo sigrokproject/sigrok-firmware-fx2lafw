@@ -1,17 +1,17 @@
-*.asm
-*.rel
-*.lst
-*.sym
-*.adb
-*.cdb
-*.ihx
-*.bix
-*.rst
-*.mem
-*.map
-*.lnk
-*.kpf
-*.swp
-*.iic
-docs/html
-build
+# *.asm
+# *.rel
+# *.lst
+# *.sym
+# *.adb
+# *.cdb
+# *.ihx
+# *.bix
+# *.rst
+# *.mem
+# *.map
+# *.lnk
+# *.kpf
+# *.swp
+# *.iic
+# docs/html
+# build
