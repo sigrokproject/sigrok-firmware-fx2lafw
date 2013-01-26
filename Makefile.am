@@ -38,6 +38,17 @@ ChangeLog:
 
 dist-hook: ChangeLog
 
+# Creates a convenience tarball with just the generated *.fw files, so that
+# the users don't have to build them manually.
+TARBALL=$(PACKAGE)-bin-$(VERSION)
+distbin: all ChangeLog
+	$(AM_V_at)$(MKDIR_P) $(TARBALL)
+	$(AM_V_at)$(INSTALL_DATA) hw/*/*.fw $(TARBALL)
+	$(AM_V_at)$(INSTALL_DATA) README NEWS ChangeLog COPYING* $(TARBALL)
+	$(AM_V_at)tar -c -z -f $(TARBALL).tar.gz $(TARBALL)
+	$(AM_V_at)-rm -rf $(TARBALL)
+	$(AM_V_at)-rm -f ChangeLog
+
 clean-local:
 	$(AM_V_at)-rm -f *.asm *.lst *.rel *.rst *.sym
 
