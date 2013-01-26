@@ -24,12 +24,20 @@ tarball releases.
 Requirements
 ------------
 
- - In order to build fx2lafw you need the 'sdcc' compiler (>= 2.8.0).
+ - git
+ - make
+ - autoconf >= 2.63
+ - automake >= 1.11
+ - sdcc (>= 2.9.0)
+
+Notes:
+
+ - In order to build fx2lafw you need the 'sdcc' compiler (>= 2.9.0).
    On Debian you can install it via:
 
      $ apt-get install sdcc
 
-   This project has been tested to work with sdcc 2.8, 2.9, and 3.x.
+   This project has been tested to work with sdcc 2.9.x, and 3.x.y.
 
  - You need libsigrok >= 0.1.1 in order to make use of fx2lafw. Earlier
    versions didn't have support for FX2 devices using this firmware.
