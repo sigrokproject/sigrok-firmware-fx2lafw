@@ -1,3 +1,18 @@
+0.1.1 (2013-xx-yy)
+------------------
+
+ * Add support for the USBee DX. Only digital sampling is supported (as is
+   the case for all other supported devices so far). Analog data acquisition
+   is currently not implemented.
+ * Convert to a standard autotools based build/configuration system.
+   Installation is now: ./configure && make && make install
+ * README: Update status, website URLs, requirements, etc.
+ * Add the usual HACKING, AUTHORS, and INSTALL files.
+ * Add a 'distbin' Make target, which creates a convenience tarball
+   containing just the generated *.fw files.
+ * If 'objcopy' is not found, try to use sdcc's 'makebin' instead.
+   This fixes the build e.g. on some Mac OS X systems without 'objycopy'.
+
 0.1.0 (2012-07-24)
 ------------------
 
