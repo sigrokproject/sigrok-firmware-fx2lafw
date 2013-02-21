@@ -4,6 +4,9 @@
  * Add support for the USBee DX. Only digital sampling is supported (as is
    the case for all other supported devices so far). Analog data acquisition
    is currently not implemented.
+ * Add support for devices with the older Cypress CY7C68013 (FX2) chip
+   instead of the more recent Cypress CY7C68013A (FX2LP). See also:
+   http://sigrok.org/wiki/Fx2lafw#Cypress_FX2_vs._FX2LP
  * Convert to a standard autotools based build/configuration system.
    Installation is now: ./configure && make && make install
  * README: Update status, website URLs, requirements, etc.

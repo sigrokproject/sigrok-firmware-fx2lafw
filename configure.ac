@@ -51,7 +51,7 @@ AM_COND_IF([FOUND_MAKEBIN], [AC_SUBST(FOUND_MAKEBIN, "yes")])
 # Older sdcc: asx8051
 AC_CHECK_PROGS([SDAS8051], [sdas8051 sdcc-sdas8051 asx8051])
 
-AC_SUBST(SDCC_FLAGS, "--code-size 0x3c00 --xram-size 0x0200 --xram-loc 0x3c00 -Wl\"-b DSCR_AREA=0x3e00\" -Wl\"-b INT2JT=0x3f00\"")
+AC_SUBST(SDCC_FLAGS, "--code-size 0x1c00 --xram-size 0x0200 --xram-loc 0x1c00 -Wl\"-b DSCR_AREA=0x1e00\" -Wl\"-b INT2JT=0x1f00\"")
 AC_SUBST(FIRMWARE_DIR, "$datadir/sigrok-firmware")
 AC_SUBST(MAKEFLAGS, '--no-print-directory')
 
