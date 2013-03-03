@@ -46,11 +46,11 @@ $(BASENAME).ihx: fx2lafw $(RELS) $(top_builddir)/fx2lib/lib/fx2.lib $(top_buildd
 	$(AM_V_GEN)$(SDCC) -mmcs51 $(SDCC_FLAGS) -o $@ $(RELS) -L$(top_builddir)/fx2lib/lib fx2.lib interrupts/ints.lib
 
 install-data-local: $(BASENAME).fw
-	$(AM_V_at)$(MKDIR_P) $(DESTDIR)/$(FIRMWARE_DIR)
-	$(AM_V_at)$(INSTALL_DATA) $(BASENAME).fw $(DESTDIR)/$(FIRMWARE_DIR)
+	$(AM_V_at)$(MKDIR_P) $(DESTDIR)$(FIRMWARE_DIR)
+	$(AM_V_at)$(INSTALL_DATA) $(BASENAME).fw $(DESTDIR)$(FIRMWARE_DIR)
 
 uninstall-local:
-	$(AM_V_at)-rm -f $(DESTDIR)/$(FIRMWARE_DIR)/$(BASENAME).fw
+	$(AM_V_at)-rm -f $(DESTDIR)$(FIRMWARE_DIR)/$(BASENAME).fw
 
 clean-local:
 	$(AM_V_at)-rm -f *.lst *.rel *.rst *.sym *.lnk *.map *.mem *.ihx *.fw
