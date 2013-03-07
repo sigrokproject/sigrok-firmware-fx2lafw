@@ -35,10 +35,11 @@ m4_ifdef([AM_SILENT_RULES], [AM_SILENT_RULES([yes])])
 AC_PROG_INSTALL
 AC_PROG_LN_S
 
-AC_CHECK_PROGS([SDCC], [sdcc])
-AC_CHECK_PROGS([SDCCLIB], [sdcclib])
+# On Fedora, all sdcc tools have an 'sdcc-' prefix in the filename.
+AC_CHECK_PROGS([SDCC], [sdcc sdcc-sdcc])
+AC_CHECK_PROGS([SDCCLIB], [sdcclib sdcc-sdcc])
 AC_CHECK_PROGS([OBJCOPY], [objcopy])
-AC_CHECK_PROGS([MAKEBIN], [makebin])
+AC_CHECK_PROGS([MAKEBIN], [makebin sdcc-makebin])
 
 AM_CONDITIONAL([FOUND_OBJCOPY], [test "x$OBJCOPY" != "x"])
 AM_CONDITIONAL([FOUND_MAKEBIN], [test "x$MAKEBIN" != "x"])
