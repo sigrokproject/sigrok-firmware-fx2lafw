@@ -40,7 +40,7 @@ AC_CHECK_PROGS([SDCC], [sdcc sdcc-sdcc])
 if test "x$SDCC" == "x"; then
 	AC_MSG_ERROR([cannot find sdcc.])
 fi
-AC_CHECK_PROGS([SDCCLIB], [sdcclib sdcc-sdcc])
+AC_CHECK_PROGS([SDCCLIB], [sdcclib sdcc-sdcclib])
 if test "x$SDCCLIB" == "x"; then
 	AC_MSG_ERROR([cannot find sdcclib.])
 fi
