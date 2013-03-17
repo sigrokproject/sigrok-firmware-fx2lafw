@@ -36,6 +36,8 @@ endif
 RELS = ${top_builddir}/fx2lafw.rel ${top_builddir}/gpif-acquisition.rel \
        ${builddir}/dscr.rel
 
+$(RELS): fx2lafw
+
 $(builddir)/dscr.rel: dscr.a51
 	$(AM_V_at)if test "x${abs_top_srcdir}" != "x${abs_top_builddir}"; then \
 		$(INSTALL_DATA) ${srcdir}/dscr.a51 ${builddir}; \
