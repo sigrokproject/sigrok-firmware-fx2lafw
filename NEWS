@@ -14,7 +14,7 @@
  * Add a 'distbin' Make target, which creates a convenience tarball
    containing just the generated *.fw files.
  * If 'objcopy' is not found, try to use sdcc's 'makebin' instead.
-   This fixes the build e.g. on some Mac OS X systems without 'objycopy'.
+   This fixes the build e.g. on some Mac OS X systems without 'objcopy'.
  * Add support for differently named sdcc tools on various distros.
 
 0.1.0 (2012-07-24)
