@@ -37,9 +37,18 @@ AC_PROG_LN_S
 
 # On Fedora, all sdcc tools have an 'sdcc-' prefix in the filename.
 AC_CHECK_PROGS([SDCC], [sdcc sdcc-sdcc])
+if test "x$SDCC" == "x"; then
+	AC_MSG_ERROR([cannot find sdcc.])
+fi
 AC_CHECK_PROGS([SDCCLIB], [sdcclib sdcc-sdcc])
+if test "x$SDCCLIB" == "x"; then
+	AC_MSG_ERROR([cannot find sdcclib.])
+fi
 AC_CHECK_PROGS([OBJCOPY], [objcopy])
 AC_CHECK_PROGS([MAKEBIN], [makebin sdcc-makebin])
+if test "x$OBJCOPY" == "x" && test "x$MAKEBIN" == "x"; then
+	AC_MSG_ERROR([cannot find objcopy or makebin.])
+fi
 
 AM_CONDITIONAL([FOUND_OBJCOPY], [test "x$OBJCOPY" != "x"])
 AM_CONDITIONAL([FOUND_MAKEBIN], [test "x$MAKEBIN" != "x"])
@@ -51,6 +60,9 @@ AM_COND_IF([FOUND_MAKEBIN], [AC_SUBST(FOUND_MAKEBIN, "yes")])
 # Newer sdcc, Fedora: sdcc-sdas8051
 # Older sdcc: asx8051
 AC_CHECK_PROGS([SDAS8051], [sdas8051 sdcc-sdas8051 asx8051])
+if test "x$SDAS8051" == "x"; then
+	AC_MSG_ERROR([cannot find sdas8051.])
+fi
 
 AC_SUBST(SDCC_FLAGS, "--code-size 0x1c00 --xram-size 0x0200 --xram-loc 0x1c00 -Wl\"-b DSCR_AREA=0x1e00\" -Wl\"-b INT2JT=0x1f00\"")
 AC_SUBST(FIRMWARE_DIR, "$datadir/sigrok-firmware")
