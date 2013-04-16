@@ -69,6 +69,15 @@ See INSTALL or the following wiki page for more (OS-specific) instructions:
  http://sigrok.org/wiki/Building
 
 
+Pre-built firmware files
+------------------------
+
+There are also pre-built firmware files that can be used without having
+to build them from source. You can download those from SourceForge:
+
+  http://sourceforge.net/projects/sigrok/files/binary/sigrok-firmware-fx2lafw/
+
+
 fx2lib
 ------
 
