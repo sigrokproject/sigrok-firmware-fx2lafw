@@ -1,5 +1,5 @@
 /*
- * This file is part of the fx2lafw project.
+ * This file is part of the sigrok-firmware-fx2lafw project.
  *
  * Copyright (C) 2011-2012 Uwe Hermann <uwe@hermann-uwe.de>
  * Copyright (C) 2012 Joel Holdsworth <joel@airwebreathe.org.uk>

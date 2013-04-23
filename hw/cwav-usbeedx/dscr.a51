@@ -1,5 +1,5 @@
 ;;
-;; This file is part of the fx2lafw project.
+;; This file is part of the sigrok-firmware-fx2lafw project.
 ;;
 ;; Copyright (C) 2012 Ivan Fedorov <oxyum@oxyum.ru>
 ;;

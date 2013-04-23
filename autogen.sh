@@ -1,6 +1,6 @@
 #!/bin/sh
 ##
-## This file is part of the fx2lafw project.
+## This file is part of the sigrok-firmware-fx2lafw project.
 ##
 ## Copyright (C) 2013 Uwe Hermann <uwe@hermann-uwe.de>
 ##
