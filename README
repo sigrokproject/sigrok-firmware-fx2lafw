@@ -6,12 +6,8 @@ The sigrok project aims at creating a portable, cross-platform,
 Free/Libre/Open-Source signal analysis software suite that supports various
 device types (such as logic analyzers, oscilloscopes, multimeters, and more).
 
-fx2lafw is a Free/Libre/Open-source firmware for logic analyzers based on
-the Cypress EZ-USB FX2(LP) chip.
-
-It is licensed under the terms of the GNU GPL (version 2 or later), and uses
-additional helper code (fx2lib), licensed under the GNU LGPL (version 2.1
-or later).
+sigrok-firmware-fx2lafw is a Free/Libre/Open-source firmware for logic
+analyzers based on the Cypress EZ-USB FX2(LP) chip.
 
 
 Status
@@ -91,6 +87,22 @@ as of Feb 12, 2012 (git hash "416c104cbd").
 
 The following files/directories were removed, as they're not needed
 for our purposes: CHANGELOG, COPYING*, docs/, examples/, fw/, and utils/.
+
+
+Copyright and license
+---------------------
+
+sigrok-firmware-fx2lafw is licensed under the terms of the GNU General Public
+License (GPL), version 2 or later.
+
+It uses additional helper code (fx2lib), licensed under the GNU LGPL
+(version 2.1 or later).
+
+While some individual source code files are licensed under the LGPLv2.1+, and
+some files are licensed under the GPLv2+, this doesn't change the fact that
+the firmware as a whole is licensed under the terms of the GPLv2+.
+
+Please see the individual source files for the full list of copyright holders.
 
 
 Mailing lists
