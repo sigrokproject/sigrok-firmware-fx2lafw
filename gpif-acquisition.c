@@ -54,7 +54,7 @@ static void gpif_setup_registers(void)
 
 	/* When GPIF is idle, tri-state the data bus. */
 	/* Bit 7: DONE, bit 0: IDLEDRV. TODO: Set/clear DONE bit? */
-	GPIFIDLECS = (1 << 0);
+	GPIFIDLECS = (0 << 0);
 
 	/* When GPIF is idle, set CTL0-CTL5 to 0. */
 	GPIFIDLECTL = 0;
