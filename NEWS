@@ -1,3 +1,11 @@
+0.1.2 (2014-05-06)
+------------------
+
+ * Fix an issue which lead to the data pins not being tri-stated after an
+   aquisition (when the GPIF is idle) but rather being driven.
+ * Bump the firmware version (major.minor) to 1.1. This version is
+   backwards-compatible and doesn't require host-side (libsigrok) changes.
+
 0.1.1 (2013-04-16)
 ------------------
 
