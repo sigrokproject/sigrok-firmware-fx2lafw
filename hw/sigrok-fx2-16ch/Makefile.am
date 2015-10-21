@@ -1,7 +1,7 @@
 ##
 ## This file is part of the sigrok-firmware-fx2lafw project.
 ##
-## Copyright (C) 2013 Uwe Hermann <uwe@hermann-uwe.de>
+## Copyright (C) 2015 Uwe Hermann <uwe@hermann-uwe.de>
 ##
 ## This program is free software; you can redistribute it and/or modify
 ## it under the terms of the GNU General Public License as published by
@@ -18,12 +18,9 @@
 ## Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
 ##
 
-SUBDIRS = braintechnology-usb-lps \
-	  cwav-usbeeax \
-	  cwav-usbeedx \
-	  cwav-usbeesx \
-	  cypress-fx2 \
-	  saleae-logic \
-	  sigrok-fx2-8ch \
-	  sigrok-fx2-16ch
+BASENAME = fx2lafw-sigrok-fx2-16ch
+
+all-local: $(BASENAME).fw
+
+include $(srcdir)/../Makefile.inc
 

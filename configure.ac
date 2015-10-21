@@ -81,6 +81,8 @@ AC_CONFIG_FILES([Makefile
 		 hw/cwav-usbeesx/Makefile
 		 hw/cypress-fx2/Makefile
 		 hw/saleae-logic/Makefile
+		 hw/sigrok-fx2-8ch/Makefile
+		 hw/sigrok-fx2-16ch/Makefile
 		])
 
 AC_OUTPUT
