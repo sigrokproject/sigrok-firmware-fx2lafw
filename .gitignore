@@ -1,35 +1,35 @@
 # autotools cruft
-aclocal.m4
-autom4te.cache/
-config.h
-config.h.in
-config.log
-config.status
-configure
-stamp-h1
-autostuff/
-ChangeLog
-INSTALL
+/INSTALL
+/Makefile.in
+/aclocal.m4
+/autom4te.cache/
+/autostuff/
+/configure
+/configure.lineno
 
-# recursive autoconf leftovers
-Makefile
-Makefile.in
-
-# backup files
+# Editor/IDE cruft
+*.kate-swp
 *~
+/*.kdev4
+/Makefile.am.user
 
-# various sdcc related files
+# Configure/build cruft
 *.asm
+*.cdb
+*.fw
 *.ihx
+*.lib
+*.lk
 *.lnk
 *.lst
 *.map
 *.mem
+*.omf
 *.rel
 *.rst
 *.sym
-*.lib
-*.fw
-*.cdb
-*.lk
-*.omf
+.dirstamp
+/Makefile
+/config.*
+/sigrok-firmware-fx2lafw-*.tar.*
+stamp-h?
