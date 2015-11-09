@@ -241,10 +241,13 @@ dist-changelog:
 # Creates a convenience tarball with just the generated *.fw files, so that
 # the users don't have to build them manually.
 dist-bin: $(firmware_binaries)
+	-$(AM_V_at)rm -fr $(distdir_bin)
 	$(AM_V_at)$(MKDIR_P) $(distdir_bin)
 	$(AM_V_at)$(INSTALL_DATA) $(firmware_binaries) $(distdir_bin)
 	$(AM_V_at)$(INSTALL_DATA) $(srcdir)/COPYING $(srcdir)/COPYING.LESSER $(srcdir)/NEWS $(srcdir)/README $(distdir_bin)
-	$(AM_V_at)git -C '$(top_srcdir)' log > $(distdir_bin)/ChangeLog
+	$(AM_V_at)if test -d '$(top_srcdir)/.git'; \
+	then git -C '$(top_srcdir)' log > $(distdir_bin)/ChangeLog; \
+	else $(INSTALL_DATA) $(srcdir)/ChangeLog $(distdir_bin); fi
 	$(AM_V_at)tar -czf $(distdir_bin).tar.gz $(distdir_bin)
 	-$(AM_V_at)rm -fr $(distdir_bin)
 
