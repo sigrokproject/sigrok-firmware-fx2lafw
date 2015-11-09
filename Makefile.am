@@ -232,13 +232,11 @@ mostlyclean-local:
 dist-hook: dist-changelog
 
 dist-changelog:
-	$(AM_V_at)if test ! -d '$(top_srcdir)/.git'; then \
-		cp -f '$(top_srcdir)/ChangeLog' "$(top_distdir)/ChangeLog"; \
-	elif git -C '$(top_srcdir)' log >.ChangeLog.tmp; then \
-		mv -f .ChangeLog.tmp "$(top_distdir)/ChangeLog"; \
-	else \
-		rm -f .ChangeLog.tmp; exit 1; \
-	fi
+	$(AM_V_at)if test -d '$(top_srcdir)/.git'; then \
+		if git -C '$(top_srcdir)' log >.ChangeLog.tmp; \
+		then mv -f .ChangeLog.tmp "$(top_distdir)/ChangeLog"; \
+		else rm -f .ChangeLog.tmp; exit 1; fi; \
+	else :; fi
 
 # Creates a convenience tarball with just the generated *.fw files, so that
 # the users don't have to build them manually.
