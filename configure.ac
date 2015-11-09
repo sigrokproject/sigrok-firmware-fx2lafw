@@ -42,6 +42,10 @@ AC_CHECK_PROGS([SDCCLIB], [sdcclib sdcc-sdcclib])
 AS_IF([test "x$SDCCLIB" = x],
 	[AC_MSG_ERROR([cannot find sdcclib.])])
 
+sf_sdcc_version=`$SDCC --version | sed -n 's/.* \([[0-9]][[0-9]]*\.[[0-9]][[0-9]]*\.[[0-9]][[0-9]]*\) .*/\1/p;q' 2>&AS_MESSAGE_LOG_FD`
+AS_VERSION_COMPARE([$sf_sdcc_version], [2.9.0],
+	[AC_MSG_ERROR([At least version 2.9.0 of sdcc is required.])])
+
 AC_CHECK_PROGS([OBJCOPY], [objcopy])
 AC_CHECK_PROGS([MAKEBIN], [makebin sdcc-makebin])
 AS_IF([test "x$OBJCOPY$MAKEBIN" = x],
@@ -59,6 +63,16 @@ AS_IF([test "x$SDAS8051" = x],
 	[AC_MSG_ERROR([cannot find sdas8051.])])
 
 AC_CONFIG_FILES([Makefile])
-
 AC_OUTPUT
 
+cat >&AS_MESSAGE_FD <<_EOF
+
+sigrok-firmware-fx2lafw configuration summary:
+ - Package version................. $PACKAGE_VERSION
+ - Prefix.......................... $prefix
+
+Compile configuration:
+ - C compiler...................... $SDCC
+ - C compiler version.............. $sf_sdcc_version
+
+_EOF
