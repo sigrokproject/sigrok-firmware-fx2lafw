@@ -219,6 +219,17 @@ MOSTLYCLEANFILES = *.asm fx2lib/lib/*.asm fx2lib/lib/*.lib fx2lib/lib/interrupts
 CLEANFILES = $(firmware_binaries)
 DISTCLEANFILES = $(dirstamps)
 
+# Custom silent rules prefixes
+SF_V_SDAS = $(sf_v_SDAS_@AM_V@)
+sf_v_SDAS_ = $(sf_v_SDAS_@AM_DEFAULT_V@)
+sf_v_SDAS_0 = @echo "  SDAS    " $@;
+sf_v_SDAS_1 =
+
+SF_V_SDCC = $(sf_v_SDCC_@AM_V@)
+sf_v_SDCC_ = $(sf_v_SDCC_@AM_DEFAULT_V@)
+sf_v_SDCC_0 = @echo "  SDCC    " $@;
+sf_v_SDCC_1 =
+
 .PHONY: dist-bin dist-changelog
 
 all-local: $(firmware_binaries)
@@ -303,10 +314,10 @@ hw/sigrok-fx2-16ch/fx2lafw-sigrok-fx2-16ch.ihx: hw/sigrok-fx2-16ch/dscr.rel $(fx
 	$(AM_V_GEN)$(SDCC) -mmcs51 $(SDCC_LINK_FLAGS) -o $@ hw/sigrok-fx2-16ch/dscr.rel $(fx2lafw_objects) $(fx2lib_libs)
 
 .a51.rel:
-	$(AM_V_GEN)$(SDAS8051) -glos $(as_includes) $@ $<
+	$(SF_V_SDAS)$(SDAS8051) -glos $(as_includes) $@ $<
 
 .c.rel:
-	$(AM_V_GEN)$(SDCC) -mmcs51 $(c_includes) -c $< -o $@
+	$(SF_V_SDCC)$(SDCC) -mmcs51 $(c_includes) -c $< -o $@
 
 if FOUND_OBJCOPY
 .ihx.fw:
