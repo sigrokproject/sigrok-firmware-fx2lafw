@@ -214,6 +214,7 @@ firmwaredir = $(datadir)/sigrok-firmware
 firmware_DATA = $(firmware_binaries)
 
 dist_noinst_DATA = $(fx2lafw_headers) $(fx2lafw_sources) $(fx2lib_headers) $(fx2lib_sources) $(fx2lib_ints_sources) $(hw_sources)
+dist_noinst_SCRIPTS = autogen.sh
 
 MOSTLYCLEANFILES = *.asm fx2lib/lib/*.asm fx2lib/lib/*.lib fx2lib/lib/interrupts/*.asm fx2lib/lib/interrupts/*.lib
 CLEANFILES = $(firmware_binaries)
