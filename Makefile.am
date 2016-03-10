@@ -24,6 +24,7 @@ SUFFIXES = .a51 .c .fw .ihx .rel
 
 # Flags for firmware hex file generation
 SDCC_LINK_FLAGS = --code-size 0x1c00 --xram-size 0x0200 --xram-loc 0x1c00 -Wl"-b DSCR_AREA=0x1e00" -Wl"-b INT2JT=0x1f00"
+SDCC_LINK_FLAGS_HANTEK_6022BE = --code-size 0x3c00 --xram-size 0x0100 --xram-loc 0x3c00 -Wl"-b DSCR_AREA=0x3d00" -Wl"-b INT2JT=0x3f00"
 
 # Include paths
 as_includes = -I$(srcdir)/include
@@ -45,7 +46,8 @@ dirstamps = \
 	hw/cypress-fx2/$(dirstamp) \
 	hw/saleae-logic/$(dirstamp) \
 	hw/sigrok-fx2-8ch/$(dirstamp) \
-	hw/sigrok-fx2-16ch/$(dirstamp)
+	hw/sigrok-fx2-16ch/$(dirstamp) \
+	hw/hantek-6022be/$(dirstamp)
 
 # Final firmware files
 firmware_binaries = \
@@ -56,7 +58,8 @@ firmware_binaries = \
 	hw/cypress-fx2/fx2lafw-cypress-fx2.fw \
 	hw/saleae-logic/fx2lafw-saleae-logic.fw \
 	hw/sigrok-fx2-8ch/fx2lafw-sigrok-fx2-8ch.fw \
-	hw/sigrok-fx2-16ch/fx2lafw-sigrok-fx2-16ch.fw
+	hw/sigrok-fx2-16ch/fx2lafw-sigrok-fx2-16ch.fw \
+	hw/hantek-6022be/hantek-6022be.fw
 
 fx2lafw_headers = \
 	include/command.h \
@@ -71,6 +74,12 @@ fx2lafw_sources = \
 fx2lafw_objects = \
 	fx2lafw.rel \
 	gpif-acquisition.rel
+
+hantek_6022be_sources = \
+	hantek_6022be.c
+
+hantek_6022be_objects = \
+	hantek_6022be.rel
 
 fx2lib_headers = \
 	fx2lib/include/autovector.h \
@@ -208,12 +217,13 @@ hw_sources = \
 	hw/cypress-fx2/dscr.a51 \
 	hw/saleae-logic/dscr.a51 \
 	hw/sigrok-fx2-8ch/dscr.a51 \
-	hw/sigrok-fx2-16ch/dscr.a51
+	hw/sigrok-fx2-16ch/dscr.a51 \
+	hw/hantek-6022be/dscr.a51
 
 firmwaredir = $(datadir)/sigrok-firmware
 firmware_DATA = $(firmware_binaries)
 
-dist_noinst_DATA = $(fx2lafw_headers) $(fx2lafw_sources) $(fx2lib_headers) $(fx2lib_sources) $(fx2lib_ints_sources) $(hw_sources)
+dist_noinst_DATA = $(fx2lafw_headers) $(fx2lafw_sources) $(hantek_6022be_headers) $(hantek_6022be_sources) $(fx2lib_headers) $(fx2lib_sources) $(fx2lib_ints_sources) $(hw_sources)
 dist_noinst_SCRIPTS = autogen.sh
 
 MOSTLYCLEANFILES = *.asm fx2lib/lib/*.asm fx2lib/lib/*.lib fx2lib/lib/interrupts/*.asm fx2lib/lib/interrupts/*.lib
@@ -265,6 +275,7 @@ dist-bin: $(firmware_binaries)
 
 # List dependencies
 $(fx2lafw_objects): $(fx2lafw_headers)
+$(hantek_6022be_objects): $(hantek_6022be_headers)
 $(fx2lib_objects): fx2lib/lib/$(dirstamp) $(fx2lib_headers)
 $(fx2lib_ints_objects): fx2lib/lib/interrupts/$(dirstamp) $(fx2lib_headers)
 
@@ -276,6 +287,7 @@ hw/cypress-fx2/dscr.rel: hw/cypress-fx2/$(dirstamp) include/dscr.inc
 hw/saleae-logic/dscr.rel: hw/saleae-logic/$(dirstamp) include/dscr.inc
 hw/sigrok-fx2-8ch/dscr.rel: hw/sigrok-fx2-8ch/$(dirstamp) include/dscr.inc
 hw/sigrok-fx2-16ch/dscr.rel: hw/sigrok-fx2-16ch/$(dirstamp) include/dscr.inc
+hw/hantek-6022be/dscr.rel: hw/hantek-6022be/$(dirstamp) include/dscr.inc
 
 # Create build subdirectories
 $(dirstamps):
@@ -313,6 +325,9 @@ hw/sigrok-fx2-8ch/fx2lafw-sigrok-fx2-8ch.ihx: hw/sigrok-fx2-8ch/dscr.rel $(fx2la
 
 hw/sigrok-fx2-16ch/fx2lafw-sigrok-fx2-16ch.ihx: hw/sigrok-fx2-16ch/dscr.rel $(fx2lafw_objects) $(fx2lib_libs)
 	$(AM_V_GEN)$(SDCC) -mmcs51 $(SDCC_LINK_FLAGS) -o $@ hw/sigrok-fx2-16ch/dscr.rel $(fx2lafw_objects) $(fx2lib_libs)
+
+hw/hantek-6022be/hantek-6022be.ihx: hw/hantek-6022be/dscr.rel $(hantek_6022be_objects) $(fx2lib_libs)
+	$(AM_V_GEN)$(SDCC) -mmcs51 $(SDCC_LINK_FLAGS_HANTEK_6022BE) -o $@ hw/hantek-6022be/dscr.rel $(hantek_6022be_objects) $(fx2lib_libs)
 
 .a51.rel:
 	$(SF_V_SDAS)$(SDAS8051) -glos $(as_includes) $@ $<
