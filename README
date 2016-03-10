@@ -7,7 +7,8 @@ Free/Libre/Open-Source signal analysis software suite that supports various
 device types (such as logic analyzers, oscilloscopes, multimeters, and more).
 
 sigrok-firmware-fx2lafw is a Free/Libre/Open-source firmware for logic
-analyzers based on the Cypress EZ-USB FX2(LP) chip.
+analyzers based on the Cypress EZ-USB FX2(LP) chip, as well as the
+Hantek 6022BE USB oscilloscope.
 
 
 Status
@@ -89,14 +90,48 @@ The following files/directories were removed, as they're not needed
 for our purposes: CHANGELOG, COPYING*, docs/, examples/, fw/, and utils/.
 
 
+Hantek 6022BE firmware
+----------------------
+
+The Hantek 6022BE firmware was originally created by Jochen Hoenicke in
+05/2015 for the Hantek6022API github project by Robert Cope. Full credit
+for the implementation of the firmware goes to Jochen Hoenicke, thanks!
+
+Github project:
+
+  https://github.com/rpcope1/Hantek6022API
+
+We've incorporated the Hantek 6022BE firmware into the sigrok-firmware-fx2lafw
+repo/tarball for convenience of sigrok users. E.g. so that they can
+easily get it with the other fx2lafw firmware files from distro
+packages, the build scripts in sigrok-util automatically build/install
+it, the sigrok Windows installers automatically ship it, the sigrok
+Android APKs automatically ship it, etc. etc.
+
+The files we've integrated into fx2lafw from Hantek6022API were taken from
+the PyHT6022/HantekFirmware/custom directory of that repo, using the state
+as of 03/2016 (the files were last modified in 05/2015, though).
+
+The git hash of the last relevant commit there was:
+
+  0498e2ab239aabb1084c19e1e24faf56764b217e
+
+Files integrated into fx2lafw:
+
+ - hw/hantek-6022be/dscr.a51: Copied unmodified.
+
+ - hantek_6022be.c: This file was originally created by appending the
+   contents of the original device.c and fw.c together.
+
+
 Copyright and license
 ---------------------
 
 sigrok-firmware-fx2lafw is licensed under the terms of the GNU General Public
 License (GPL), version 2 or later.
 
-It uses additional helper code (fx2lib), licensed under the GNU LGPL
-(version 2.1 or later).
+It uses additional helper code (fx2lib, Hantek 6022BE firmware), licensed
+under the GNU LGPL (version 2.1 or later).
 
 While some individual source code files are licensed under the LGPLv2.1+, and
 some files are licensed under the GPLv2+, this doesn't change the fact that
