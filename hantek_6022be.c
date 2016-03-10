@@ -184,7 +184,7 @@ static void start_sampling(void)
 static void select_interface(BYTE alt)
 {
 	const BYTE *pPacketSize = \
-		(USBCS & bmHSM ? &highspd_dscr : &fullspd_dscr)
+		((USBCS & bmHSM) ? &highspd_dscr : &fullspd_dscr)
 		+ (9 + (16 * alt) + 9 + 4);
 
 	altiface = alt;
@@ -216,18 +216,18 @@ static const struct samplerate_info {
 	BYTE out0;
 	BYTE ifcfg;
 } samplerates[] = {
-	{ 48,0x80,   0, 3, 0, 0x00, 0xea },
-	{ 30,0x80,   0, 3, 0, 0x00, 0xaa },
-	{ 24,   1,   0, 2, 1, 0x40, 0xca },
-	{ 16,   1,   1, 2, 0, 0x40, 0xca },
-	{ 12,   2,   1, 2, 0, 0x40, 0xca },
-	{  8,   3,   2, 2, 0, 0x40, 0xca },
-	{  4,   6,   5, 2, 0, 0x40, 0xca },
-	{  2,  12,  11, 2, 0, 0x40, 0xca },
-	{  1,  24,  23, 2, 0, 0x40, 0xca },
-	{ 50,  48,  47, 2, 0, 0x40, 0xca },
-	{ 20, 120, 119, 2, 0, 0x40, 0xca },
-	{ 10, 240, 239, 2, 0, 0x40, 0xca },
+	{ 48, 0x80,   0, 3, 0, 0x00, 0xea },
+	{ 30, 0x80,   0, 3, 0, 0x00, 0xaa },
+	{ 24,    1,   0, 2, 1, 0x40, 0xca },
+	{ 16,    1,   1, 2, 0, 0x40, 0xca },
+	{ 12,    2,   1, 2, 0, 0x40, 0xca },
+	{  8,    3,   2, 2, 0, 0x40, 0xca },
+	{  4,    6,   5, 2, 0, 0x40, 0xca },
+	{  2,   12,  11, 2, 0, 0x40, 0xca },
+	{  1,   24,  23, 2, 0, 0x40, 0xca },
+	{ 50,   48,  47, 2, 0, 0x40, 0xca },
+	{ 20,  120, 119, 2, 0, 0x40, 0xca },
+	{ 10,  240, 239, 2, 0, 0x40, 0xca },
 };
 
 static BOOL set_samplerate(BYTE rate)
