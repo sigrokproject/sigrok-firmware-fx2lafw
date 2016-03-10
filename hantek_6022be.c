@@ -1,5 +1,7 @@
-/**
- * Copyright (C) 2009 Ubixum, Inc. 
+/*
+ * This file is part of the sigrok-firmware-fx2lafw project.
+ *
+ * Copyright (C) 2009 Ubixum, Inc.
  * Copyright (C) 2015 Jochen Hoenicke
  *
  * This library is free software; you can redistribute it and/or
@@ -15,7 +17,7 @@
  * You should have received a copy of the GNU Lesser General Public
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
- **/
+ */
 
 #include <fx2macros.h>
 #include <fx2ints.h>
@@ -23,21 +25,14 @@
 #include <delay.h>
 #include <setupdat.h>
 
-#ifdef DEBUG_FIRMWARE 
-#include <serial.h>
-#include <stdio.h>
-#else
-#define printf(...)
-#endif
+// change to support as many interfaces as you need
+BYTE altiface = 0; // alt interface
 
 volatile WORD ledcounter = 0;
-
 
 volatile __bit dosud=FALSE;
 volatile __bit dosuspend=FALSE;
 
-// custom functions
-extern void main_loop();
 extern void main_init();
 
 void main() {
@@ -79,8 +74,6 @@ void main() {
 
  while(TRUE) {
 
-     main_loop();
-
      if (dosud) {
        dosud=FALSE;
        handle_setupdata();
@@ -89,7 +82,6 @@ void main() {
      if (dosuspend) {
         dosuspend=FALSE;
         do {
-           printf ( "I'm going to Suspend.\n" );
            WAKEUPCS |= bmWU|bmWU2; // make sure ext wakeups are cleared
            SUSPEND=1;
            PCON |= 1;
@@ -103,7 +95,6 @@ void main() {
            nop
            __endasm;
         } while ( !remote_wakeup_allowed && REMOTE_WAKEUP()); 
-        printf ( "I'm going to wake up.\n");
 
         // resume
         // trm 6.4
@@ -113,12 +104,9 @@ void main() {
             delay(15);
             USBCS &= ~bmSIGRESUME;
         }
-
      }
-
- } // end while
-
-} // end main
+ }
+}
 
 void resume_isr() __interrupt RESUME_ISR {
  CLEAR_RESUME();
@@ -153,39 +141,6 @@ void timer2_isr() __interrupt TF2_ISR {
   }
   TF2 = 0;
 }
-/**
- * Copyright (C) 2009 Ubixum, Inc. 
- * Copyright (C) 2015 Jochen Hoenicke
- *
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public
- * License as published by the Free Software Foundation; either
- * version 2.1 of the License, or (at your option) any later version.
- *
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public
- * License along with this library; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
- **/
-
-#include <fx2macros.h>
-#include <delay.h>
-
-#ifdef DEBUG_FIRMWARE
-#include <stdio.h>
-#else
-#define printf(...)
-#endif
-
-// change to support as many interfaces as you need
-BYTE altiface = 0; // alt interface
-extern volatile WORD ledcounter;
-
-
 
 /* This sets three bits for each channel, one channel at a time.
  * For channel 0 we want to set bits 5, 6 & 7
@@ -408,8 +363,6 @@ BOOL set_samplerate(BYTE rate)
     return TRUE;
 }
 
-//************************** Configuration Handlers *****************************
-
 // set *alt_ifc to the current alt interface for ifc
 BOOL handle_get_interface(BYTE ifc, BYTE* alt_ifc) {
     (void) ifc; // ignore unused parameter
@@ -420,7 +373,6 @@ BOOL handle_get_interface(BYTE ifc, BYTE* alt_ifc) {
 // NOTE this function should reconfigure and reset the endpoints
 // according to the interface descriptors you provided.
 BOOL handle_set_interface(BYTE ifc,BYTE alt_ifc) {  
-    printf ( "Set Interface.\n" );
     if (ifc == 0) {
       select_interface(alt_ifc);
     }
@@ -437,9 +389,6 @@ BOOL handle_set_configuration(BYTE cfg) {
     (void) cfg; // ignore unused parameter
     return TRUE;
 }
-
-
-//******************* VENDOR COMMAND HANDLERS **************************
 
 BOOL handle_vendorcommand(BYTE cmd) {
     stop_sampling();
@@ -478,8 +427,6 @@ BOOL handle_vendorcommand(BYTE cmd) {
     return FALSE; // not handled by handlers
 }
 
-//********************  INIT ***********************
-
 void main_init() {
     EP4CFG = 0;
     EP8CFG = 0;
@@ -496,12 +443,4 @@ void main_init() {
     set_samplerate(1);
     set_numchannels(2);
     select_interface(0);
-
-    printf ( "Initialization Done.\n" );
 }
-
-
-void main_loop() {
-}
-
-
