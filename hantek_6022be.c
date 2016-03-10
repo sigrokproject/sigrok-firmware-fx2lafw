@@ -26,12 +26,12 @@
 #include <setupdat.h>
 
 /* Change to support as many interfaces as you need. */
-BYTE altiface = 0;
+static BYTE altiface = 0;
 
-volatile WORD ledcounter = 0;
+static volatile WORD ledcounter = 0;
 
-volatile __bit dosud = FALSE;
-volatile __bit dosuspend = FALSE;
+static volatile __bit dosud = FALSE;
+static volatile __bit dosuspend = FALSE;
 
 extern __code BYTE highspd_dscr;
 extern __code BYTE fullspd_dscr;
@@ -99,7 +99,7 @@ void timer2_isr(void) __interrupt TF2_ISR
  * both channels and then we mask it out to only affect the channel currently
  * requested.
  */
-BOOL set_voltage(BYTE channel, BYTE val)
+static BOOL set_voltage(BYTE channel, BYTE val)
 {
 	BYTE bits, mask;
 
@@ -126,7 +126,7 @@ BOOL set_voltage(BYTE channel, BYTE val)
 	return TRUE;
 }
 
-BOOL set_numchannels(BYTE numchannels)
+static BOOL set_numchannels(BYTE numchannels)
 {
 	if (numchannels == 1 || numchannels == 2) {
 		BYTE fifocfg = 7 + numchannels;
@@ -138,7 +138,7 @@ BOOL set_numchannels(BYTE numchannels)
 	return FALSE;
 }
 
-void clear_fifo(void)
+static void clear_fifo(void)
 {
 	GPIFABORT = 0xff;
 	SYNCDELAY3;
@@ -151,14 +151,14 @@ void clear_fifo(void)
 	FIFORESET = 0;
 }
 
-void stop_sampling(void)
+static void stop_sampling(void)
 {
 	GPIFABORT = 0xff;
 	SYNCDELAY3;
 	INPKTEND = (altiface == 0) ? 6 : 2;
 }
 
-void start_sampling(void)
+static void start_sampling(void)
 {
 	int i;
 
@@ -181,7 +181,7 @@ void start_sampling(void)
 	PC1 = 0;
 }
 
-void select_interface(BYTE alt)
+static void select_interface(BYTE alt)
 {
 	const BYTE *pPacketSize = \
 		(USBCS & bmHSM ? &highspd_dscr : &fullspd_dscr)
@@ -207,7 +207,7 @@ void select_interface(BYTE alt)
 	}
 }
 
-const struct samplerate_info {
+static const struct samplerate_info {
 	BYTE rate;
 	BYTE wait0;
 	BYTE wait1;
@@ -230,7 +230,7 @@ const struct samplerate_info {
 	{ 10, 240, 239, 2, 0, 0x40, 0xca },
 };
 
-BOOL set_samplerate(BYTE rate)
+static BOOL set_samplerate(BYTE rate)
 {
 	BYTE i = 0;
 
@@ -381,7 +381,7 @@ BOOL handle_vendorcommand(BYTE cmd)
 	return FALSE; /* Not handled by handlers. */
 }
 
-void init(void)
+static void init(void)
 {
 	EP4CFG = 0;
 	EP8CFG = 0;
@@ -401,7 +401,7 @@ void init(void)
 	select_interface(0);
 }
 
-void main(void)
+static void main(void)
 {
 	/* Save energy. */
 	SETCPUFREQ(CLK_12M);
