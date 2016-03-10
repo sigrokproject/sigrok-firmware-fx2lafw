@@ -408,10 +408,6 @@ BOOL set_samplerate(BYTE rate)
     return TRUE;
 }
 
-BOOL handle_get_descriptor() {
-  return FALSE;
-}
-
 //************************** Configuration Handlers *****************************
 
 // set *alt_ifc to the current alt interface for ifc
