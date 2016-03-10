@@ -349,31 +349,26 @@ BOOL handle_vendorcommand(BYTE cmd)
 	PC1 = 1;
 	ledcounter = 1000;
 
+	/* Clear EP0BCH/L for each valid command. */
+	if (cmd >= 0xe0 && cmd <= 0xe4) {
+		EP0BCH = 0;
+		EP0BCL = 0;
+		while (EP0CS & bmEPBUSY);
+	}
+
 	switch (cmd) {
 	case 0xe0:
 	case 0xe1:
-		EP0BCH = 0;
-		EP0BCL = 0;
-		while (EP0CS & bmEPBUSY);
 		set_voltage(cmd - 0xe0, EP0BUF[0]);
 		return TRUE;
 	case 0xe2:
-		EP0BCH = 0;
-		EP0BCL = 0;
-		while (EP0CS & bmEPBUSY);
 		set_samplerate(EP0BUF[0]);
 		return TRUE;
 	case 0xe3:
-		EP0BCH = 0;
-		EP0BCL = 0;
-		while (EP0CS & bmEPBUSY);
 		if (EP0BUF[0] == 1)
 			start_sampling();
 		return TRUE;
 	case 0xe4:
-		EP0BCH = 0;
-		EP0BCL = 0;
-		while (EP0CS & bmEPBUSY);
 		set_numchannels(EP0BUF[0]);
 		return TRUE;
 	}
