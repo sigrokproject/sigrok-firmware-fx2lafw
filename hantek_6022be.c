@@ -36,76 +36,6 @@ volatile __bit dosuspend = FALSE;
 extern __code BYTE highspd_dscr;
 extern __code BYTE fullspd_dscr;
 
-extern void main_init();
-
-void main(void)
-{
-	/* Save energy. */
-	SETCPUFREQ(CLK_12M);
-
-	main_init();
-
-	/* Set up interrupts. */
-	USE_USB_INTS();
-
-	ENABLE_SUDAV();
-	ENABLE_USBRESET();
-	ENABLE_HISPEED(); 
-	ENABLE_SUSPEND();
-	ENABLE_RESUME();
-
-	/* Global (8051) interrupt enable. */
-	EA = 1;
-
-	/* Init timer2. */
-	RCAP2L = -500 & 0xff;
-	RCAP2H = (-500 >> 8) & 0xff;
-	T2CON = 0;
-	ET2 = 1;
-	TR2 = 1;
-
-	RENUMERATE();
-
-	PORTCCFG = 0;
-	PORTACFG = 0;
-	OEC = 0xff;
-	OEA = 0x80;
-
-	while (TRUE) {
-		if (dosud) {
-			dosud = FALSE;
-			handle_setupdata();
-		}
-
-		if (dosuspend) {
-			dosuspend = FALSE;
-			do {
-				/* Make sure ext wakeups are cleared. */
-				WAKEUPCS |= bmWU|bmWU2;
-				SUSPEND = 1;
-				PCON |= 1;
-				__asm
-				nop
-				nop
-				nop
-				nop
-				nop
-				nop
-				nop
-				__endasm;
-			} while (!remote_wakeup_allowed && REMOTE_WAKEUP());
-
-			/* Resume (TRM 6.4). */
-			if (REMOTE_WAKEUP()) {
-				delay(5);
-				USBCS |= bmSIGRESUME;
-				delay(15);
-				USBCS &= ~bmSIGRESUME;
-			}
-		}
-	}
-}
-
 void resume_isr(void) __interrupt RESUME_ISR
 {
 	CLEAR_RESUME();
@@ -451,7 +381,7 @@ BOOL handle_vendorcommand(BYTE cmd)
 	return FALSE; /* Not handled by handlers. */
 }
 
-void main_init(void)
+void init(void)
 {
 	EP4CFG = 0;
 	EP8CFG = 0;
@@ -469,4 +399,72 @@ void main_init(void)
 	set_samplerate(1);
 	set_numchannels(2);
 	select_interface(0);
+}
+
+void main(void)
+{
+	/* Save energy. */
+	SETCPUFREQ(CLK_12M);
+
+	init();
+
+	/* Set up interrupts. */
+	USE_USB_INTS();
+
+	ENABLE_SUDAV();
+	ENABLE_USBRESET();
+	ENABLE_HISPEED(); 
+	ENABLE_SUSPEND();
+	ENABLE_RESUME();
+
+	/* Global (8051) interrupt enable. */
+	EA = 1;
+
+	/* Init timer2. */
+	RCAP2L = -500 & 0xff;
+	RCAP2H = (-500 >> 8) & 0xff;
+	T2CON = 0;
+	ET2 = 1;
+	TR2 = 1;
+
+	RENUMERATE();
+
+	PORTCCFG = 0;
+	PORTACFG = 0;
+	OEC = 0xff;
+	OEA = 0x80;
+
+	while (TRUE) {
+		if (dosud) {
+			dosud = FALSE;
+			handle_setupdata();
+		}
+
+		if (dosuspend) {
+			dosuspend = FALSE;
+			do {
+				/* Make sure ext wakeups are cleared. */
+				WAKEUPCS |= bmWU|bmWU2;
+				SUSPEND = 1;
+				PCON |= 1;
+				__asm
+				nop
+				nop
+				nop
+				nop
+				nop
+				nop
+				nop
+				__endasm;
+			} while (!remote_wakeup_allowed && REMOTE_WAKEUP());
+
+			/* Resume (TRM 6.4). */
+			if (REMOTE_WAKEUP()) {
+				delay(5);
+				USBCS |= bmSIGRESUME;
+				delay(15);
+				USBCS &= ~bmSIGRESUME;
+			}
+		}
+	}
 }
