@@ -69,9 +69,9 @@ Pre-built firmware files
 ------------------------
 
 There are also pre-built firmware files that can be used without having
-to build them from source. You can download those from SourceForge:
+to build them from source. You can download those from:
 
-  http://sourceforge.net/projects/sigrok/files/binary/sigrok-firmware-fx2lafw/
+  http://sigrok.org/download/binary/sigrok-firmware-fx2lafw/
 
 
 fx2lib
