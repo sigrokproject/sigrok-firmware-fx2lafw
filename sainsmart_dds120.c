@@ -150,6 +150,26 @@ static BOOL set_voltage(BYTE channel, BYTE val)
 	return TRUE;
 }
 
+
+/**
+ * Each LSB in the nibble of the byte controls the coupling per channel.
+ *
+ * Setting PE3 disables AC coupling capacitor on CH0.
+ * Setting PE0 disables AC coupling capacitor on CH1.
+ */
+static void set_coupling(BYTE coupling_cfg)
+{
+	if (coupling_cfg & 0x01)
+		IOE |= 0x08;
+	else
+		IOE &= ~0x08;
+
+	if (coupling_cfg & 0x10)
+		IOE |= 0x01;
+	else
+		IOE &= ~0x01;
+}
+
 static BOOL set_numchannels(BYTE numchannels)
 {
 	if (numchannels == 1 || numchannels == 2) {
@@ -365,7 +385,7 @@ BOOL handle_vendorcommand(BYTE cmd)
 	stop_sampling();
 
 	/* Clear EP0BCH/L for each valid command. */
-	if (cmd >= 0xe0 && cmd <= 0xe4) {
+	if (cmd >= 0xe0 && cmd <= 0xe5) {
 		EP0BCH = 0;
 		EP0BCL = 0;
 		while (EP0CS & bmEPBUSY);
@@ -385,6 +405,9 @@ BOOL handle_vendorcommand(BYTE cmd)
 		return TRUE;
 	case 0xe4:
 		set_numchannels(EP0BUF[0]);
+		return TRUE;
+	case 0xe5:
+		set_coupling(EP0BUF[0]);
 		return TRUE;
 	}
 
