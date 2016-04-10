@@ -60,8 +60,8 @@ _dev_dscr:
 	.db	0xff					  ; subclass (vendor specific)
 	.db	0xff					  ; protocol (vendor specific)
 	.db	64						  ; packet size (ep0)
-	.dw	0xB504					  ; vendor id 
-	.dw	0x2260					  ; product id
+	.dw	0x501D					  ; vendor id
+	.dw	0x8E60					  ; product id
 	.dw	0x0000					  ; version id
 	.db	1		                  ; manufacturure str idx				
 	.db	2				          ; product str idx	
@@ -354,7 +354,7 @@ string1end:
 _string2:
 	.db	string2end-_string2 ; len
 	.db	DSCR_STRING_TYPE
-    .ascii 'H\0a\0n\0t\0e\0k\0D\0S\0O\0006\0000\0002\0002\0B\0E\0'
+    .ascii 'S\0a\0i\0n\0s\0m\0a\0r\0t\0-\0D\0D\0S\0001\0002\0000\0'
 string2end:
 
 
