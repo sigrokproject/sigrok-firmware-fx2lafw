@@ -347,6 +347,30 @@ static BOOL set_samplerate(BYTE rate)
 	return TRUE;
 }
 
+static BOOL set_calibration_pulse(BYTE fs)
+{
+	switch (fs) {
+	case 0:		// 100Hz
+		RCAP2L = -10000 & 0xff;
+		RCAP2H = (-10000 >> 8) & 0xff;
+		return TRUE;
+	case 1:		// 1kHz
+		RCAP2L = -1000 & 0xff;
+		RCAP2H = (-1000 >> 8) & 0xff;
+		return TRUE;
+	case 10:	// 1kHz
+		RCAP2L = -100 & 0xff;
+		RCAP2H = 0xff;
+		return TRUE;
+	case 50:	// 50kHz
+		RCAP2L = -20 & 0xff;
+		RCAP2H = 0xff;
+		return TRUE;
+	default:
+		return FALSE;
+	}
+}
+
 /* Set *alt_ifc to the current alt interface for ifc. */
 BOOL handle_get_interface(BYTE ifc, BYTE *alt_ifc)
 {
@@ -390,7 +414,7 @@ BOOL handle_vendorcommand(BYTE cmd)
 	stop_sampling();
 
 	/* Clear EP0BCH/L for each valid command. */
-	if (cmd >= 0xe0 && cmd <= 0xe5) {
+	if (cmd >= 0xe0 && cmd <= 0xe6) {
 		EP0BCH = 0;
 		EP0BCL = 0;
 		while (EP0CS & bmEPBUSY);
@@ -413,6 +437,9 @@ BOOL handle_vendorcommand(BYTE cmd)
 		return TRUE;
 	case 0xe5:
 		set_coupling(EP0BUF[0]);
+		return TRUE;
+	case 0xe6:
+		set_calibration_pulse(EP0BUF[0]);
 		return TRUE;
 	}
 
