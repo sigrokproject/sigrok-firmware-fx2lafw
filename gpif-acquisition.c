@@ -213,16 +213,32 @@ bool gpif_acquisition_start(const struct cmd_start_acquisition *cmd)
 			   bmGSTATE | bmIFGPIF;
 	}
 
-	/* Populate delay states. */
-	if ((cmd->sample_delay_h == 0 && cmd->sample_delay_l == 0) ||
-	    cmd->sample_delay_h >= 6)
-		return false;
+	if (cmd->flags & CMD_START_FLAGS_CLK_CTL2) {
+		uint8_t delay_1, delay_2;
 
-	for (i = 0; i < cmd->sample_delay_h; i++)
-		gpif_make_delay_state(pSTATE++, 0, 0x00, 0x00);
+		/* We need a pulse where the CTL2 pin alternates states. */
 
-	if (cmd->sample_delay_l != 0)
-		gpif_make_delay_state(pSTATE++, cmd->sample_delay_l, 0x00, 0x00);
+		/* Make the low pulse shorter then the high pulse. */
+		delay_2 = cmd->sample_delay_l >> 2;
+		/* Work around >12MHz case resulting in a 0 delay low pulse. */
+		if (delay_2 == 0)
+			delay_2 = 1;
+		delay_1 = cmd->sample_delay_l - delay_2;
+
+		gpif_make_delay_state(pSTATE++, delay_2, 0x00, 0x40);
+		gpif_make_delay_state(pSTATE++, delay_1, 0x00, 0x44);
+	} else {
+		/* Populate delay states. */
+		if ((cmd->sample_delay_h == 0 && cmd->sample_delay_l == 0) ||
+			cmd->sample_delay_h >= 6)
+			return false;
+
+		for (i = 0; i < cmd->sample_delay_h; i++)
+			gpif_make_delay_state(pSTATE++, 0, 0x00, 0x00);
+
+		if (cmd->sample_delay_l != 0)
+			gpif_make_delay_state(pSTATE++, cmd->sample_delay_l, 0x00, 0x00);
+	}
 
 	/* Populate S1 - the decision point. */
 	gpid_make_data_dp_state(pSTATE++);
