@@ -356,18 +356,18 @@ static BOOL set_calibration_pulse(BYTE fs)
 	switch (fs) {
 	case 0:		// 100Hz
 		RCAP2L = -10000 & 0xff;
-		RCAP2H = (-10000 >> 8) & 0xff;
+		RCAP2H = (-10000 & 0xff00) >> 8;
 		return TRUE;
 	case 1:		// 1kHz
 		RCAP2L = -1000 & 0xff;
-		RCAP2H = (-1000 >> 8) & 0xff;
+		RCAP2H = (-1000 & 0xff00) >> 8;
 		return TRUE;
 	case 10:	// 1kHz
-		RCAP2L = -100 & 0xff;
+		RCAP2L = (BYTE)(-100 & 0xff);
 		RCAP2H = 0xff;
 		return TRUE;
 	case 50:	// 50kHz
-		RCAP2L = -20 & 0xff;
+		RCAP2L = (BYTE)(-20 & 0xff);
 		RCAP2H = 0xff;
 		return TRUE;
 	default:
@@ -491,7 +491,7 @@ static void main(void)
 
 	/* Init timer2. */
 	RCAP2L = -1000 & 0xff;
-	RCAP2H = (-1000 >> 8) & 0xff;
+	RCAP2H = (-1000 & 0xff00) >> 8;
 	T2CON = 0;
 	ET2 = 1;
 	TR2 = 1;

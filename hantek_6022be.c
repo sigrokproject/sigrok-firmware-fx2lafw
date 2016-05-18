@@ -421,7 +421,7 @@ static void main(void)
 
 	/* Init timer2. */
 	RCAP2L = -500 & 0xff;
-	RCAP2H = (-500 >> 8) & 0xff;
+	RCAP2H = (-500 & 0xff00) >> 8;
 	T2CON = 0;
 	ET2 = 1;
 	TR2 = 1;
