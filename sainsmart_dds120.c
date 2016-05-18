@@ -288,7 +288,7 @@ static BOOL set_samplerate(BYTE rate)
 	IFCONFIG = samplerates[i].ifcfg;
 
 	AUTOPTRSETUP = 7;
-	AUTOPTRH2 = 0xE4;
+	AUTOPTRH2 = 0xE4; /* 0xE400: GPIF waveform descriptor 0. */
 	AUTOPTRL2 = 0x00;
 
 	/*
@@ -305,6 +305,7 @@ static BOOL set_samplerate(BYTE rate)
 	 * jump 0, CTL2=Z, FIFO, LOOP
 	 */
 
+	/* LENGTH / BRANCH 0-7 */
 	EXTAUTODAT2 = samplerates[i].wait0;
 	EXTAUTODAT2 = samplerates[i].wait1;
 	EXTAUTODAT2 = 1;
@@ -314,24 +315,27 @@ static BOOL set_samplerate(BYTE rate)
 	EXTAUTODAT2 = 0;
 	EXTAUTODAT2 = 0;
 
+	/* OPCODE 0-7 */
 	EXTAUTODAT2 = samplerates[i].opc0;
 	EXTAUTODAT2 = samplerates[i].opc1;
-	EXTAUTODAT2 = 1;
+	EXTAUTODAT2 = 1; /* DATA=0 DP=1 */
 	EXTAUTODAT2 = 0;
 	EXTAUTODAT2 = 0;
 	EXTAUTODAT2 = 0;
 	EXTAUTODAT2 = 0;
 	EXTAUTODAT2 = 0;
 
+	/* OUTPUT 0-7 */
 	EXTAUTODAT2 = samplerates[i].out0;
-	EXTAUTODAT2 = 0x44;
-	EXTAUTODAT2 = 0x44;
-	EXTAUTODAT2 = 0x00;
-	EXTAUTODAT2 = 0x00;
-	EXTAUTODAT2 = 0x00;
-	EXTAUTODAT2 = 0x00;
-	EXTAUTODAT2 = 0x00;
+	EXTAUTODAT2 = 0x44; /* OE0=1, CTL0=1 */
+	EXTAUTODAT2 = 0x44; /* OE0=1, CTL0=1 */
+	EXTAUTODAT2 = 0;
+	EXTAUTODAT2 = 0;
+	EXTAUTODAT2 = 0;
+	EXTAUTODAT2 = 0;
+	EXTAUTODAT2 = 0;
 
+	/* LOGIC FUNCTION 0-7 */
 	EXTAUTODAT2 = 0;
 	EXTAUTODAT2 = 0;
 	EXTAUTODAT2 = 0;
@@ -452,8 +456,8 @@ static void init(void)
 	EP8CFG = 0;
 
 	/* In idle mode tristate all outputs. */
-	GPIFIDLECTL = 0x00;
-	GPIFCTLCFG = 0x80;
+	GPIFIDLECTL = 0x00; /* Don't enable CTL0-5 outputs. */
+	GPIFCTLCFG = 0x80; /* TRICTL=1. CTL0-2: CMOS outputs, tri-statable. */
 	GPIFWFSELECT = 0x00;
 	GPIFREADYSTAT = 0x00;
 
