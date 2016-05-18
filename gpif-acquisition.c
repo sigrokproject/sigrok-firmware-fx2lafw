@@ -226,7 +226,7 @@ bool gpif_acquisition_start(const struct cmd_start_acquisition *cmd)
 		delay_1 = cmd->sample_delay_l - delay_2;
 
 		gpif_make_delay_state(pSTATE++, delay_2, 0x00, 0x40);
-		gpif_make_delay_state(pSTATE++, delay_1, 0x00, 0x44);
+		gpif_make_delay_state(pSTATE++, delay_1, 0x00, 0x46);
 	} else {
 		/* Populate delay states. */
 		if ((cmd->sample_delay_h == 0 && cmd->sample_delay_l == 0) ||
