@@ -8,7 +8,7 @@ device types (such as logic analyzers, oscilloscopes, multimeters, and more).
 
 sigrok-firmware-fx2lafw is a Free/Libre/Open-source firmware for logic
 analyzers based on the Cypress EZ-USB FX2(LP) chip, as well as the
-Hantek 6022BE USB oscilloscope.
+Hantek 6022BE and Sainsmart DDS120 USB oscilloscopes.
 
 
 Status
@@ -124,14 +124,21 @@ Files integrated into fx2lafw:
    contents of the original device.c and fw.c together.
 
 
+Sainsmart DDS120 firmware
+-------------------------
+
+The Sainsmart DDS120 firmware is heavily based upon the original Hantek 6022BE
+firmware, so the items mentioned above apply here as well.
+
+
 Copyright and license
 ---------------------
 
 sigrok-firmware-fx2lafw is licensed under the terms of the GNU General Public
 License (GPL), version 2 or later.
 
-It uses additional helper code (fx2lib, Hantek 6022BE firmware), licensed
-under the GNU LGPL (version 2.1 or later).
+It uses additional helper code (fx2lib, Hantek 6022BE, and Sainsmart DDS120
+firmware), licensed under the GNU LGPL (version 2.1 or later).
 
 While some individual source code files are licensed under the LGPLv2.1+, and
 some files are licensed under the GPLv2+, this doesn't change the fact that
