@@ -44,6 +44,7 @@ dirstamps = \
 	hw/cwav-usbeeax/$(dirstamp) \
 	hw/cwav-usbeedx/$(dirstamp) \
 	hw/cwav-usbeesx/$(dirstamp) \
+	hw/cwav-usbeezx/$(dirstamp) \
 	hw/cypress-fx2/$(dirstamp) \
 	hw/saleae-logic/$(dirstamp) \
 	hw/sigrok-fx2-8ch/$(dirstamp) \
@@ -57,6 +58,7 @@ firmware_binaries = \
 	hw/cwav-usbeeax/fx2lafw-cwav-usbeeax.fw \
 	hw/cwav-usbeedx/fx2lafw-cwav-usbeedx.fw \
 	hw/cwav-usbeesx/fx2lafw-cwav-usbeesx.fw \
+	hw/cwav-usbeezx/fx2lafw-cwav-usbeezx.fw \
 	hw/cypress-fx2/fx2lafw-cypress-fx2.fw \
 	hw/saleae-logic/fx2lafw-saleae-logic.fw \
 	hw/sigrok-fx2-8ch/fx2lafw-sigrok-fx2-8ch.fw \
@@ -223,6 +225,7 @@ hw_sources = \
 	hw/cwav-usbeeax/dscr.a51 \
 	hw/cwav-usbeedx/dscr.a51 \
 	hw/cwav-usbeesx/dscr.a51 \
+	hw/cwav-usbeezx/dscr.a51 \
 	hw/cypress-fx2/dscr.a51 \
 	hw/saleae-logic/dscr.a51 \
 	hw/sigrok-fx2-8ch/dscr.a51 \
@@ -293,6 +296,7 @@ hw/braintechnology-usb-lps/dscr.rel: hw/braintechnology-usb-lps/$(dirstamp) incl
 hw/cwav-usbeeax/dscr.rel: hw/cwav-usbeeax/$(dirstamp) include/dscr.inc
 hw/cwav-usbeedx/dscr.rel: hw/cwav-usbeedx/$(dirstamp) include/dscr.inc
 hw/cwav-usbeesx/dscr.rel: hw/cwav-usbeesx/$(dirstamp) include/dscr.inc
+hw/cwav-usbeezx/dscr.rel: hw/cwav-usbeezx/$(dirstamp) include/dscr.inc
 hw/cypress-fx2/dscr.rel: hw/cypress-fx2/$(dirstamp) include/dscr.inc
 hw/saleae-logic/dscr.rel: hw/saleae-logic/$(dirstamp) include/dscr.inc
 hw/sigrok-fx2-8ch/dscr.rel: hw/sigrok-fx2-8ch/$(dirstamp) include/dscr.inc
@@ -325,6 +329,9 @@ hw/cwav-usbeedx/fx2lafw-cwav-usbeedx.ihx: hw/cwav-usbeedx/dscr.rel $(fx2lafw_obj
 
 hw/cwav-usbeesx/fx2lafw-cwav-usbeesx.ihx: hw/cwav-usbeesx/dscr.rel $(fx2lafw_objects) $(fx2lib_libs)
 	$(AM_V_GEN)$(SDCC) -mmcs51 $(SDCC_LINK_FLAGS) -o $@ hw/cwav-usbeesx/dscr.rel $(fx2lafw_objects) $(fx2lib_libs)
+
+hw/cwav-usbeezx/fx2lafw-cwav-usbeezx.ihx: hw/cwav-usbeezx/dscr.rel $(fx2lafw_objects) $(fx2lib_libs)
+	$(AM_V_GEN)$(SDCC) -mmcs51 $(SDCC_LINK_FLAGS) -o $@ hw/cwav-usbeezx/dscr.rel $(fx2lafw_objects) $(fx2lib_libs)
 
 hw/cypress-fx2/fx2lafw-cypress-fx2.ihx: hw/cypress-fx2/dscr.rel $(fx2lafw_objects) $(fx2lib_libs)
 	$(AM_V_GEN)$(SDCC) -mmcs51 $(SDCC_LINK_FLAGS) -o $@ hw/cypress-fx2/dscr.rel $(fx2lafw_objects) $(fx2lib_libs)
