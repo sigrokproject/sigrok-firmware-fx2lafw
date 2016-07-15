@@ -215,7 +215,8 @@ bool gpif_acquisition_start(const struct cmd_start_acquisition *cmd)
 	if (cmd->flags & CMD_START_FLAGS_CLK_CTL2) {
 		uint8_t delay_1, delay_2;
 
-		/* We need a pulse where the CTL2 pin alternates states. */
+		/* We need a pulse where the CTL1 and CTL2 pins
+		 * alternate states. */
 
 		/* Make the low pulse shorter then the high pulse. */
 		delay_2 = cmd->sample_delay_l >> 2;
@@ -224,8 +225,8 @@ bool gpif_acquisition_start(const struct cmd_start_acquisition *cmd)
 			delay_2 = 1;
 		delay_1 = cmd->sample_delay_l - delay_2;
 
-		gpif_make_delay_state(pSTATE++, delay_2, 0x40);
-		gpif_make_delay_state(pSTATE++, delay_1, 0x46);
+		gpif_make_delay_state(pSTATE++, delay_2, 0x00);
+		gpif_make_delay_state(pSTATE++, delay_1, 0x06);
 	} else {
 		/* Populate delay states. */
 		if ((cmd->sample_delay_h == 0 && cmd->sample_delay_l == 0) ||
