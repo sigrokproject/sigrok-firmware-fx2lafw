@@ -132,7 +132,7 @@ void gpif_init_la(void)
 	gpif_acquiring = FALSE;
 }
 
-static void gpif_make_delay_state(volatile BYTE *pSTATE, uint8_t delay, uint8_t opcode, uint8_t output)
+static void gpif_make_delay_state(volatile BYTE *pSTATE, uint8_t delay, uint8_t output)
 {
 	/*
 	 * DELAY
@@ -143,13 +143,12 @@ static void gpif_make_delay_state(volatile BYTE *pSTATE, uint8_t delay, uint8_t 
 	/*
 	 * OPCODE
 	 * SGL=0, GIN=0, INCAD=0, NEXT=0, DATA=0, DP=0
-	 * Collect data in this state.
 	 */
-	pSTATE[8] = opcode;
+	pSTATE[8] = 0;
 
 	/*
 	 * OUTPUT
-	 * OE[0:3]=0, CTL[0:3]=0
+	 * CTL[0:5]=output
 	 */
 	pSTATE[16] = output;
 
@@ -176,7 +175,7 @@ static void gpid_make_data_dp_state(volatile BYTE *pSTATE)
 
 	/*
 	 * OUTPUT
-	 * OE[0:3]=0, CTL[0:3]=0
+	 * CTL[0:5]=0
 	 */
 	pSTATE[16] = 0x00;
 
@@ -225,8 +224,8 @@ bool gpif_acquisition_start(const struct cmd_start_acquisition *cmd)
 			delay_2 = 1;
 		delay_1 = cmd->sample_delay_l - delay_2;
 
-		gpif_make_delay_state(pSTATE++, delay_2, 0x00, 0x40);
-		gpif_make_delay_state(pSTATE++, delay_1, 0x00, 0x46);
+		gpif_make_delay_state(pSTATE++, delay_2, 0x40);
+		gpif_make_delay_state(pSTATE++, delay_1, 0x46);
 	} else {
 		/* Populate delay states. */
 		if ((cmd->sample_delay_h == 0 && cmd->sample_delay_l == 0) ||
@@ -234,10 +233,10 @@ bool gpif_acquisition_start(const struct cmd_start_acquisition *cmd)
 			return false;
 
 		for (i = 0; i < cmd->sample_delay_h; i++)
-			gpif_make_delay_state(pSTATE++, 0, 0x00, 0x00);
+			gpif_make_delay_state(pSTATE++, 0, 0x00);
 
 		if (cmd->sample_delay_l != 0)
-			gpif_make_delay_state(pSTATE++, cmd->sample_delay_l, 0x00, 0x00);
+			gpif_make_delay_state(pSTATE++, cmd->sample_delay_l, 0x00);
 	}
 
 	/* Populate S1 - the decision point. */
