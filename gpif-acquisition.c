@@ -159,7 +159,7 @@ static void gpif_make_delay_state(volatile BYTE *pSTATE, uint8_t delay, uint8_t 
 	pSTATE[24] = 0x00;
 }
 
-static void gpid_make_data_dp_state(volatile BYTE *pSTATE)
+static void gpif_make_data_dp_state(volatile BYTE *pSTATE)
 {
 	/*
 	 * BRANCH
@@ -240,7 +240,7 @@ bool gpif_acquisition_start(const struct cmd_start_acquisition *cmd)
 	}
 
 	/* Populate S1 - the decision point. */
-	gpid_make_data_dp_state(pSTATE++);
+	gpif_make_data_dp_state(pSTATE++);
 
 	/* Execute the whole GPIF waveform once. */
 	gpif_set_tc16(1);
