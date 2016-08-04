@@ -301,8 +301,8 @@ hw/cypress-fx2/dscr.rel: hw/cypress-fx2/$(dirstamp) include/dscr.inc
 hw/saleae-logic/dscr.rel: hw/saleae-logic/$(dirstamp) include/dscr.inc
 hw/sigrok-fx2-8ch/dscr.rel: hw/sigrok-fx2-8ch/$(dirstamp) include/dscr.inc
 hw/sigrok-fx2-16ch/dscr.rel: hw/sigrok-fx2-16ch/$(dirstamp) include/dscr.inc
-hw/hantek-6022be/dscr.rel: hw/hantek-6022be/$(dirstamp) include/dscr.inc
-hw/sainsmart-dds120/dscr.rel: hw/sainsmart-dds120/$(dirstamp) include/dscr.inc
+hw/hantek-6022be/dscr.rel: hw/hantek-6022be/$(dirstamp) include/dscr_hantek_6022be.inc
+hw/sainsmart-dds120/dscr.rel: hw/sainsmart-dds120/$(dirstamp) include/dscr_hantek_6022be.inc
 
 
 # Create build subdirectories

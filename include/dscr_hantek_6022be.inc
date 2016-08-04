@@ -60,8 +60,8 @@ _dev_dscr:
 	.db	0xff					  ; subclass (vendor specific)
 	.db	0xff					  ; protocol (vendor specific)
 	.db	64						  ; packet size (ep0)
-	.dw	0xB504					  ; vendor id 
-	.dw	0x2260					  ; product id
+	.dw	VID					  ; vendor id 
+	.dw	PID					  ; product id
 	.dw	0x0000					  ; version id
 	.db	1		                  ; manufacturure str idx				
 	.db	2				          ; product str idx	
