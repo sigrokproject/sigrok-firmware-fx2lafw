@@ -354,7 +354,7 @@ string1end:
 _string2:
 	.db	string2end-_string2 ; len
 	.db	DSCR_STRING_TYPE
-    .ascii 'S\0a\0i\0n\0s\0m\0a\0r\0t\0-\0D\0D\0S\0001\0002\0000\0'
+    .ascii 'f\0x\0002\0l\0a\0f\0w\0'
 string2end:
 
 
