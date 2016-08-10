@@ -36,9 +36,6 @@ Notes:
 
    This project has been tested to work with sdcc 2.9 and 3.x.
 
- - You need libsigrok >= 0.1.1 in order to make use of fx2lafw. Earlier
-   versions didn't have support for FX2 devices using this firmware.
-
 
 Building and installing
 -----------------------
