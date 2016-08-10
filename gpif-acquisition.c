@@ -46,10 +46,7 @@ static void gpif_setup_registers(void)
 	/* TODO. Value probably irrelevant, as we don't use RDY* signals? */
 	GPIFREADYCFG = 0;
 
-	/*
-	 * Set TRICTL = 0, thus CTL0-CTL5 are CMOS outputs.
-	 * TODO: Probably irrelevant, as we don't use CTL0-CTL5?
-	 */
+	/* Set TRICTL = 0, thus CTL0-CTL5 are CMOS outputs. */
 	GPIFCTLCFG = 0;
 
 	/* When GPIF is idle, tri-state the data bus. */
@@ -196,11 +193,10 @@ bool gpif_acquisition_start(const struct cmd_start_acquisition *cmd)
 	while (!(GPIFTRIG & 0x80));
 
 	/* Configure the EP2 FIFO. */
-	if (cmd->flags & CMD_START_FLAGS_SAMPLE_16BIT) {
+	if (cmd->flags & CMD_START_FLAGS_SAMPLE_16BIT)
 		EP2FIFOCFG = bmAUTOIN | bmWORDWIDE;
-	} else {
+	else
 		EP2FIFOCFG = bmAUTOIN;
-	}
 	SYNCDELAY();
 
 	/* Set IFCONFIG to the correct clock source. */
@@ -212,7 +208,7 @@ bool gpif_acquisition_start(const struct cmd_start_acquisition *cmd)
 			   bmGSTATE | bmIFGPIF;
 	}
 
-	/* Populate delay states */
+	/* Populate delay states. */
 	if ((cmd->sample_delay_h == 0 && cmd->sample_delay_l == 0) ||
 	    cmd->sample_delay_h >= 6)
 		return false;
@@ -220,8 +216,7 @@ bool gpif_acquisition_start(const struct cmd_start_acquisition *cmd)
 	if (cmd->flags & CMD_START_FLAGS_CLK_CTL2) {
 		uint8_t delay_1, delay_2 = cmd->sample_delay_l;
 
-		/* We need a pulse where the CTL1 and CTL2 pins
-		 * alternate states */
+		/* We need a pulse where the CTL1/2 pins alternate states. */
 		if (cmd->sample_delay_h) {
 			for (i = 0; i < cmd->sample_delay_h; i++)
 				gpif_make_delay_state(pSTATE++, 0, 0x06);
@@ -231,8 +226,7 @@ bool gpif_acquisition_start(const struct cmd_start_acquisition *cmd)
 			gpif_make_delay_state(pSTATE++, delay_1, 0x06);
 		}
 
-		/* cmd->sample_delay_l is always non-zero for the
-		 * supported rates */
+		/* sample_delay_l is always != 0 for the supported rates. */
 		gpif_make_delay_state(pSTATE++, delay_2, 0x00);
 	} else {
 		for (i = 0; i < cmd->sample_delay_h; i++)
