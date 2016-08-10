@@ -352,7 +352,7 @@ string0end:
 _string1:
 	.db	string1end - _string1
 	.db	DSCR_STRING_TYPE
-	.ascii	'O\0D\0M\0'
+	.ascii	's\0i\0g\0r\0o\0k\0'
 string1end:
 
 _string2:
