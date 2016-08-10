@@ -173,39 +173,15 @@ string0end:
 _string1:
 	.db	string1end - _string1
 	.db	DSCR_STRING_TYPE
-	.ascii	's'
-	.db	0
-	.ascii	'i'
-	.db	0
-	.ascii	'g'
-	.db	0
-	.ascii	'r'
-	.db	0
-	.ascii	'o'
-	.db	0
-	.ascii	'k'
-	.db	0
+	.ascii	's\0i\0g\0r\0o\0k\0'
 string1end:
 
 _string2:
 	.db	string2end - _string2
 	.db	DSCR_STRING_TYPE
-	.ascii	'f'
-	.db	0
-	.ascii	'x'
-	.db	0
-	.ascii	'2'
-	.db	0
-	.ascii	'l'
-	.db	0
-	.ascii	'a'
-	.db	0
-	.ascii	'f'
-	.db	0
-	.ascii	'w'
-	.db	0
+	.ascii	'f\0x\0002\0l\0a\0f\0w\0'
 string2end:
 
 _dev_strings_end:
-	.dw 0x0000
+	.dw	0x0000
 
