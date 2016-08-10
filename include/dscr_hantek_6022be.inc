@@ -110,7 +110,7 @@ highspd_dscr_end:
 	.db	ENDPOINT_TYPE_BULK	; Endpoint type (bulk)
 	.db	0x00			; Max. packet size, LSB (512 bytes)
 	.db	0x02			; Max. packet size, MSB (512 bytes)
-	.db	0x00			; Polling interval
+	.db	0x00			; Polling interval (ignored for bulk)
 
 	; Isochronous interface 0, alt 1
 	.db	DSCR_INTERFACE_LEN
@@ -132,7 +132,7 @@ highspd_dscr_end:
 	.db	0x14			; Max. packet size, MSB (3*1024 bytes)
 					; 12:11 = 0b10 (3 tr. per microframe)
 					; 10:00 = 1024
-	.db	0x01			; Polling interval
+	.db	0x01			; Polling interval (1 microframe)
 
 	; Isochronous interface 0, alt 2, 16MB/s
 	.db	DSCR_INTERFACE_LEN
@@ -154,7 +154,7 @@ highspd_dscr_end:
 	.db	0x0c			; Max. packet size, MSB (2*1024 bytes)
 					; 12:11 = 0b01 (2 tr. per microframe)
 					; 10:00 = 1024
-	.db	0x01			; Polling interval
+	.db	0x01			; Polling interval (1 microframe)
 
 	; Isochronous interface 0, alt 3, 8MB/s
 	.db	DSCR_INTERFACE_LEN
@@ -174,7 +174,7 @@ highspd_dscr_end:
 	.db	ENDPOINT_TYPE_ISO	; Endpoint type (iso)
 	.db	0x00			; Max. packet size, LSB (1024 bytes)
 	.db	0x04			; Max. packet size, MSB (1024 bytes)
-	.db	0x01			; Polling interval
+	.db	0x01			; Polling interval (1 microframe)
 
 	; Isochronous interface 0, alt 4, 4MB/s
 	.db	DSCR_INTERFACE_LEN
@@ -194,7 +194,7 @@ highspd_dscr_end:
 	.db	ENDPOINT_TYPE_ISO	; Endpoint type (iso)
 	.db	0x00			; Max. packet size, LSB (1024 bytes)
 	.db	0x04			; Max. packet size, MSB (1024 bytes)
-	.db	0x02			; Polling interval
+	.db	0x02			; Polling interval (2 microframes)
 
 	; Isochronous interface 0, alt 5, 2MB/s
 	.db	DSCR_INTERFACE_LEN
@@ -214,7 +214,7 @@ highspd_dscr_end:
 	.db	ENDPOINT_TYPE_ISO	; Endpoint type (iso)
 	.db	0x00			; Max. packet size, LSB (1024 bytes)
 	.db	0x04			; Max. packet size, MSB (1024 bytes)
-	.db	0x03			; Polling interval
+	.db	0x03			; Polling interval (4 microframes)
 
 	; Isochronous interface 0, alt 6, 1MB/s
 	.db	DSCR_INTERFACE_LEN
@@ -234,7 +234,7 @@ highspd_dscr_end:
 	.db	ENDPOINT_TYPE_ISO	; Endpoint type (iso)
 	.db	0x00			; Max. packet size, LSB (1024 bytes)
 	.db	0x04			; Max. packet size, MSB (1024 bytes)
-	.db	0x04			; Polling interval
+	.db	0x04			; Polling interval (8 microframes)
 
 	; Isochronous interface 0, alt 7, 500kB/s
 	.db	DSCR_INTERFACE_LEN
@@ -254,7 +254,7 @@ highspd_dscr_end:
 	.db	ENDPOINT_TYPE_ISO	; Endpoint type (iso)
 	.db	0x00			; Max. packet size, LSB (512 bytes)
 	.db	0x02			; Max. packet size, MSB (512 bytes)
-	.db	0x04			; Polling interval
+	.db	0x04			; Polling interval (8 microframes)
 
 highspd_dscr_realend:
 
@@ -294,7 +294,7 @@ fullspd_dscr_end:
 	.db	ENDPOINT_TYPE_BULK	; Endpoint type (bulk)
 	.db	0x40			; Max. packet size, LSB (64 bytes)
 	.db	0x00			; Max. packet size, MSB (64 bytes)
-	.db	0x00			; Polling interval
+	.db	0x00			; Polling interval (ignored for bulk)
 
 	; Isochronous interface 0, alt 1, 1MB/s
 	.db	DSCR_INTERFACE_LEN
@@ -314,7 +314,7 @@ fullspd_dscr_end:
 	.db	ENDPOINT_TYPE_ISO	; Endpoint type (iso)
 	.db	0xff			; Max. packet size, LSB (1023 bytes)
 	.db	0x03			; Max. packet size, MSB (1023 bytes)
-	.db	0x01			; Polling interval
+	.db	0x01			; Polling interval (1 frame)
 
 	; Isochronous interface 0, alt 2, 500kB/s
 	.db	DSCR_INTERFACE_LEN
@@ -334,7 +334,7 @@ fullspd_dscr_end:
 	.db	ENDPOINT_TYPE_ISO	; Endpoint type (iso)
 	.db	0x00			; Max. packet size, LSB (512 bytes)
 	.db	0x02			; Max. packet size, MSB (512 bytes)
-	.db	0x01			; Polling interval
+	.db	0x01			; Polling interval (1 frame)
 
 fullspd_dscr_realend:
 

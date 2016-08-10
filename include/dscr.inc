@@ -111,7 +111,7 @@ highspd_dscr_end:
 	.db	ENDPOINT_TYPE_BULK	; Endpoint type (bulk)
 	.db	0x00			; Max. packet size, LSB (512 bytes)
 	.db	0x02			; Max. packet size, MSB (512 bytes)
-	.db	0x00			; Polling interval
+	.db	0x00			; Polling interval (ignored for bulk)
 
 highspd_dscr_realend:
 
@@ -151,7 +151,7 @@ fullspd_dscr_end:
 	.db	ENDPOINT_TYPE_BULK	; Endpoint type (bulk)
 	.db	0x40			; Max. packet size, LSB (64 bytes)
 	.db	0x00			; Max. packet size, MSB (64 bytes)
-	.db	0x00			; Polling interval
+	.db	0x00			; Polling interval (ignored for bulk)
 
 fullspd_dscr_realend:
 
