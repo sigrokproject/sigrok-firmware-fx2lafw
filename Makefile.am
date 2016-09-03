@@ -80,11 +80,17 @@ fx2lafw_objects = \
 	fx2lafw.rel \
 	gpif-acquisition.rel
 
+hantek_6022be_headers = \
+	include/dscr_hantek_6022be.inc
+
 hantek_6022be_sources = \
 	hantek_6022be.c
 
 hantek_6022be_objects = \
 	hantek_6022be.rel
+
+sainsmart_dds120_headers = \
+	include/dscr_hantek_6022be.inc
 
 sainsmart_dds120_sources = \
 	sainsmart_dds120.c
