@@ -38,6 +38,6 @@
  * longer (properly) work with the new fx2lafw firmware.
  */
 #define FX2LAFW_VERSION_MAJOR	1
-#define FX2LAFW_VERSION_MINOR	1
+#define FX2LAFW_VERSION_MINOR	2
 
 #endif
