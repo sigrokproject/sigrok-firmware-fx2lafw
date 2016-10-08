@@ -18,6 +18,8 @@
 ;; Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 ;;
 
+.include "common.inc"
+
 .module DEV_DSCR
 
 ; Descriptor types
@@ -347,24 +349,10 @@ fullspd_dscr_realend:
 _dev_strings:
 
 ; See http://www.usb.org/developers/docs/USB_LANGIDs.pdf for the full list.
-_string0:
-	.db	string0end - _string0
-	.db	DSCR_STRING_TYPE
-	.db	0x09, 0x04		; Language code 0x0409 (English, US)
-string0end:
+string_descriptor_lang 0 0x0409 ; Language code 0x0409 (English, US)
 
-_string1:
-	.db	string1end - _string1
-	.db	DSCR_STRING_TYPE
-	.ascii	's\0i\0g\0r\0o\0k\0'
-string1end:
-
-_string2:
-	.db	string2end - _string2
-	.db	DSCR_STRING_TYPE
-	.ascii	'f\0x\0002\0l\0a\0f\0w\0'
-string2end:
+string_descriptor_a 1,^"sigrok"
+string_descriptor_a 2,^"fx2lafw"
 
 _dev_strings_end:
 	.dw	0x0000
-

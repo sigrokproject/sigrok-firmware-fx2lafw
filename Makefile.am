@@ -69,6 +69,7 @@ firmware_binaries = \
 fx2lafw_headers = \
 	include/command.h \
 	include/dscr.inc \
+	include/common.inc \
 	include/fx2lafw.h \
 	include/gpif-acquisition.h
 
@@ -81,7 +82,8 @@ fx2lafw_objects = \
 	gpif-acquisition.rel
 
 hantek_6022be_headers = \
-	include/dscr_hantek_6022be.inc
+	include/dscr_hantek_6022be.inc \
+	include/common.inc
 
 hantek_6022be_sources = \
 	hantek_6022be.c
@@ -90,7 +92,8 @@ hantek_6022be_objects = \
 	hantek_6022be.rel
 
 sainsmart_dds120_headers = \
-	include/dscr_hantek_6022be.inc
+	include/dscr_hantek_6022be.inc \
+	include/common.inc
 
 sainsmart_dds120_sources = \
 	sainsmart_dds120.c
