@@ -25,7 +25,7 @@ SUFFIXES = .a51 .c .fw .ihx .rel
 # Flags for firmware hex file generation
 SDCC_LINK_FLAGS = --code-size 0x1c00 --xram-size 0x0200 --xram-loc 0x1c00 -Wl"-b DSCR_AREA=0x1e00" -Wl"-b INT2JT=0x1f00"
 SDCC_LINK_FLAGS_HANTEK_6022BE = --code-size 0x3c00 --xram-size 0x0100 --xram-loc 0x3c00 -Wl"-b DSCR_AREA=0x3d00" -Wl"-b INT2JT=0x3f00"
-SDCC_LINK_FLAGS_SAINSMART_DDS120 = --code-size 0x3c00 --xram-size 0x0100 --xram-loc 0x3c00 -Wl"-b DSCR_AREA=0x3d00" -Wl"-b INT2JT=0x3f00"
+SDCC_LINK_FLAGS_SAINSMART_DDS120 = $(SDCC_LINK_FLAGS_HANTEK_6022BE)
 
 # Include paths
 as_includes = -I$(srcdir)/include
