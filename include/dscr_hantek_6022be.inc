@@ -56,7 +56,7 @@ _dev_dscr:
 	.db	64			; Max. EP0 packet size
 	.dw	VID			; Manufacturer ID
 	.dw	PID			; Product ID
-	.dw	0x0000			; Product version (0.00)
+	.dw	VER			; Product version/type
 	.db	1			; Manufacturer string index
 	.db	2			; Product string index
 	.db	0			; Serial number string index (none)

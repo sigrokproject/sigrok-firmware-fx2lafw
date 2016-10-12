@@ -18,7 +18,8 @@
 ;; Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
 ;;
 
-VID = 0xb504	; Manufacturer ID (0x04b5)
-PID = 0x2260	; Product ID (0x6022)
+VID = 0x501d	; Manufacturer ID (0x1d50)
+PID = 0x8e60	; Product ID (0x608e)
+VER = 0x0100	; Product "version". 0x0001 == Hantek 6022BE.
 
 .include "dscr_hantek_6022be.inc"
