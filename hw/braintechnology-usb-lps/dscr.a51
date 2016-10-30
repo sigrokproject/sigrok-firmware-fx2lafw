@@ -22,3 +22,6 @@ VID = 0xd016	; Manufacturer ID (0x16d0)
 PID = 0x9804	; Product ID (0x0498)
 
 .include "dscr.inc"
+string_descriptor_a 3,^"Braintechnology USB-LPS"
+_dev_strings_end:
+	.dw	0x0000

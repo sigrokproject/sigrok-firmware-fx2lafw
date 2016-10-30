@@ -23,3 +23,6 @@ VID = 0x2509	; Manufacturer ID (0x0925)
 PID = 0x8138	; Product ID (0x3881)
 
 .include "dscr.inc"
+string_descriptor_a 3,^"Saleae Logic"
+_dev_strings_end:
+	.dw	0x0000

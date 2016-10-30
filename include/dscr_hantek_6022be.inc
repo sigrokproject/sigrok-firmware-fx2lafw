@@ -59,7 +59,7 @@ _dev_dscr:
 	.dw	VER			; Product version/type
 	.db	1			; Manufacturer string index
 	.db	2			; Product string index
-	.db	0			; Serial number string index (none)
+	.db	3			; Serial number string index
 	.db	1			; Number of configurations
 dev_dscr_end:
 
@@ -353,6 +353,3 @@ string_descriptor_lang 0 0x0409 ; Language code 0x0409 (English, US)
 
 string_descriptor_a 1,^"sigrok"
 string_descriptor_a 2,^"fx2lafw"
-
-_dev_strings_end:
-	.dw	0x0000

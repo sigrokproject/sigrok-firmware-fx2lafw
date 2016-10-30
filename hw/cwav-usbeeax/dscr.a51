@@ -23,3 +23,6 @@ VID = 0xa908	; Manufacturer ID (0x08a9)
 PID = 0x1400	; Product ID (0x0014)
 
 .include "dscr.inc"
+string_descriptor_a 3,^"CWAV USBee AX"
+_dev_strings_end:
+	.dw	0x0000

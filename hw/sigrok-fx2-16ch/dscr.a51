@@ -22,3 +22,6 @@ VID = 0x501D	; Manufacturer ID (0x1D50)
 PID = 0x8D60	; Product ID (0x608D)
 
 .include "dscr.inc"
+string_descriptor_a 3,^"sigrok FX2 16ch"
+_dev_strings_end:
+	.dw	0x0000

@@ -23,3 +23,6 @@ PID = 0x8e60	; Product ID (0x608e)
 VER = 0x0200	; Product "version". 0x0002 == SainSmart DDS120.
 
 .include "dscr_hantek_6022be.inc"
+string_descriptor_a 3,^"SainSmart DDS120"
+_dev_strings_end:
+	.dw	0x0000

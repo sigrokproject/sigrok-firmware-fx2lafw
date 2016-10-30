@@ -23,3 +23,6 @@ VID = 0xb404	; Manufacturer ID (0x04b4)
 PID = 0x1386	; Product ID (0x8613)
 
 .include "dscr.inc"
+string_descriptor_a 3,^"Cypress FX2"
+_dev_strings_end:
+	.dw	0x0000
