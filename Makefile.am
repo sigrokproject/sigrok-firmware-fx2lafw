@@ -63,8 +63,8 @@ firmware_binaries = \
 	hw/saleae-logic/fx2lafw-saleae-logic.fw \
 	hw/sigrok-fx2-8ch/fx2lafw-sigrok-fx2-8ch.fw \
 	hw/sigrok-fx2-16ch/fx2lafw-sigrok-fx2-16ch.fw \
-	hw/hantek-6022be/hantek-6022be.fw \
-	hw/sainsmart-dds120/sainsmart-dds120.fw
+	hw/hantek-6022be/fx2lafw-hantek-6022be.fw \
+	hw/sainsmart-dds120/fx2lafw-sainsmart-dds120.fw
 
 fx2lafw_headers = \
 	include/command.h \
@@ -354,10 +354,10 @@ hw/sigrok-fx2-8ch/fx2lafw-sigrok-fx2-8ch.ihx: hw/sigrok-fx2-8ch/dscr.rel $(fx2la
 hw/sigrok-fx2-16ch/fx2lafw-sigrok-fx2-16ch.ihx: hw/sigrok-fx2-16ch/dscr.rel $(fx2lafw_objects) $(fx2lib_libs)
 	$(AM_V_GEN)$(SDCC) -mmcs51 $(SDCC_LINK_FLAGS) -o $@ hw/sigrok-fx2-16ch/dscr.rel $(fx2lafw_objects) $(fx2lib_libs)
 
-hw/hantek-6022be/hantek-6022be.ihx: hw/hantek-6022be/dscr.rel $(hantek_6022be_objects) $(fx2lib_libs)
+hw/hantek-6022be/fx2lafw-hantek-6022be.ihx: hw/hantek-6022be/dscr.rel $(hantek_6022be_objects) $(fx2lib_libs)
 	$(AM_V_GEN)$(SDCC) -mmcs51 $(SDCC_LINK_FLAGS_HANTEK_6022BE) -o $@ hw/hantek-6022be/dscr.rel $(hantek_6022be_objects) $(fx2lib_libs)
 
-hw/sainsmart-dds120/sainsmart-dds120.ihx: hw/sainsmart-dds120/dscr.rel $(sainsmart_dds120_objects) $(fx2lib_libs)
+hw/sainsmart-dds120/fx2lafw-sainsmart-dds120.ihx: hw/sainsmart-dds120/dscr.rel $(sainsmart_dds120_objects) $(fx2lib_libs)
 	$(AM_V_GEN)$(SDCC) -mmcs51 $(SDCC_LINK_FLAGS_SAINSMART_DDS120) -o $@ hw/sainsmart-dds120/dscr.rel $(sainsmart_dds120_objects) $(fx2lib_libs)
 
 .a51.rel:
