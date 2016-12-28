@@ -24,6 +24,7 @@ SUFFIXES = .a51 .c .fw .ihx .rel
 # Flags for firmware hex file generation
 SDCC_LINK_FLAGS = --code-size 0x1c00 --xram-size 0x0200 --xram-loc 0x1c00 -Wl"-b DSCR_AREA=0x1e00" -Wl"-b INT2JT=0x1f00"
 SDCC_LINK_FLAGS_HANTEK_6022BE = --code-size 0x3c00 --xram-size 0x0100 --xram-loc 0x3c00 -Wl"-b DSCR_AREA=0x3d00" -Wl"-b INT2JT=0x3f00"
+SDCC_LINK_FLAGS_HANTEK_6022BL = $(SDCC_LINK_FLAGS_HANTEK_6022BE)
 SDCC_LINK_FLAGS_SAINSMART_DDS120 = $(SDCC_LINK_FLAGS_HANTEK_6022BE)
 
 # Include paths
@@ -49,6 +50,7 @@ dirstamps = \
 	hw/sigrok-fx2-8ch/$(dirstamp) \
 	hw/sigrok-fx2-16ch/$(dirstamp) \
 	hw/hantek-6022be/$(dirstamp) \
+	hw/hantek-6022bl/$(dirstamp) \
 	hw/sainsmart-dds120/$(dirstamp)
 
 # Final firmware files
@@ -63,6 +65,7 @@ firmware_binaries = \
 	hw/sigrok-fx2-8ch/fx2lafw-sigrok-fx2-8ch.fw \
 	hw/sigrok-fx2-16ch/fx2lafw-sigrok-fx2-16ch.fw \
 	hw/hantek-6022be/fx2lafw-hantek-6022be.fw \
+	hw/hantek-6022bl/fx2lafw-hantek-6022bl.fw \
 	hw/sainsmart-dds120/fx2lafw-sainsmart-dds120.fw
 
 fx2lafw_headers = \
@@ -89,6 +92,16 @@ hantek_6022be_sources = \
 
 hantek_6022be_objects = \
 	hantek_6022be.rel
+
+hantek_6022bl_headers = \
+	include/dscr_hantek_6022be.inc \
+	include/common.inc
+
+hantek_6022bl_sources = \
+	hantek_6022bl.c
+
+hantek_6022bl_objects = \
+	hantek_6022bl.rel
 
 sainsmart_dds120_headers = \
 	include/dscr_hantek_6022be.inc \
@@ -239,12 +252,13 @@ hw_sources = \
 	hw/sigrok-fx2-8ch/dscr.a51 \
 	hw/sigrok-fx2-16ch/dscr.a51 \
 	hw/hantek-6022be/dscr.a51 \
+	hw/hantek-6022bl/dscr.a51 \
 	hw/sainsmart-dds120/dscr.a51
 
 firmwaredir = $(datadir)/sigrok-firmware
 firmware_DATA = $(firmware_binaries)
 
-dist_noinst_DATA = $(fx2lafw_headers) $(fx2lafw_sources) $(hantek_6022be_headers) $(hantek_6022be_sources) $(sainsmart_dds120_sources) $(sainsmart_dds120_headers) $(fx2lib_headers) $(fx2lib_sources) $(fx2lib_ints_sources) $(hw_sources)
+dist_noinst_DATA = $(fx2lafw_headers) $(fx2lafw_sources) $(hantek_6022be_headers) $(hantek_6022be_sources) $(hantek_6022bl_headers) $(hantek_6022bl_sources) $(sainsmart_dds120_sources) $(sainsmart_dds120_headers) $(fx2lib_headers) $(fx2lib_sources) $(fx2lib_ints_sources) $(hw_sources)
 dist_noinst_SCRIPTS = autogen.sh
 
 MOSTLYCLEANFILES = *.asm fx2lib/lib/*.asm fx2lib/lib/*.lib fx2lib/lib/interrupts/*.asm fx2lib/lib/interrupts/*.lib
@@ -310,6 +324,7 @@ hw/saleae-logic/dscr.rel: hw/saleae-logic/$(dirstamp) include/dscr.inc
 hw/sigrok-fx2-8ch/dscr.rel: hw/sigrok-fx2-8ch/$(dirstamp) include/dscr.inc
 hw/sigrok-fx2-16ch/dscr.rel: hw/sigrok-fx2-16ch/$(dirstamp) include/dscr.inc
 hw/hantek-6022be/dscr.rel: hw/hantek-6022be/$(dirstamp) include/dscr_hantek_6022be.inc
+hw/hantek-6022bl/dscr.rel: hw/hantek-6022bl/$(dirstamp) include/dscr_hantek_6022be.inc
 hw/sainsmart-dds120/dscr.rel: hw/sainsmart-dds120/$(dirstamp) include/dscr_hantek_6022be.inc
 
 
@@ -355,6 +370,9 @@ hw/sigrok-fx2-16ch/fx2lafw-sigrok-fx2-16ch.ihx: hw/sigrok-fx2-16ch/dscr.rel $(fx
 
 hw/hantek-6022be/fx2lafw-hantek-6022be.ihx: hw/hantek-6022be/dscr.rel $(hantek_6022be_objects) $(fx2lib_libs)
 	$(AM_V_GEN)$(SDCC) -mmcs51 $(SDCC_LINK_FLAGS_HANTEK_6022BE) -o $@ hw/hantek-6022be/dscr.rel $(hantek_6022be_objects) $(fx2lib_libs)
+
+hw/hantek-6022bl/fx2lafw-hantek-6022bl.ihx: hw/hantek-6022bl/dscr.rel $(hantek_6022bl_objects) $(fx2lib_libs)
+	$(AM_V_GEN)$(SDCC) -mmcs51 $(SDCC_LINK_FLAGS_HANTEK_6022BL) -o $@ hw/hantek-6022bl/dscr.rel $(hantek_6022bl_objects) $(fx2lib_libs)
 
 hw/sainsmart-dds120/fx2lafw-sainsmart-dds120.ihx: hw/sainsmart-dds120/dscr.rel $(sainsmart_dds120_objects) $(fx2lib_libs)
 	$(AM_V_GEN)$(SDCC) -mmcs51 $(SDCC_LINK_FLAGS_SAINSMART_DDS120) -o $@ hw/sainsmart-dds120/dscr.rel $(sainsmart_dds120_objects) $(fx2lib_libs)
