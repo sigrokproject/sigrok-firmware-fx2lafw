@@ -386,6 +386,9 @@ static void init(void)
 	EP4CFG = 0;
 	EP8CFG = 0;
 
+	/* Set analog mode */
+	PA7 = 1;
+
 	/* In idle mode tristate all outputs. */
 	GPIFIDLECTL = 0x00; /* Don't enable CTL0-5 outputs. */
 	GPIFCTLCFG = 0x80; /* TRICTL=1. CTL0-2: CMOS outputs, tri-statable. */
