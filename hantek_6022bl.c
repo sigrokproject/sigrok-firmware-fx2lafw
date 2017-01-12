@@ -81,8 +81,8 @@ void timer2_isr(void) __interrupt TF2_ISR
 
 /*
  * This sets three bits for each channel, one channel at a time.
- * For channel 0 we want to set bits 5, 6 & 7
- * For channel 1 we want to set bits 2, 3 & 4
+ * For channel 0 we want to set bits 1, 2 & 3
+ * For channel 1 we want to set bits 4, 5 & 6
  *
  * We convert the input values that are strange due to original
  * firmware code into the value of the three bits as follows:
@@ -106,23 +106,24 @@ static BOOL set_voltage(BYTE channel, BYTE val)
 
 	switch (val) {
 	case 1:
-		bits = 0x24 * 2;
+		bits = 0x02;
 		break;
 	case 2:
-		bits = 0x24 * 1;
+		bits = 0x01;
 		break;
 	case 5:
-		bits = 0x24 * 0;
+		bits = 0x00;
 		break;
 	case 10:
-		bits = 0x24 * 3;
+		bits = 0x03;
 		break;
 	default:
 		return FALSE;
 	}
 
-	mask = (channel) ? 0xe0 : 0x1c;
-	IOC = (IOC & ~mask) | (bits & mask);
+	bits = bits << (channel ? 1 : 4);
+	mask = (channel) ? 0x70 : 0x0e;
+	IOA = (IOA & ~mask) | (bits & mask);
 
 	return TRUE;
 }
