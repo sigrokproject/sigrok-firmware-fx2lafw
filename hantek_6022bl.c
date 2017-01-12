@@ -287,8 +287,8 @@ static BOOL set_samplerate(BYTE rate)
 
 	/* OUTPUT 0-7 */
 	EXTAUTODAT2 = samplerates[i].out0;
-	EXTAUTODAT2 = 0x44; /* OE0=1, CTL0=1 */
-	EXTAUTODAT2 = 0x44; /* OE0=1, CTL0=1 */
+	EXTAUTODAT2 = 0x11; /* OE0=1, CTL0=1 */
+	EXTAUTODAT2 = 0x11; /* OE0=1, CTL0=1 */
 	EXTAUTODAT2 = 0;
 	EXTAUTODAT2 = 0;
 	EXTAUTODAT2 = 0;
