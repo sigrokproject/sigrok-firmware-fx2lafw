@@ -439,7 +439,7 @@ static void main(void)
 	PORTCCFG = 0;
 	PORTACFG = 0;
 	OEC = 0xff;
-	OEA = 0x80;
+	OEA = 0xff;
 
 	while (TRUE) {
 		if (dosud) {
