@@ -164,6 +164,9 @@ static void start_sampling(void)
 {
 	int i;
 
+	/* Set analog mode. */
+	PA7 = 1;
+
 	clear_fifo();
 
 	for (i = 0; i < 1000; i++);
@@ -387,7 +390,7 @@ static void init(void)
 	EP4CFG = 0;
 	EP8CFG = 0;
 
-	/* Set analog mode */
+	/* Set analog mode. */
 	PA7 = 1;
 
 	/* In idle mode tristate all outputs. */
