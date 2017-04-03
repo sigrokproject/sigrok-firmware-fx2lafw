@@ -24,6 +24,8 @@
 #include <delay.h>
 #include <setupdat.h>
 
+#define SET_ANALOG_MODE() PA7 = 1
+
 /* Change to support as many interfaces as you need. */
 static BYTE altiface = 0;
 
@@ -207,6 +209,8 @@ static void stop_sampling(void)
 static void start_sampling(void)
 {
 	int i;
+
+	SET_ANALOG_MODE();
 
 	clear_fifo();
 
@@ -459,6 +463,8 @@ static void init(void)
 	EP4CFG = 0;
 	EP8CFG = 0;
 
+	SET_ANALOG_MODE();
+
 	/* In idle mode tristate all outputs. */
 	GPIFIDLECTL = 0x00; /* Don't enable CTL0-5 outputs. */
 	GPIFCTLCFG = 0x80; /* TRICTL=1. CTL0-2: CMOS outputs, tri-statable. */
@@ -509,7 +515,7 @@ static void main(void)
 	OEC = 0xff;
 	OEA = 0x80;
 
-	PA7 = 1;
+	SET_ANALOG_MODE();
 
 	while (TRUE) {
 		if (dosud) {
