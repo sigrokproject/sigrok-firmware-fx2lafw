@@ -64,13 +64,16 @@ void suspend_isr(void) __interrupt SUSPEND_ISR
 
 void timer2_isr(void) __interrupt TF2_ISR
 {
-	/* Toggle the 1kHz pin, only accurate up to ca 8MHz */
+	/* Toggle the 1kHz calibration pin, only accurate up to ca. 8MHz. */
 	IOE = IOE^0x04;
 	TF2 = 0;
 }
 
 /**
- * The gain stage is 2 stage approach. -6dB and -20dB on the first stage (attentuator). The second stage is then doing the gain by 3 different resistor values switched into the feedback loop.
+ * The gain stage is 2 stage approach. -6dB and -20dB on the first stage
+ * (attentuator). The second stage is then doing the gain by 3 different
+ * resistor values switched into the feedback loop.
+ *
  * #Channel 0:
  * PC1=1; PC2=0; PC3= 0 -> Gain x0.1 = -20dB
  * PC1=1; PC2=0; PC3= 1 -> Gain x0.2 = -14dB
@@ -78,6 +81,7 @@ void timer2_isr(void) __interrupt TF2_ISR
  * PC1=0; PC2=0; PC3= 0 -> Gain x0.5 =  -6dB
  * PC1=0; PC2=0; PC3= 1 -> Gain x1   =   0dB
  * PC1=0; PC2=1; PC3= 0 -> Gain x2   =  +6dB
+ *
  * #Channel 1:
  * PE1=1; PC4=0; PC5= 0 -> Gain x0.1 = -20dB 
  * PE1=1; PC4=0; PC5= 1 -> Gain x0.2 = -14dB
@@ -148,7 +152,6 @@ static BOOL set_voltage(BYTE channel, BYTE val)
 		
 	return TRUE;
 }
-
 
 /**
  * Each LSB in the nibble of the byte controls the coupling per channel.
@@ -292,16 +295,18 @@ static BOOL set_samplerate(BYTE rate)
 
 	/*
 	 * The program for low-speed, e.g. 1 MHz, is:
-	 * wait 24, CTL2=0, FIFO
-	 * wait 23, CTL2=1
-	 * jump 0, CTL2=1
+	 * wait 24, CTLx=0, FIFO
+	 * wait 23, CTLx=1
+	 * jump 0, CTLx=1
 	 *
 	 * The program for 24 MHz is:
-	 * wait 1, CTL2=0, FIFO
-	 * jump 0, CTL2=1
+	 * wait 1, CTLx=0, FIFO
+	 * jump 0, CTLx=1
 	 *
 	 * The program for 30/48 MHz is:
-	 * jump 0, CTL2=Z, FIFO, LOOP
+	 * jump 0, CTLx=Z, FIFO, LOOP
+	 *
+	 * (CTLx is device-dependent, could be e.g. CTL0 or CTL2.)
 	 */
 
 	/* LENGTH / BRANCH 0-7 */
@@ -326,8 +331,8 @@ static BOOL set_samplerate(BYTE rate)
 
 	/* OUTPUT 0-7 */
 	EXTAUTODAT2 = samplerates[i].out0;
-	EXTAUTODAT2 = 0x44; /* OE0=1, CTL0=1 */
-	EXTAUTODAT2 = 0x44; /* OE0=1, CTL0=1 */
+	EXTAUTODAT2 = 0x44; /* OE2=1, CTL2=1 */
+	EXTAUTODAT2 = 0x44; /* OE2=1, CTL2=1 */
 	EXTAUTODAT2 = 0;
 	EXTAUTODAT2 = 0;
 	EXTAUTODAT2 = 0;
@@ -516,7 +521,7 @@ static void main(void)
 			dosuspend = FALSE;
 			do {
 				/* Make sure ext wakeups are cleared. */
-				WAKEUPCS |= bmWU|bmWU2;
+				WAKEUPCS |= bmWU | bmWU2;
 				SUSPEND = 1;
 				PCON |= 1;
 				__asm
