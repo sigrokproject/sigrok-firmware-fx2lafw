@@ -436,7 +436,7 @@ static void main(void)
 	ET2 = 1;
 	TR2 = 1;
 
-	RENUMERATE();
+	RENUMERATE_UNCOND();
 
 	PORTECFG = 0;
 	PORTCCFG = 0;
