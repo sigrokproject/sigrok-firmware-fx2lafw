@@ -30,8 +30,14 @@
 /* Note: There's no PE2 as IOE is not bit-addressable (see TRM 15.2). */
 #define TOGGLE_CALIBRATION_PIN() IOE = IOE ^ 0x04
 
+#define LED_CLEAR() NOP
+#define LED_GREEN() NOP
+#define LED_RED()   NOP
+
 /* Change to support as many interfaces as you need. */
 static BYTE altiface = 0;
+
+static volatile WORD ledcounter = 0;
 
 static volatile __bit dosud = FALSE;
 static volatile __bit dosuspend = FALSE;
@@ -71,6 +77,9 @@ void suspend_isr(void) __interrupt SUSPEND_ISR
 void timer2_isr(void) __interrupt TF2_ISR
 {
 	TOGGLE_CALIBRATION_PIN();
+
+	if (ledcounter && (--ledcounter == 0))
+		LED_CLEAR();
 
 	TF2 = 0;
 }
@@ -229,6 +238,9 @@ static void start_sampling(void)
 	GPIFTCB0 = 0;
 	GPIFTRIG = (altiface == 0) ? 6 : 4;
 
+	/* Set green LED, don't clear LED afterwards (ledcounter = 0). */
+	LED_GREEN();
+	ledcounter = 0;
 }
 
 static void select_interface(BYTE alt)
@@ -428,6 +440,10 @@ BOOL handle_set_configuration(BYTE cfg)
 BOOL handle_vendorcommand(BYTE cmd)
 {
 	stop_sampling();
+
+	/* Set red LED, clear after timeout. */
+	LED_RED();
+	ledcounter = 1000;
 
 	/* Clear EP0BCH/L for each valid command. */
 	if (cmd >= 0xe0 && cmd <= 0xe6) {

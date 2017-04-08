@@ -29,6 +29,10 @@
 /* Toggle the 1kHz calibration pin, only accurate up to ca. 8MHz. */
 #define TOGGLE_CALIBRATION_PIN() PC2 = !PC2
 
+#define LED_CLEAR() PC0 = 1; PC1 = 1;
+#define LED_GREEN() PC0 = 1; PC1 = 0;
+#define LED_RED()   PC0 = 0; PC1 = 1;
+
 /* Change to support as many interfaces as you need. */
 static BYTE altiface = 0;
 
@@ -73,13 +77,8 @@ void timer2_isr(void) __interrupt TF2_ISR
 {
 	TOGGLE_CALIBRATION_PIN();
 
-	if (ledcounter) {
-		if (--ledcounter == 0) {
-			/* Clear LED. */
-			PC0 = 1;
-			PC1 = 1;
-		}
-	}
+	if (ledcounter && (--ledcounter == 0))
+		LED_CLEAR();
 
 	TF2 = 0;
 }
@@ -184,10 +183,9 @@ static void start_sampling(void)
 	GPIFTCB0 = 0;
 	GPIFTRIG = (altiface == 0) ? 6 : 4;
 
-	/* Set green LED, don't clear LED. */
+	/* Set green LED, don't clear LED afterwards (ledcounter = 0). */
+	LED_GREEN();
 	ledcounter = 0;
-	PC0 = 1;
-	PC1 = 0;
 }
 
 static void select_interface(BYTE alt)
@@ -359,9 +357,8 @@ BOOL handle_vendorcommand(BYTE cmd)
 {
 	stop_sampling();
 
-	/* Set red LED. */
-	PC0 = 0;
-	PC1 = 1;
+	/* Set red LED, clear after timeout. */
+	LED_RED();
 	ledcounter = 1000;
 
 	/* Clear EP0BCH/L for each valid command. */
