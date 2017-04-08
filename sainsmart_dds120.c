@@ -26,6 +26,10 @@
 
 #define SET_ANALOG_MODE() PA7 = 1
 
+/* Toggle the 1kHz calibration pin, only accurate up to ca. 8MHz. */
+/* Note: There's no PE2 as IOE is not bit-addressable (see TRM 15.2). */
+#define TOGGLE_CALIBRATION_PIN() IOE = IOE ^ 0x04
+
 /* Change to support as many interfaces as you need. */
 static BYTE altiface = 0;
 
@@ -66,8 +70,8 @@ void suspend_isr(void) __interrupt SUSPEND_ISR
 
 void timer2_isr(void) __interrupt TF2_ISR
 {
-	/* Toggle the 1kHz calibration pin, only accurate up to ca. 8MHz. */
-	IOE = IOE^0x04;
+	TOGGLE_CALIBRATION_PIN();
+
 	TF2 = 0;
 }
 

@@ -26,6 +26,9 @@
 
 #define SET_ANALOG_MODE()
 
+/* Toggle the 1kHz calibration pin, only accurate up to ca. 8MHz. */
+#define TOGGLE_CALIBRATION_PIN() PA7 = !PA7
+
 /* Change to support as many interfaces as you need. */
 static BYTE altiface = 0;
 
@@ -68,8 +71,7 @@ void suspend_isr(void) __interrupt SUSPEND_ISR
 
 void timer2_isr(void) __interrupt TF2_ISR
 {
-	/* Toggle the 1kHz calibration pin, only accurate up to ca. 8MHz. */
-	PA7 = !PA7;
+	TOGGLE_CALIBRATION_PIN();
 
 	if (ledcounter) {
 		if (--ledcounter == 0) {
