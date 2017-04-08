@@ -438,8 +438,10 @@ static void main(void)
 
 	RENUMERATE();
 
+	PORTECFG = 0;
 	PORTCCFG = 0;
 	PORTACFG = 0;
+	OEE = 0xff;
 	OEC = 0xff;
 	OEA = 0xff;
 

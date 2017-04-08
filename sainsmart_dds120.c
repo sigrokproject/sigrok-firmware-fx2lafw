@@ -528,12 +528,12 @@ static void main(void)
 
 	RENUMERATE_UNCOND();
 
+	PORTECFG = 0;
 	PORTCCFG = 0;
 	PORTACFG = 0;
-	PORTECFG = 0;
-	OEE = 0xFF;
+	OEE = 0xff;
 	OEC = 0xff;
-	OEA = 0x80;
+	OEA = 0xff;
 
 	SET_ANALOG_MODE();
 

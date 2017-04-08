@@ -437,10 +437,12 @@ static void main(void)
 
 	RENUMERATE();
 
+	PORTECFG = 0;
 	PORTCCFG = 0;
 	PORTACFG = 0;
+	OEE = 0xff;
 	OEC = 0xff;
-	OEA = 0x80;
+	OEA = 0xff;
 
 	while (TRUE) {
 		if (dosud) {
