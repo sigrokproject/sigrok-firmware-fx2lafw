@@ -34,6 +34,12 @@
 #define LED_GREEN() NOP
 #define LED_RED()   NOP
 
+/* CTLx pin index (IFCLK, ADC clock input). */
+#define CTL_BIT 2
+
+#define OUT0 ((1 << CTL_BIT) << 4) /* OEx = 1, CTLx = 0 */
+#define OE_CTL (((1 << CTL_BIT) << 4) | (1 << CTL_BIT)) /* OEx = CTLx = 1 */
+
 /* Change to support as many interfaces as you need. */
 static BYTE altiface = 0;
 
@@ -280,21 +286,21 @@ static const struct samplerate_info {
 } samplerates[] = {
 	{ 48, 0x80,   0, 3, 0, 0x00, 0xea },
 	{ 30, 0x80,   0, 3, 0, 0x00, 0xaa },
-	{ 24,    1,   0, 2, 1, 0x40, 0xea },
-	{ 16,    1,   1, 2, 0, 0x40, 0xea },
-	{ 15,    1,   0, 2, 1, 0x40, 0xaa },
-	{ 12,    2,   1, 2, 0, 0x40, 0xea },
-	{ 11,    1,   1, 2, 0, 0x40, 0xaa },
-	{  8,    3,   2, 2, 0, 0x40, 0xea },
-	{  6,    2,   2, 2, 0, 0x40, 0xaa },
-	{  5,    3,   2, 2, 0, 0x40, 0xaa },
-	{  4,    6,   5, 2, 0, 0x40, 0xea },
-	{  3,    5,   4, 2, 0, 0x40, 0xaa },
-	{  2,   12,  11, 2, 0, 0x40, 0xea },
-	{  1,   24,  23, 2, 0, 0x40, 0xea },
-	{ 50,   48,  47, 2, 0, 0x40, 0xea },
-	{ 20,  120, 119, 2, 0, 0x40, 0xea },
-	{ 10,  240, 239, 2, 0, 0x40, 0xea },
+	{ 24,    1,   0, 2, 1, OUT0, 0xea },
+	{ 16,    1,   1, 2, 0, OUT0, 0xea },
+	{ 15,    1,   0, 2, 1, OUT0, 0xaa },
+	{ 12,    2,   1, 2, 0, OUT0, 0xea },
+	{ 11,    1,   1, 2, 0, OUT0, 0xaa },
+	{  8,    3,   2, 2, 0, OUT0, 0xea },
+	{  6,    2,   2, 2, 0, OUT0, 0xaa },
+	{  5,    3,   2, 2, 0, OUT0, 0xaa },
+	{  4,    6,   5, 2, 0, OUT0, 0xea },
+	{  3,    5,   4, 2, 0, OUT0, 0xaa },
+	{  2,   12,  11, 2, 0, OUT0, 0xea },
+	{  1,   24,  23, 2, 0, OUT0, 0xea },
+	{ 50,   48,  47, 2, 0, OUT0, 0xea },
+	{ 20,  120, 119, 2, 0, OUT0, 0xea },
+	{ 10,  240, 239, 2, 0, OUT0, 0xea },
 };
 
 static BOOL set_samplerate(BYTE rate)
@@ -351,8 +357,8 @@ static BOOL set_samplerate(BYTE rate)
 
 	/* OUTPUT 0-7 */
 	EXTAUTODAT2 = samplerates[i].out0;
-	EXTAUTODAT2 = 0x44; /* OE2=1, CTL2=1 */
-	EXTAUTODAT2 = 0x44; /* OE2=1, CTL2=1 */
+	EXTAUTODAT2 = OE_CTL;
+	EXTAUTODAT2 = OE_CTL;
 	EXTAUTODAT2 = 0;
 	EXTAUTODAT2 = 0;
 	EXTAUTODAT2 = 0;
