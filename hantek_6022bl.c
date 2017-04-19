@@ -26,6 +26,10 @@
 
 #define SET_ANALOG_MODE() PA7 = 1
 
+#define SET_COUPLING(x)
+
+#define SET_CALIBRATION_PULSE(x)
+
 /* Toggle the 1kHz calibration pin, only accurate up to ca. 8MHz. */
 #define TOGGLE_CALIBRATION_PIN() PC2 = !PC2
 
@@ -136,6 +140,25 @@ static BOOL set_voltage(BYTE channel, BYTE val)
 	IOA = (IOA & ~mask) | (bits & mask);
 
 	return TRUE;
+}
+
+/**
+ * Each LSB in the nibble of the byte controls the coupling per channel.
+ *
+ * Setting PE3 disables AC coupling capacitor on CH0.
+ * Setting PE0 disables AC coupling capacitor on CH1.
+ */
+static void set_coupling(BYTE coupling_cfg)
+{
+	if (coupling_cfg & 0x01)
+		IOE |= 0x08;
+	else
+		IOE &= ~0x08;
+
+	if (coupling_cfg & 0x10)
+		IOE |= 0x01;
+	else
+		IOE &= ~0x01;
 }
 
 static BOOL set_numchannels(BYTE numchannels)
@@ -321,6 +344,30 @@ static BOOL set_samplerate(BYTE rate)
 	return TRUE;
 }
 
+static BOOL set_calibration_pulse(BYTE fs)
+{
+	switch (fs) {
+	case 0:		// 100Hz
+		RCAP2L = -10000 & 0xff;
+		RCAP2H = (-10000 & 0xff00) >> 8;
+		return TRUE;
+	case 1:		// 1kHz
+		RCAP2L = -1000 & 0xff;
+		RCAP2H = (-1000 & 0xff00) >> 8;
+		return TRUE;
+	case 10:	// 1kHz
+		RCAP2L = (BYTE)(-100 & 0xff);
+		RCAP2H = 0xff;
+		return TRUE;
+	case 50:	// 50kHz
+		RCAP2L = (BYTE)(-20 & 0xff);
+		RCAP2H = 0xff;
+		return TRUE;
+	default:
+		return FALSE;
+	}
+}
+
 /* Set *alt_ifc to the current alt interface for ifc. */
 BOOL handle_get_interface(BYTE ifc, BYTE *alt_ifc)
 {
@@ -368,7 +415,7 @@ BOOL handle_vendorcommand(BYTE cmd)
 	ledcounter = 1000;
 
 	/* Clear EP0BCH/L for each valid command. */
-	if (cmd >= 0xe0 && cmd <= 0xe4) {
+	if (cmd >= 0xe0 && cmd <= 0xe6) {
 		EP0BCH = 0;
 		EP0BCL = 0;
 		while (EP0CS & bmEPBUSY);
@@ -388,6 +435,12 @@ BOOL handle_vendorcommand(BYTE cmd)
 		return TRUE;
 	case 0xe4:
 		set_numchannels(EP0BUF[0]);
+		return TRUE;
+	case 0xe5:
+		SET_COUPLING(EP0BUF[0]);
+		return TRUE;
+	case 0xe6:
+		SET_CALIBRATION_PULSE(EP0BUF[0]);
 		return TRUE;
 	}
 

@@ -26,6 +26,10 @@
 
 #define SET_ANALOG_MODE() PA7 = 1
 
+#define SET_COUPLING(x) set_coupling(x)
+
+#define SET_CALIBRATION_PULSE(x) set_calibration_pulse(x)
+
 /* Toggle the 1kHz calibration pin, only accurate up to ca. 8MHz. */
 /* Note: There's no PE2 as IOE is not bit-addressable (see TRM 15.2). */
 #define TOGGLE_CALIBRATION_PIN() IOE = IOE ^ 0x04
@@ -474,10 +478,10 @@ BOOL handle_vendorcommand(BYTE cmd)
 		set_numchannels(EP0BUF[0]);
 		return TRUE;
 	case 0xe5:
-		set_coupling(EP0BUF[0]);
+		SET_COUPLING(EP0BUF[0]);
 		return TRUE;
 	case 0xe6:
-		set_calibration_pulse(EP0BUF[0]);
+		SET_CALIBRATION_PULSE(EP0BUF[0]);
 		return TRUE;
 	}
 
