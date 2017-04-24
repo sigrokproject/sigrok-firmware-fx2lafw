@@ -22,7 +22,7 @@ VID = 0x501d	; Manufacturer ID (0x1d50)
 PID = 0x8e60	; Product ID (0x608e)
 VER = 0x0300	; Product "version". 0x0003 == Hantek 6022BL.
 
-.include "dscr_hantek_6022be.inc"
+.include "dscr_scope.inc"
 string_descriptor_a 3,^"Hantek 6022BL"
 _dev_strings_end:
 	.dw	0x0000
