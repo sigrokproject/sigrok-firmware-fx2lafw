@@ -30,7 +30,6 @@
 
 #define SET_CALIBRATION_PULSE(x)
 
-/* Toggle the 1kHz calibration pin, only accurate up to ca. 8MHz. */
 #define TOGGLE_CALIBRATION_PIN() PC2 = !PC2
 
 #define LED_CLEAR() PC0 = 1; PC1 = 1;

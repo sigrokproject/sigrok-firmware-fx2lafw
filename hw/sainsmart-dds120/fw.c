@@ -30,7 +30,6 @@
 
 #define SET_CALIBRATION_PULSE(x) set_calibration_pulse(x)
 
-/* Toggle the 1kHz calibration pin, only accurate up to ca. 8MHz. */
 /* Note: There's no PE2 as IOE is not bit-addressable (see TRM 15.2). */
 #define TOGGLE_CALIBRATION_PIN() IOE = IOE ^ 0x04
 

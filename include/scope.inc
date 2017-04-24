@@ -74,6 +74,7 @@ void suspend_isr(void) __interrupt SUSPEND_ISR
 
 void timer2_isr(void) __interrupt TF2_ISR
 {
+	/* Toggle the probe calibration pin, only accurate up to ca. 8MHz. */
 	TOGGLE_CALIBRATION_PIN();
 
 	if (ledcounter && (--ledcounter == 0))
