@@ -246,7 +246,7 @@ firmware_DATA = $(firmware_binaries)
 dist_noinst_DATA = $(fx2lafw_headers) $(fx2lafw_sources) $(hantek_6022be_headers) $(hantek_6022be_sources) $(hantek_6022bl_headers) $(hantek_6022bl_sources) $(sainsmart_dds120_sources) $(sainsmart_dds120_headers) $(fx2lib_headers) $(fx2lib_sources) $(fx2lib_ints_sources) $(hw_sources)
 dist_noinst_SCRIPTS = autogen.sh
 
-MOSTLYCLEANFILES = *.asm fx2lib/lib/*.asm fx2lib/lib/*.lib fx2lib/lib/interrupts/*.asm fx2lib/lib/interrupts/*.lib
+MOSTLYCLEANFILES = *.asm fx2lib/lib/*.asm hw/**/*.asm fx2lib/lib/*.lib fx2lib/lib/interrupts/*.asm fx2lib/lib/interrupts/*.lib
 CLEANFILES = $(firmware_binaries)
 DISTCLEANFILES = $(dirstamps)
 
