@@ -38,6 +38,8 @@
 #define LED_GREEN() NOP
 #define LED_RED()   NOP
 
+#define TIMER2_VAL 1000
+
 /* CTLx pin index (IFCLK, ADC clock input). */
 #define CTL_BIT 2
 
@@ -530,8 +532,8 @@ static void main(void)
 	EA = 1;
 
 	/* Init timer2. */
-	RCAP2L = -1000 & 0xff;
-	RCAP2H = (-1000 & 0xff00) >> 8;
+	RCAP2L = -TIMER2_VAL & 0xff;
+	RCAP2H = (-TIMER2_VAL & 0xff00) >> 8;
 	T2CON = 0;
 	ET2 = 1;
 	TR2 = 1;
