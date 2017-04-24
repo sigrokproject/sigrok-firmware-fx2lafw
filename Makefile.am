@@ -23,9 +23,7 @@ SUFFIXES = .a51 .c .fw .ihx .rel
 
 # Flags for firmware hex file generation
 SDCC_LINK_FLAGS = --code-size 0x1c00 --xram-size 0x0200 --xram-loc 0x1c00 -Wl"-b DSCR_AREA=0x1e00" -Wl"-b INT2JT=0x1f00"
-SDCC_LINK_FLAGS_HANTEK_6022BE = --code-size 0x3c00 --xram-size 0x0100 --xram-loc 0x3c00 -Wl"-b DSCR_AREA=0x3d00" -Wl"-b INT2JT=0x3f00"
-SDCC_LINK_FLAGS_HANTEK_6022BL = $(SDCC_LINK_FLAGS_HANTEK_6022BE)
-SDCC_LINK_FLAGS_SAINSMART_DDS120 = $(SDCC_LINK_FLAGS_HANTEK_6022BE)
+SDCC_LINK_FLAGS_SCOPE = --code-size 0x3c00 --xram-size 0x0100 --xram-loc 0x3c00 -Wl"-b DSCR_AREA=0x3d00" -Wl"-b INT2JT=0x3f00"
 
 # Include paths
 as_includes = -I$(srcdir)/include
@@ -356,13 +354,13 @@ hw/sigrok-fx2-16ch/fx2lafw-sigrok-fx2-16ch.ihx: hw/sigrok-fx2-16ch/dscr.rel $(fx
 	$(AM_V_GEN)$(SDCC) -mmcs51 $(SDCC_LINK_FLAGS) -o $@ hw/sigrok-fx2-16ch/dscr.rel $(fx2lafw_objects) $(fx2lib_libs)
 
 hw/hantek-6022be/fx2lafw-hantek-6022be.ihx: hw/hantek-6022be/dscr.rel $(hantek_6022be_objects) $(fx2lib_libs)
-	$(AM_V_GEN)$(SDCC) -mmcs51 $(SDCC_LINK_FLAGS_HANTEK_6022BE) -o $@ hw/hantek-6022be/dscr.rel $(hantek_6022be_objects) $(fx2lib_libs)
+	$(AM_V_GEN)$(SDCC) -mmcs51 $(SDCC_LINK_FLAGS_SCOPE) -o $@ hw/hantek-6022be/dscr.rel $(hantek_6022be_objects) $(fx2lib_libs)
 
 hw/hantek-6022bl/fx2lafw-hantek-6022bl.ihx: hw/hantek-6022bl/dscr.rel $(hantek_6022bl_objects) $(fx2lib_libs)
-	$(AM_V_GEN)$(SDCC) -mmcs51 $(SDCC_LINK_FLAGS_HANTEK_6022BL) -o $@ hw/hantek-6022bl/dscr.rel $(hantek_6022bl_objects) $(fx2lib_libs)
+	$(AM_V_GEN)$(SDCC) -mmcs51 $(SDCC_LINK_FLAGS_SCOPE) -o $@ hw/hantek-6022bl/dscr.rel $(hantek_6022bl_objects) $(fx2lib_libs)
 
 hw/sainsmart-dds120/fx2lafw-sainsmart-dds120.ihx: hw/sainsmart-dds120/dscr.rel $(sainsmart_dds120_objects) $(fx2lib_libs)
-	$(AM_V_GEN)$(SDCC) -mmcs51 $(SDCC_LINK_FLAGS_SAINSMART_DDS120) -o $@ hw/sainsmart-dds120/dscr.rel $(sainsmart_dds120_objects) $(fx2lib_libs)
+	$(AM_V_GEN)$(SDCC) -mmcs51 $(SDCC_LINK_FLAGS_SCOPE) -o $@ hw/sainsmart-dds120/dscr.rel $(sainsmart_dds120_objects) $(fx2lib_libs)
 
 .a51.rel:
 	$(SF_V_SDAS)$(SDAS8051) -glos $(as_includes) $@ $<
