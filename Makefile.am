@@ -83,35 +83,22 @@ fx2lafw_objects = \
 	fx2lafw.rel \
 	gpif-acquisition.rel
 
-hantek_6022be_headers = \
+scope_headers = \
 	include/dscr_hantek_6022be.inc \
+	include/scope.inc \
 	include/common.inc
 
-hantek_6022be_sources = \
-	hantek_6022be.c
+hantek_6022be_headers = $(scope_headers)
+hantek_6022be_sources = hw/hantek-6022be/fw.c
+hantek_6022be_objects = hw/hantek-6022be/fw.rel
 
-hantek_6022be_objects = \
-	hantek_6022be.rel
+hantek_6022bl_headers = $(scope_headers)
+hantek_6022bl_sources = hw/hantek-6022bl/fw.c
+hantek_6022bl_objects = hw/hantek-6022bl/fw.rel
 
-hantek_6022bl_headers = \
-	include/dscr_hantek_6022be.inc \
-	include/common.inc
-
-hantek_6022bl_sources = \
-	hantek_6022bl.c
-
-hantek_6022bl_objects = \
-	hantek_6022bl.rel
-
-sainsmart_dds120_headers = \
-	include/dscr_hantek_6022be.inc \
-	include/common.inc
-
-sainsmart_dds120_sources = \
-	sainsmart_dds120.c
-
-sainsmart_dds120_objects = \
-	sainsmart_dds120.rel
+sainsmart_dds120_headers = $(scope_headers)
+sainsmart_dds120_sources = hw/sainsmart-dds120/fw.c
+sainsmart_dds120_objects = hw/sainsmart-dds120/fw.rel
 
 fx2lib_headers = \
 	fx2lib/include/autovector.h \
