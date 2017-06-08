@@ -1,3 +1,10 @@
+0.1.5 (2017-06-12)
+------------------
+
+ * Add FX2 firmware for the Hantek 6022BL USB scope/LA.
+ * HACKING: Update URL to Linux kernel coding style.
+ * Remove FSF postal address from boiler plate license text.
+
 0.1.4 (2016-10-31)
 ------------------
 
