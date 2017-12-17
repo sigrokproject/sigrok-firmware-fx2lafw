@@ -38,6 +38,7 @@
 
 #include <fx2regs.h>
 #include <fx2macros.h>
+#include <fx2ints.h>
 #include <delay.h>
 #include <setupdat.h>
 #include <eputils.h>
@@ -49,6 +50,10 @@
 /* ... */
 volatile __bit got_sud;
 BYTE vendor_command;
+
+volatile WORD ledcounter = 1000;
+
+extern __bit gpif_acquiring;
 
 static void setup_endpoints(void)
 {
@@ -208,6 +213,20 @@ void hispeed_isr(void) __interrupt HISPEED_ISR
 	CLEAR_HISPEED();
 }
 
+void timer2_isr(void) __interrupt TF2_ISR
+{
+	/* Blink LED during acquisition, keep it on otherwise. */
+	if (gpif_acquiring) {
+		if (--ledcounter == 0) {
+			PA1 = !PA1;
+			ledcounter = 1000;
+		}
+	} else {
+		PA1 = 1; /* LED on. */
+	}
+	TF2 = 0;
+}
+
 void fx2lafw_init(void)
 {
 	/* Set DYN_OUT and ENH_PKT bits, as recommended by the TRM. */
@@ -228,6 +247,18 @@ void fx2lafw_init(void)
 	ENABLE_SOF();
 	ENABLE_HISPEED();
 	ENABLE_USBRESET();
+
+	/* PA1 (LED) is an output. */
+	PORTACFG = 0;
+	OEA = (1 << 1);
+	PA1 = 1; /* LED on. */
+
+	/* Init timer2. */
+	RCAP2L = -500 & 0xff;
+	RCAP2H = (-500 & 0xff00) >> 8;
+	T2CON = 0;
+	ET2 = 1;
+	TR2 = 1;
 
 	/* Global (8051) interrupt enable. */
 	EA = 1;
