@@ -24,17 +24,17 @@
 #include <delay.h>
 #include <setupdat.h>
 
-#define SET_ANALOG_MODE() PA7 = 1
+#define SET_ANALOG_MODE() do { PA7 = 1; } while (0)
 
 #define SET_COUPLING(x)
 
 #define SET_CALIBRATION_PULSE(x)
 
-#define TOGGLE_CALIBRATION_PIN() PC2 = !PC2
+#define TOGGLE_CALIBRATION_PIN() do { PC2 = !PC2; } while (0)
 
-#define LED_CLEAR() PC0 = 1; PC1 = 1;
-#define LED_GREEN() PC0 = 1; PC1 = 0;
-#define LED_RED()   PC0 = 0; PC1 = 1;
+#define LED_CLEAR() do { PC0 = 1; PC1 = 1; } while (0)
+#define LED_GREEN() do { PC0 = 1; PC1 = 0; } while (0)
+#define LED_RED()   do { PC0 = 0; PC1 = 1; } while (0)
 
 #define TIMER2_VAL 500
 

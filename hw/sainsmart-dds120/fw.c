@@ -24,14 +24,14 @@
 #include <delay.h>
 #include <setupdat.h>
 
-#define SET_ANALOG_MODE() PA7 = 1
+#define SET_ANALOG_MODE() do { PA7 = 1; } while (0)
 
 #define SET_COUPLING(x) set_coupling(x)
 
 #define SET_CALIBRATION_PULSE(x) set_calibration_pulse(x)
 
 /* Note: There's no PE2 as IOE is not bit-addressable (see TRM 15.2). */
-#define TOGGLE_CALIBRATION_PIN() IOE = IOE ^ 0x04
+#define TOGGLE_CALIBRATION_PIN() do { IOE = IOE ^ 0x04; } while (0)
 
 #define LED_CLEAR() NOP
 #define LED_GREEN() NOP
