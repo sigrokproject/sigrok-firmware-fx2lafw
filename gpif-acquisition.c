@@ -62,7 +62,7 @@ static void gpif_setup_registers(void)
 	 * GPIFWFSELECT: [7:6] = SINGLEWR index, [5:4] = SINGLERD index,
 	 *               [3:2] = FIFOWR index, [1:0] = FIFORD index
 	 */
-	GPIFWFSELECT = (0x3 << 6) | (0x2 << 4) | (0x1 << 2) | (0x0 << 0);
+	GPIFWFSELECT = (0x3u << 6) | (0x2u << 4) | (0x1u << 2) | (0x0u << 0);
 
 	/* Contains RDY* pin values. Read-only according to TRM. */
 	GPIFREADYSTAT = 0;

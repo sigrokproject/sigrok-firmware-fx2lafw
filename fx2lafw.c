@@ -56,12 +56,12 @@ volatile WORD ledcounter = 0;
 static void setup_endpoints(void)
 {
 	/* Setup EP2 (IN). */
-	EP2CFG = (1 << 7) |		  /* EP is valid/activated */
-		 (1 << 6) |		  /* EP direction: IN */
-		 (1 << 5) | (0 << 4) |	  /* EP Type: bulk */
-		 (1 << 3) |		  /* EP buffer size: 1024 */
-		 (0 << 2) |		  /* Reserved. */
-		 (0 << 1) | (0 << 0);	  /* EP buffering: quad buffering */
+	EP2CFG = (1u << 7) |		  /* EP is valid/activated */
+		 (1u << 6) |		  /* EP direction: IN */
+		 (1u << 5) | (0u << 4) |  /* EP Type: bulk */
+		 (1u << 3) |		  /* EP buffer size: 1024 */
+		 (0u << 2) |		  /* Reserved. */
+		 (0u << 1) | (0u << 0);	  /* EP buffering: quad buffering */
 	SYNCDELAY();
 
 	/* Disable all other EPs (EP1, EP4, EP6, and EP8). */
