@@ -130,15 +130,12 @@ BOOL handle_vendorcommand(BYTE cmd)
 		vendor_command = cmd;
 		EP0BCL = 0;
 		return TRUE;
-		break;
 	case CMD_GET_FW_VERSION:
 		send_fw_version();
 		return TRUE;
-		break;
 	case CMD_GET_REVID_VERSION:
 		send_revid_version();
 		return TRUE;
-		break;
 	}
 
 	return FALSE;
