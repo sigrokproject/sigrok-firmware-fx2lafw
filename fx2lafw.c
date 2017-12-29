@@ -78,7 +78,7 @@ static void setup_endpoints(void)
 
 	/* EP2: Reset the FIFOs. */
 	/* Note: RESETFIFO() gets the EP number WITHOUT bit 7 set/cleared. */
-	RESETFIFO(0x02)
+	RESETFIFO(0x02);
 
 	/* EP2: Enable AUTOIN mode. Set FIFO width to 8bits. */
 	EP2FIFOCFG = bmAUTOIN;
