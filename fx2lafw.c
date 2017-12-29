@@ -196,11 +196,6 @@ void sudav_isr(void) __interrupt SUDAV_ISR
 	CLEAR_SUDAV();
 }
 
-void sof_isr(void) __interrupt SOF_ISR __using 1
-{
-	CLEAR_SOF();
-}
-
 void usbreset_isr(void) __interrupt USBRESET_ISR
 {
 	handle_hispeed(FALSE);
@@ -244,7 +239,6 @@ void fx2lafw_init(void)
 
 	/* TODO: Does the order of the following lines matter? */
 	ENABLE_SUDAV();
-	ENABLE_SOF();
 	ENABLE_HISPEED();
 	ENABLE_USBRESET();
 
