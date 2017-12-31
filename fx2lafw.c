@@ -104,7 +104,9 @@ static void send_fw_version(void)
 
 	/* Send the message. */
 	EP0BCH = 0;
+	SYNCDELAY();
 	EP0BCL = sizeof(struct version_info);
+	SYNCDELAY();
 }
 
 static void send_revid_version(void)
@@ -117,7 +119,9 @@ static void send_revid_version(void)
 
 	/* Send the message. */
 	EP0BCH = 0;
+	SYNCDELAY();
 	EP0BCL = 1;
+	SYNCDELAY();
 }
 
 BOOL handle_vendorcommand(BYTE cmd)
@@ -128,6 +132,7 @@ BOOL handle_vendorcommand(BYTE cmd)
 		/* Tell hardware we are ready to receive data. */
 		vendor_command = cmd;
 		EP0BCL = 0;
+		SYNCDELAY();
 		return TRUE;
 	case CMD_GET_FW_VERSION:
 		send_fw_version();
