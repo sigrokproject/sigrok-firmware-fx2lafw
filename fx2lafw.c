@@ -51,9 +51,7 @@
 volatile __bit got_sud;
 BYTE vendor_command;
 
-volatile WORD ledcounter = 1000;
-
-extern __bit gpif_acquiring;
+volatile WORD ledcounter = 0;
 
 static void setup_endpoints(void)
 {
@@ -127,6 +125,7 @@ BOOL handle_vendorcommand(BYTE cmd)
 	/* Protocol implementation */
 	switch (cmd) {
 	case CMD_START:
+		/* Tell hardware we are ready to receive data. */
 		vendor_command = cmd;
 		EP0BCL = 0;
 		return TRUE;
@@ -193,6 +192,38 @@ void sudav_isr(void) __interrupt SUDAV_ISR
 	CLEAR_SUDAV();
 }
 
+/* IN BULK NAK - the host started requesting data. */
+void ibn_isr(void) __interrupt IBN_ISR
+{
+	/*
+	 * If the IBN interrupt is not disabled, clearing
+	 * does not work. See AN78446, 6.2.
+	 */
+	BYTE ibnsave = IBNIE;
+	IBNIE = 0;
+	CLEAR_USBINT();
+
+	/*
+	 * If the host sent the START command, start the GPIF
+	 * engine. The host will repeat the BULK IN in the next
+	 * microframe.
+	 */
+	if ((IBNIRQ & bmEP2IBN) && (gpif_acquiring == PREPARED)) {
+		ledcounter = 1;
+		PA1 = 0;
+		gpif_acquisition_start();
+	}
+
+	/* Clear IBN flags for all EPs. */
+	IBNIRQ = 0xff;
+
+	NAKIRQ = bmIBN;
+	SYNCDELAY();
+
+	IBNIE = ibnsave;
+	SYNCDELAY();
+}
+
 void usbreset_isr(void) __interrupt USBRESET_ISR
 {
 	handle_hispeed(FALSE);
@@ -208,12 +239,12 @@ void hispeed_isr(void) __interrupt HISPEED_ISR
 void timer2_isr(void) __interrupt TF2_ISR
 {
 	/* Blink LED during acquisition, keep it on otherwise. */
-	if (gpif_acquiring) {
+	if (gpif_acquiring == RUNNING) {
 		if (--ledcounter == 0) {
 			PA1 = !PA1;
 			ledcounter = 1000;
 		}
-	} else {
+	} else if (gpif_acquiring == STOPPED) {
 		PA1 = 1; /* LED on. */
 	}
 	TF2 = 0;
@@ -236,6 +267,7 @@ void fx2lafw_init(void)
 
 	/* TODO: Does the order of the following lines matter? */
 	ENABLE_SUDAV();
+	ENABLE_EP2IBN();
 	ENABLE_HISPEED();
 	ENABLE_USBRESET();
 
@@ -275,7 +307,7 @@ void fx2lafw_poll(void)
 				break;
 
 			if (EP0BCL == sizeof(struct cmd_start_acquisition)) {
-				gpif_acquisition_start(
+				gpif_acquisition_prepare(
 				 (const struct cmd_start_acquisition *)EP0BUF);
 			}
 
