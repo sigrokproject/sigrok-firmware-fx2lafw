@@ -215,7 +215,7 @@ void ibn_isr(void) __interrupt IBN_ISR
 	 */
 	if ((IBNIRQ & bmEP2IBN) && (gpif_acquiring == PREPARED)) {
 		ledcounter = 1;
-		PA1 = 0;
+		LED_OFF();
 		gpif_acquisition_start();
 	}
 
@@ -246,11 +246,11 @@ void timer2_isr(void) __interrupt TF2_ISR
 	/* Blink LED during acquisition, keep it on otherwise. */
 	if (gpif_acquiring == RUNNING) {
 		if (--ledcounter == 0) {
-			PA1 = !PA1;
+			LED_TOGGLE();
 			ledcounter = 1000;
 		}
 	} else if (gpif_acquiring == STOPPED) {
-		PA1 = 1; /* LED on. */
+		LED_ON();
 	}
 	TF2 = 0;
 }
@@ -276,10 +276,8 @@ void fx2lafw_init(void)
 	ENABLE_HISPEED();
 	ENABLE_USBRESET();
 
-	/* PA1 (LED) is an output. */
-	PORTACFG = 0;
-	OEA = (1 << 1);
-	PA1 = 1; /* LED on. */
+	LED_INIT();
+	LED_ON();
 
 	/* Init timer2. */
 	RCAP2L = -500 & 0xff;

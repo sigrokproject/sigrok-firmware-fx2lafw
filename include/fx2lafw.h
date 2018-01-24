@@ -39,4 +39,11 @@
 #define FX2LAFW_VERSION_MAJOR	1
 #define FX2LAFW_VERSION_MINOR	2
 
+#define LED_POLARITY		1 /* 1: active-high, 0: active-low */
+
+#define LED_INIT()		do { PORTACFG = 0; OEA = (1 << 1); } while (0)
+#define LED_ON()		do { PA1 = LED_POLARITY; } while (0)
+#define LED_OFF()		do { PA1 = !LED_POLARITY; } while (0)
+#define LED_TOGGLE()		do { PA1 = !PA1; } while (0)
+
 #endif
