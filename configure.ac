@@ -20,7 +20,7 @@
 # We require at least autoconf 2.63 (AC_INIT format changed there).
 AC_PREREQ([2.63])
 
-AC_INIT([sigrok-firmware-fx2lafw], [0.1.5],
+AC_INIT([sigrok-firmware-fx2lafw], [0.1.6],
 	[sigrok-devel@lists.sourceforge.net],
 	[sigrok-firmware-fx2lafw], [http://www.sigrok.org])
 AC_CONFIG_AUX_DIR([autostuff])
