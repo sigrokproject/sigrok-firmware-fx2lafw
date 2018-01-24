@@ -37,7 +37,7 @@
  * longer (properly) work with the new fx2lafw firmware.
  */
 #define FX2LAFW_VERSION_MAJOR	1
-#define FX2LAFW_VERSION_MINOR	2
+#define FX2LAFW_VERSION_MINOR	3
 
 #define LED_POLARITY		1 /* 1: active-high, 0: active-low */
 
