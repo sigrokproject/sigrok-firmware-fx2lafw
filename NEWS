@@ -1,3 +1,17 @@
+0.1.6 (2018-01-26)
+------------------
+
+ * Fix an issue with FX2 based logic analyzers that could cause non-working
+   and/or prematurely aborted acquisitions (bug #655).
+ * FX2 based logic analyzers will now toggle pin PA1 during acquisition,
+   and keep it high while idle. On fx2grok-tiny and fx2grok-flat devices
+   there's a LED connected to PA1. Thus, those devices will visually indicate
+   whether a firmware has been uploaded (LED will light up and stay like that
+   while the device is idle). During any acquisition the LED will blink.
+ * Refactor the oscilloscope code to avoid duplication (bug #984).
+ * Fix a 'make distclean' error.
+ * Fix a compiler warning with recent sdcc versions (e.g. v3.6.9).
+
 0.1.5 (2017-06-12)
 ------------------
 
