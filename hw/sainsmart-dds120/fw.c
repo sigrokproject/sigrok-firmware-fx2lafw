@@ -37,7 +37,7 @@
 #define LED_GREEN() NOP
 #define LED_RED()   NOP
 
-#define TIMER2_VAL 1000
+#define TIMER2_VAL 500
 
 /* CTLx pin index (IFCLK, ADC clock input). */
 #define CTL_BIT 2
