@@ -42,8 +42,8 @@ AS_IF([test "x$SDCCLIB" = x],
 	[AC_MSG_ERROR([cannot find sdcclib.])])
 
 sf_sdcc_version=`$SDCC --version | sed -n 's/.* \([[0-9]][[0-9]]*\.[[0-9]][[0-9]]*\.[[0-9]][[0-9]]*\) .*/\1/p;q' 2>&AS_MESSAGE_LOG_FD`
-AS_VERSION_COMPARE([$sf_sdcc_version], [2.9.0],
-	[AC_MSG_ERROR([At least version 2.9.0 of sdcc is required.])])
+AS_VERSION_COMPARE([$sf_sdcc_version], [3.4.0],
+	[AC_MSG_ERROR([At least version 3.4.0 of sdcc is required.])])
 
 AC_CHECK_PROGS([OBJCOPY], [objcopy])
 AC_CHECK_PROGS([MAKEBIN], [makebin sdcc-makebin])

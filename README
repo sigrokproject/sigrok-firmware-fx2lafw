@@ -25,16 +25,7 @@ Requirements
  - make
  - autoconf >= 2.63
  - automake >= 1.11
- - sdcc (>= 2.9.0)
-
-Notes:
-
- - In order to build fx2lafw you need the 'sdcc' compiler (>= 2.9.0).
-   On Debian you can install it via:
-
-     $ apt-get install sdcc
-
-   This project has been tested to work with sdcc 2.9 and 3.x.
+ - sdcc (>= 3.4.0)
 
 
 Building and installing
