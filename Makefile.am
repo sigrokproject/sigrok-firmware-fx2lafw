@@ -49,7 +49,8 @@ dirstamps = \
 	hw/sigrok-fx2-16ch/$(dirstamp) \
 	hw/hantek-6022be/$(dirstamp) \
 	hw/hantek-6022bl/$(dirstamp) \
-	hw/sainsmart-dds120/$(dirstamp)
+	hw/sainsmart-dds120/$(dirstamp) \
+	hw/yixingdianzi-mdso/$(dirstamp)
 
 # Final firmware files
 firmware_binaries = \
@@ -64,7 +65,8 @@ firmware_binaries = \
 	hw/sigrok-fx2-16ch/fx2lafw-sigrok-fx2-16ch.fw \
 	hw/hantek-6022be/fx2lafw-hantek-6022be.fw \
 	hw/hantek-6022bl/fx2lafw-hantek-6022bl.fw \
-	hw/sainsmart-dds120/fx2lafw-sainsmart-dds120.fw
+	hw/sainsmart-dds120/fx2lafw-sainsmart-dds120.fw \
+	hw/yixingdianzi-mdso/fx2lafw-yixingdianzi-mdso.fw
 
 fx2lafw_headers = \
 	include/command.h \
@@ -97,6 +99,10 @@ hantek_6022bl_objects = hw/hantek-6022bl/fw.rel
 sainsmart_dds120_headers = $(scope_headers)
 sainsmart_dds120_sources = hw/sainsmart-dds120/fw.c
 sainsmart_dds120_objects = hw/sainsmart-dds120/fw.rel
+
+yixingdianzi_mdso_headers = $(scope_headers)
+yixingdianzi_mdso_sources = hw/yixingdianzi-mdso/fw.c
+yixingdianzi_mdso_objects = hw/yixingdianzi-mdso/fw.rel
 
 fx2lib_headers = \
 	fx2lib/include/autovector.h \
@@ -238,12 +244,13 @@ hw_sources = \
 	hw/sigrok-fx2-16ch/dscr.a51 \
 	hw/hantek-6022be/dscr.a51 \
 	hw/hantek-6022bl/dscr.a51 \
-	hw/sainsmart-dds120/dscr.a51
+	hw/sainsmart-dds120/dscr.a51 \
+	hw/yixingdianzi-mdso/dscr.a51
 
 firmwaredir = $(datadir)/sigrok-firmware
 firmware_DATA = $(firmware_binaries)
 
-dist_noinst_DATA = $(fx2lafw_headers) $(fx2lafw_sources) $(hantek_6022be_headers) $(hantek_6022be_sources) $(hantek_6022bl_headers) $(hantek_6022bl_sources) $(sainsmart_dds120_sources) $(sainsmart_dds120_headers) $(fx2lib_headers) $(fx2lib_sources) $(fx2lib_ints_sources) $(hw_sources)
+dist_noinst_DATA = $(fx2lafw_headers) $(fx2lafw_sources) $(hantek_6022be_headers) $(hantek_6022be_sources) $(hantek_6022bl_headers) $(hantek_6022bl_sources) $(sainsmart_dds120_sources) $(sainsmart_dds120_headers) $(yixingdianzi_mdso_sources) $(yixingdianzi_mdso_headers) $(fx2lib_headers) $(fx2lib_sources) $(fx2lib_ints_sources) $(hw_sources)
 dist_noinst_SCRIPTS = autogen.sh
 
 MOSTLYCLEANFILES = *.asm fx2lib/lib/*.asm hw/**/*.asm fx2lib/lib/*.lib fx2lib/lib/interrupts/*.asm fx2lib/lib/interrupts/*.lib
@@ -311,6 +318,7 @@ hw/sigrok-fx2-16ch/dscr.rel: hw/sigrok-fx2-16ch/$(dirstamp) include/dscr.inc
 hw/hantek-6022be/dscr.rel: hw/hantek-6022be/$(dirstamp) include/dscr_scope.inc
 hw/hantek-6022bl/dscr.rel: hw/hantek-6022bl/$(dirstamp) include/dscr_scope.inc
 hw/sainsmart-dds120/dscr.rel: hw/sainsmart-dds120/$(dirstamp) include/dscr_scope.inc
+hw/yixingdianzi-mdso/dscr.rel: hw/yixingdianzi-mdso/$(dirstamp) include/dscr_scope.inc
 
 
 # Create build subdirectories
@@ -361,6 +369,9 @@ hw/hantek-6022bl/fx2lafw-hantek-6022bl.ihx: hw/hantek-6022bl/dscr.rel $(hantek_6
 
 hw/sainsmart-dds120/fx2lafw-sainsmart-dds120.ihx: hw/sainsmart-dds120/dscr.rel $(sainsmart_dds120_objects) $(fx2lib_libs)
 	$(AM_V_GEN)$(SDCC) -mmcs51 $(SDCC_LINK_FLAGS_SCOPE) -o $@ hw/sainsmart-dds120/dscr.rel $(sainsmart_dds120_objects) $(fx2lib_libs)
+
+hw/yixingdianzi-mdso/fx2lafw-yixingdianzi-mdso.ihx: hw/yixingdianzi-mdso/dscr.rel $(yixingdianzi_mdso_objects) $(fx2lib_libs)
+	$(AM_V_GEN)$(SDCC) -mmcs51 $(SDCC_LINK_FLAGS_SCOPE) -o $@ hw/yixingdianzi-mdso/dscr.rel $(yixingdianzi_mdso_objects) $(fx2lib_libs)
 
 .a51.rel:
 	$(SF_V_SDAS)$(SDAS8051) -glos $(as_includes) $@ $<
