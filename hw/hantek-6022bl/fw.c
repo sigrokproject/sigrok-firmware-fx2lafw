@@ -100,7 +100,7 @@ static BOOL set_voltage(BYTE channel, BYTE val)
 		return FALSE;
 	}
 
-	bits = bits << (channel ? 1 : 4);
+	bits = bits << (channel ? 4 : 1);
 	mask = (channel) ? 0x70 : 0x0e;
 	IOA = (IOA & ~mask) | (bits & mask);
 
