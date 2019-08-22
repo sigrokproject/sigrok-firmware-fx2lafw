@@ -161,7 +161,7 @@ static void gpif_make_data_dp_state(volatile BYTE *pSTATE)
 	 * BRANCH
 	 * Branch to IDLE if condition is true, back to S0 otherwise.
 	 */
-	pSTATE[0] = (7 << 3) | (0 << 0);
+	pSTATE[0] = (1 << 7) | (7 << 3) | (0 << 0);
 
 	/*
 	 * OPCODE
@@ -208,8 +208,7 @@ bool gpif_acquisition_prepare(const struct cmd_start_acquisition *cmd)
 	}
 
 	/* Populate delay states. */
-	if ((cmd->sample_delay_h == 0 && cmd->sample_delay_l == 0) ||
-	    cmd->sample_delay_h >= 6)
+	if (cmd->sample_delay_h >= 6)
 		return false;
 
 	if (cmd->flags & CMD_START_FLAGS_CLK_CTL2) {
