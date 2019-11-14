@@ -1,3 +1,15 @@
+0.1.7 (2019-11-14)
+------------------
+
+ * Add firmware for the YiXingDianZi MDSO (VID/PID: 1D50:608E).
+ * Sainsmart DDS120: Fix the 1kHz reference signal.
+ * Hantek 6022BL: Fix the voltage range selection (bug #1360).
+ * Allow LA captures at 48MHz samplerate (as long as bus conditions permit).
+ * Updated build requirement: sdcc >= 3.4.0 (bug #1326).
+ * Fix a build issue with sdcc >= 3.9.0 (bug #1404).
+ * Bump the firmware version (major.minor) to 1.4. This version is
+   backwards-compatible and doesn't require host-side (libsigrok) changes.
+
 0.1.6 (2018-01-26)
 ------------------
 
