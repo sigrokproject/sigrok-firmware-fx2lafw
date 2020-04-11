@@ -24,15 +24,15 @@
 #include <delay.h>
 #include <setupdat.h>
 
-#define SET_ANALOG_MODE() do { PA7 = 1; } while (0) //suport for OE ISDS205C, without touch scope.inc
+#define SET_ANALOG_MODE() do { PA7 = 1; } while (0)
 
-#define SET_COUPLING(x) set_coupling_ISDS205(x)
+#define SET_COUPLING(x) set_coupling_isds205(x)
 
 #define SET_CALIBRATION_PULSE(x)
 
 #define TOGGLE_CALIBRATION_PIN() do { PA0 = !PA0; } while (0)
 
-#define LED_CLEAR() do { __asm nop __endasm;; } while (0) //evade evelin and his dog
+#define LED_CLEAR() NOP
 #define LED_GREEN()
 #define LED_RED()
 
@@ -47,9 +47,9 @@
 #define SRIN PA4
 #define STOCLK PA5
 
-volatile BYTE vol_state = 0 ; // ISDS205C uses 74HC595 to expand ports, here we save his actual state.
+volatile BYTE vol_state = 0 ; /* ISDS205C uses 74HC595 to expand ports, here we save his actual state. */
 
-static void drive_74HC595(BYTE bits)
+static void drive_74hc595(BYTE bits)
 {
 	BYTE i;
 
@@ -94,22 +94,22 @@ static BOOL set_voltage(BYTE channel, BYTE val)
 
 	switch (val) {
 	case 1:
-		bits = 0b00001001;	//1V
+		bits = 0b00001001;
 		break;
 	case 2:
-		bits = 0b00000110;	//500mV
-		break;
-	case 3:
-		bits = 0b00000000;	//200mV
-		break;
-	case 4:
-		bits = 0b01010110;	//100mV
+		bits = 0b00000110;
 		break;
 	case 5:
-		bits = 0b01010000;	//20mV
+		bits = 0b00000000;
 		break;
 	case 10:
-		bits = 0b01011111;	//10mV
+		bits = 0b01010110;
+		break;
+	case 11:
+		bits = 0b01010000;
+		break;
+	case 12:
+		bits = 0b01011111;
 		break;
 	default:
 		return FALSE;
@@ -117,9 +117,8 @@ static BOOL set_voltage(BYTE channel, BYTE val)
 
 	mask = (channel) ? 0b00011100 : 0b01000011;
 	vol_state = (vol_state & ~mask) | (bits & mask);
-	//bits=vol_state;
 		
-	drive_74HC595(vol_state);
+	drive_74hc595(vol_state);
 
 	return TRUE;
 }
@@ -130,7 +129,7 @@ static BOOL set_voltage(BYTE channel, BYTE val)
  * Setting bit 7 enables AC coupling relay on CH0.
  * Setting bit 5 enables AC coupling relay on CH1.
  */
-static void set_coupling_ISDS205(BYTE coupling_cfg)
+static void set_coupling_isds205(BYTE coupling_cfg)
 {
 	if (coupling_cfg & 0x01)
 		vol_state &= ~0x80;
@@ -142,7 +141,7 @@ static void set_coupling_ISDS205(BYTE coupling_cfg)
 	else
 		vol_state |= 0x20;
 		
-	drive_74HC595(vol_state);
+	drive_74hc595(vol_state);
 }
 
 #include <scope.inc>
