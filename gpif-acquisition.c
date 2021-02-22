@@ -161,7 +161,7 @@ static void gpif_make_data_dp_state(volatile BYTE *pSTATE)
 	 * BRANCH
 	 * Branch to IDLE if condition is true, back to S0 otherwise.
 	 */
-	pSTATE[0] = (1 << 7) | (7 << 3) | (0 << 0);
+	pSTATE[0] = (1u << 7) | (7u << 3) | (0u << 0);
 
 	/*
 	 * OPCODE
