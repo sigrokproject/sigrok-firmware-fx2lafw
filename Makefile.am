@@ -44,14 +44,14 @@ dirstamps = \
 	hw/cwav-usbeesx/$(dirstamp) \
 	hw/cwav-usbeezx/$(dirstamp) \
 	hw/cypress-fx2/$(dirstamp) \
+	hw/hantek-6022be/$(dirstamp) \
+	hw/hantek-6022bl/$(dirstamp) \
+	hw/instrustar-isds205b/$(dirstamp) \
+	hw/sainsmart-dds120/$(dirstamp) \
 	hw/saleae-logic/$(dirstamp) \
 	hw/sigrok-fx2-8ch/$(dirstamp) \
 	hw/sigrok-fx2-16ch/$(dirstamp) \
-	hw/hantek-6022be/$(dirstamp) \
-	hw/hantek-6022bl/$(dirstamp) \
-	hw/sainsmart-dds120/$(dirstamp) \
-	hw/yixingdianzi-mdso/$(dirstamp) \
-	hw/instrustar-isds205b/$(dirstamp)
+	hw/yixingdianzi-mdso/$(dirstamp)
 
 # Final firmware files
 firmware_binaries = \
@@ -61,14 +61,14 @@ firmware_binaries = \
 	hw/cwav-usbeesx/fx2lafw-cwav-usbeesx.fw \
 	hw/cwav-usbeezx/fx2lafw-cwav-usbeezx.fw \
 	hw/cypress-fx2/fx2lafw-cypress-fx2.fw \
+	hw/hantek-6022be/fx2lafw-hantek-6022be.fw \
+	hw/hantek-6022bl/fx2lafw-hantek-6022bl.fw \
+	hw/instrustar-isds205b/fx2lafw-instrustar-isds205b.fw \
+	hw/sainsmart-dds120/fx2lafw-sainsmart-dds120.fw \
 	hw/saleae-logic/fx2lafw-saleae-logic.fw \
 	hw/sigrok-fx2-8ch/fx2lafw-sigrok-fx2-8ch.fw \
 	hw/sigrok-fx2-16ch/fx2lafw-sigrok-fx2-16ch.fw \
-	hw/hantek-6022be/fx2lafw-hantek-6022be.fw \
-	hw/hantek-6022bl/fx2lafw-hantek-6022bl.fw \
-	hw/sainsmart-dds120/fx2lafw-sainsmart-dds120.fw \
-	hw/yixingdianzi-mdso/fx2lafw-yixingdianzi-mdso.fw \
-	hw/instrustar-isds205b/fx2lafw-instrustar-isds205b.fw
+	hw/yixingdianzi-mdso/fx2lafw-yixingdianzi-mdso.fw
 
 fx2lafw_headers = \
 	include/command.h \
@@ -245,14 +245,14 @@ hw_sources = \
 	hw/cwav-usbeesx/dscr.a51 \
 	hw/cwav-usbeezx/dscr.a51 \
 	hw/cypress-fx2/dscr.a51 \
+	hw/hantek-6022be/dscr.a51 \
+	hw/hantek-6022bl/dscr.a51 \
+	hw/instrustar-isds205b/dscr.a51 \
+	hw/sainsmart-dds120/dscr.a51 \
 	hw/saleae-logic/dscr.a51 \
 	hw/sigrok-fx2-8ch/dscr.a51 \
 	hw/sigrok-fx2-16ch/dscr.a51 \
-	hw/hantek-6022be/dscr.a51 \
-	hw/hantek-6022bl/dscr.a51 \
-	hw/sainsmart-dds120/dscr.a51 \
-	hw/yixingdianzi-mdso/dscr.a51 \
-	hw/instrustar-isds205b/dscr.a51
+	hw/yixingdianzi-mdso/dscr.a51
 
 firmwaredir = $(datadir)/sigrok-firmware
 firmware_DATA = $(firmware_binaries)
@@ -261,9 +261,9 @@ dist_noinst_DATA = \
 	$(fx2lafw_headers) $(fx2lafw_sources) \
 	$(hantek_6022be_headers) $(hantek_6022be_sources) \
 	$(hantek_6022bl_headers) $(hantek_6022bl_sources) \
+	$(instrustar_isds205b_headers) $(instrustar_isds205b_sources) \
 	$(sainsmart_dds120_sources) $(sainsmart_dds120_headers) \
 	$(yixingdianzi_mdso_sources) $(yixingdianzi_mdso_headers) \
-	$(instrustar_isds205b_headers) $(instrustar_isds205b_sources) \
 	$(fx2lib_headers) $(fx2lib_sources) $(fx2lib_ints_sources) $(hw_sources)
 dist_noinst_SCRIPTS = autogen.sh
 
@@ -327,15 +327,14 @@ hw/cwav-usbeedx/dscr.rel: hw/cwav-usbeedx/$(dirstamp) include/dscr.inc
 hw/cwav-usbeesx/dscr.rel: hw/cwav-usbeesx/$(dirstamp) include/dscr.inc
 hw/cwav-usbeezx/dscr.rel: hw/cwav-usbeezx/$(dirstamp) include/dscr.inc
 hw/cypress-fx2/dscr.rel: hw/cypress-fx2/$(dirstamp) include/dscr.inc
+hw/hantek-6022be/dscr.rel: hw/hantek-6022be/$(dirstamp) include/dscr_scope.inc
+hw/hantek-6022bl/dscr.rel: hw/hantek-6022bl/$(dirstamp) include/dscr_scope.inc
+hw/instrustar-isds205b/dscr.rel: hw/instrustar-isds205b/$(dirstamp) include/dscr_scope.inc
+hw/sainsmart-dds120/dscr.rel: hw/sainsmart-dds120/$(dirstamp) include/dscr_scope.inc
 hw/saleae-logic/dscr.rel: hw/saleae-logic/$(dirstamp) include/dscr.inc
 hw/sigrok-fx2-8ch/dscr.rel: hw/sigrok-fx2-8ch/$(dirstamp) include/dscr.inc
 hw/sigrok-fx2-16ch/dscr.rel: hw/sigrok-fx2-16ch/$(dirstamp) include/dscr.inc
-hw/hantek-6022be/dscr.rel: hw/hantek-6022be/$(dirstamp) include/dscr_scope.inc
-hw/hantek-6022bl/dscr.rel: hw/hantek-6022bl/$(dirstamp) include/dscr_scope.inc
-hw/sainsmart-dds120/dscr.rel: hw/sainsmart-dds120/$(dirstamp) include/dscr_scope.inc
 hw/yixingdianzi-mdso/dscr.rel: hw/yixingdianzi-mdso/$(dirstamp) include/dscr_scope.inc
-hw/instrustar-isds205b/dscr.rel: hw/instrustar-isds205b/$(dirstamp) include/dscr_scope.inc
-
 
 # Create build subdirectories
 $(dirstamps):
@@ -368,15 +367,6 @@ hw/cwav-usbeezx/fx2lafw-cwav-usbeezx.ihx: hw/cwav-usbeezx/dscr.rel $(fx2lafw_obj
 hw/cypress-fx2/fx2lafw-cypress-fx2.ihx: hw/cypress-fx2/dscr.rel $(fx2lafw_objects) $(fx2lib_libs)
 	$(AM_V_GEN)$(SDCC) -mmcs51 $(SDCC_LINK_FLAGS) -o $@ hw/cypress-fx2/dscr.rel $(fx2lafw_objects) $(fx2lib_libs)
 
-hw/saleae-logic/fx2lafw-saleae-logic.ihx: hw/saleae-logic/dscr.rel $(fx2lafw_objects) $(fx2lib_libs)
-	$(AM_V_GEN)$(SDCC) -mmcs51 $(SDCC_LINK_FLAGS) -o $@ hw/saleae-logic/dscr.rel $(fx2lafw_objects) $(fx2lib_libs)
-
-hw/sigrok-fx2-8ch/fx2lafw-sigrok-fx2-8ch.ihx: hw/sigrok-fx2-8ch/dscr.rel $(fx2lafw_objects) $(fx2lib_libs)
-	$(AM_V_GEN)$(SDCC) -mmcs51 $(SDCC_LINK_FLAGS) -o $@ hw/sigrok-fx2-8ch/dscr.rel $(fx2lafw_objects) $(fx2lib_libs)
-
-hw/sigrok-fx2-16ch/fx2lafw-sigrok-fx2-16ch.ihx: hw/sigrok-fx2-16ch/dscr.rel $(fx2lafw_objects) $(fx2lib_libs)
-	$(AM_V_GEN)$(SDCC) -mmcs51 $(SDCC_LINK_FLAGS) -o $@ hw/sigrok-fx2-16ch/dscr.rel $(fx2lafw_objects) $(fx2lib_libs)
-
 hw/hantek-6022be/fx2lafw-hantek-6022be.ihx: hw/hantek-6022be/dscr.rel $(hantek_6022be_objects) $(fx2lib_libs)
 	$(AM_V_GEN)$(SDCC) -mmcs51 $(SDCC_LINK_FLAGS_SCOPE) -o $@ hw/hantek-6022be/dscr.rel $(hantek_6022be_objects) $(fx2lib_libs)
 
@@ -388,6 +378,15 @@ hw/instrustar-isds205b/fx2lafw-instrustar-isds205b.ihx: hw/instrustar-isds205b/d
 
 hw/sainsmart-dds120/fx2lafw-sainsmart-dds120.ihx: hw/sainsmart-dds120/dscr.rel $(sainsmart_dds120_objects) $(fx2lib_libs)
 	$(AM_V_GEN)$(SDCC) -mmcs51 $(SDCC_LINK_FLAGS_SCOPE) -o $@ hw/sainsmart-dds120/dscr.rel $(sainsmart_dds120_objects) $(fx2lib_libs)
+
+hw/saleae-logic/fx2lafw-saleae-logic.ihx: hw/saleae-logic/dscr.rel $(fx2lafw_objects) $(fx2lib_libs)
+	$(AM_V_GEN)$(SDCC) -mmcs51 $(SDCC_LINK_FLAGS) -o $@ hw/saleae-logic/dscr.rel $(fx2lafw_objects) $(fx2lib_libs)
+
+hw/sigrok-fx2-8ch/fx2lafw-sigrok-fx2-8ch.ihx: hw/sigrok-fx2-8ch/dscr.rel $(fx2lafw_objects) $(fx2lib_libs)
+	$(AM_V_GEN)$(SDCC) -mmcs51 $(SDCC_LINK_FLAGS) -o $@ hw/sigrok-fx2-8ch/dscr.rel $(fx2lafw_objects) $(fx2lib_libs)
+
+hw/sigrok-fx2-16ch/fx2lafw-sigrok-fx2-16ch.ihx: hw/sigrok-fx2-16ch/dscr.rel $(fx2lafw_objects) $(fx2lib_libs)
+	$(AM_V_GEN)$(SDCC) -mmcs51 $(SDCC_LINK_FLAGS) -o $@ hw/sigrok-fx2-16ch/dscr.rel $(fx2lafw_objects) $(fx2lib_libs)
 
 hw/yixingdianzi-mdso/fx2lafw-yixingdianzi-mdso.ihx: hw/yixingdianzi-mdso/dscr.rel $(yixingdianzi_mdso_objects) $(fx2lib_libs)
 	$(AM_V_GEN)$(SDCC) -mmcs51 $(SDCC_LINK_FLAGS_SCOPE) -o $@ hw/yixingdianzi-mdso/dscr.rel $(yixingdianzi_mdso_objects) $(fx2lib_libs)
@@ -407,4 +406,3 @@ if FOUND_MAKEBIN
 	$(AM_V_GEN)$(MAKEBIN) -p < $< > $@
 endif
 endif
-
