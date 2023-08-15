@@ -17,5 +17,5 @@
 
 #include <autovector.h>
 
-void ep8_isr() __interrupt EP8_ISR {}
+void ep8_isr() __interrupt(EP8_ISR) {}
 

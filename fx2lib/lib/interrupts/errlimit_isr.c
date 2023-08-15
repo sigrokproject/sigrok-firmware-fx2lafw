@@ -17,5 +17,5 @@
 
 #include <autovector.h>
 
-void errlimit_isr() __interrupt ERRLIMIT_ISR {}
+void errlimit_isr() __interrupt(ERRLIMIT_ISR) {}
 
