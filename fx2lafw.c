@@ -191,14 +191,14 @@ BOOL handle_set_configuration(BYTE cfg)
 	return (cfg == 1) ? TRUE : FALSE;
 }
 
-void sudav_isr(void) __interrupt SUDAV_ISR
+void sudav_isr(void) __interrupt(SUDAV_ISR)
 {
 	got_sud = TRUE;
 	CLEAR_SUDAV();
 }
 
 /* IN BULK NAK - the host started requesting data. */
-void ibn_isr(void) __interrupt IBN_ISR
+void ibn_isr(void) __interrupt(IBN_ISR)
 {
 	/*
 	 * If the IBN interrupt is not disabled, clearing
@@ -229,19 +229,19 @@ void ibn_isr(void) __interrupt IBN_ISR
 	SYNCDELAY();
 }
 
-void usbreset_isr(void) __interrupt USBRESET_ISR
+void usbreset_isr(void) __interrupt(USBRESET_ISR)
 {
 	handle_hispeed(FALSE);
 	CLEAR_USBRESET();
 }
 
-void hispeed_isr(void) __interrupt HISPEED_ISR
+void hispeed_isr(void) __interrupt(HISPEED_ISR)
 {
 	handle_hispeed(TRUE);
 	CLEAR_HISPEED();
 }
 
-void timer2_isr(void) __interrupt TF2_ISR
+void timer2_isr(void) __interrupt(TF2_ISR)
 {
 	/* Blink LED during acquisition, keep it on otherwise. */
 	if (gpif_acquiring == RUNNING) {
