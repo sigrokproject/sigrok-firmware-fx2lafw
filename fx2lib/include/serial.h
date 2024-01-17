@@ -51,4 +51,4 @@ void sio0_init( WORD baud_rate ) __critical ; // baud_rate max should be 57600 s
  Just use one or the other. (This makes terminal echo easy)
 **/
 void putchar(char c);
-char getchar();
+char getchar(void);

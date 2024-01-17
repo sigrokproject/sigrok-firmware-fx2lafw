@@ -17,5 +17,5 @@
 
 #include <autovector.h>
 
-void ep4ff_isr() __interrupt(EP4FF_ISR){}
+void ep4ff_isr(void) __interrupt(EP4FF_ISR){}
 

@@ -17,5 +17,5 @@
 
 #include <autovector.h>
 
-void ep6isoerr_isr() __interrupt(EP6ISOERR_ISR) {}
+void ep6isoerr_isr(void) __interrupt(EP6ISOERR_ISR) {}
 

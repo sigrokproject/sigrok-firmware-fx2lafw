@@ -17,5 +17,5 @@
 
 #include <autovector.h>
 
-void ibn_isr() __interrupt(IBN_ISR) {}
+void ibn_isr(void) __interrupt(IBN_ISR) {}
 
