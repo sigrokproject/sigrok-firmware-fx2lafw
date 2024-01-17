@@ -17,5 +17,5 @@
 
 #include <autovector.h>
 
-void ep6ff_isr() __interrupt(EP6FF_ISR){}
+void ep6ff_isr(void) __interrupt(EP6FF_ISR){}
 

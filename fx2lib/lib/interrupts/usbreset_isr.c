@@ -17,5 +17,5 @@
 
 #include <autovector.h>
 
-void usbreset_isr() __interrupt(USBRESET_ISR) {}
+void usbreset_isr(void) __interrupt(USBRESET_ISR) {}
 

@@ -34,7 +34,7 @@ extern BOOL handle_vendorcommand(BYTE cmd);
 extern BOOL handle_set_configuration(BYTE cfg);
 extern BOOL handle_get_interface(BYTE ifc, BYTE* alt_ifc);
 extern BOOL handle_set_interface(BYTE ifc,BYTE alt_ifc);
-extern BYTE handle_get_configuration();
+extern BYTE handle_get_configuration(void);
 extern BOOL handle_set_configuration(BYTE cfg);
 extern void handle_reset_ep(BYTE ep);
 
@@ -44,16 +44,16 @@ extern void handle_reset_ep(BYTE ep);
 
 
 //  GET_STATUS,
-BOOL handle_get_status();
+BOOL handle_get_status(void);
 //  CLEAR_FEATURE,
-BOOL handle_clear_feature();
+BOOL handle_clear_feature(void);
   // 0x02 is reserved
 //  SET_FEATURE=0x03,
-BOOL handle_set_feature();
+BOOL handle_set_feature(void);
   // 0x04 is reserved
 //  SET_ADDRESS=0x05, // this is handled by EZ-USB core unless RENUM=0
 //  GET_DESCRIPTOR,
-void handle_get_descriptor();
+void handle_get_descriptor(void);
 //  SET_DESCRIPTOR,
 //  GET_CONFIGURATION, // handled by callback
 //  SET_CONFIGURATION, // handled by callback
@@ -68,7 +68,7 @@ void handle_get_descriptor();
  handshake
 */
 
-void handle_setupdata() {
+void handle_setupdata(void) {
     //printf ( "Handle setupdat: %02x\n", SETUPDAT[1] );
 
     switch ( SETUPDAT[1] ) {
@@ -156,7 +156,7 @@ __xdata BYTE* ep_addr(BYTE ep) { // bit 8 of ep_num is the direction
 volatile BOOL self_powered=FALSE;
 volatile BOOL remote_wakeup_allowed=FALSE;
 
-BOOL handle_get_status() {
+BOOL handle_get_status(void) {
     
     switch ( SETUPDAT[0] ) {
 
@@ -201,7 +201,7 @@ BOOL handle_get_status() {
 #define GF_DEVICE 0
 #define GF_ENDPOINT 2
 
-BOOL handle_clear_feature() {
+BOOL handle_clear_feature(void) {
  //printf ( "Clear Feature\n" );
  switch ( SETUPDAT[0] ) {
    case GF_DEVICE:
@@ -227,7 +227,7 @@ BOOL handle_clear_feature() {
  return TRUE;
 }
 
-BOOL handle_set_feature() {
+BOOL handle_set_feature(void) {
  printf ( "Set Feature %02x\n", SETUPDAT[0] );
  switch ( SETUPDAT[0] ) {
   case GF_DEVICE:
@@ -299,7 +299,7 @@ void handle_hispeed(BOOL highspeed) {
  *  String
  *  Other-Speed
  **/
-void handle_get_descriptor() {
+void handle_get_descriptor(void) {
     //printf ( "Get Descriptor\n" );
     
     switch ( SETUPDAT[3] ) {

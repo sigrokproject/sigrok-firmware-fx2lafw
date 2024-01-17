@@ -17,5 +17,5 @@
 
 #include <autovector.h>
 
-void ep0ack_isr() __interrupt(EP0ACK_ISR) {}
+void ep0ack_isr(void) __interrupt(EP0ACK_ISR) {}
 
